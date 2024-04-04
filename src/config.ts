@@ -1,7 +1,15 @@
 import Phaser from "phaser";
 import MainScene from "./scenes/mainScene";
 import PreloadScene from "./scenes/preloadScene";
-import LoadoutScene from "./scenes/loadoutScene";
+import LoadoutSceneTextboxInserts from "./scenes/loadoutSceneTextboxInserts";
+import LoadoutSceneOne from "./scenes/loadoutSceneOne";
+import LoadoutSceneGun from "./scenes/loadoutSceneGun";
+import LoadoutSceneGunMagazine from "./scenes/loadoutSceneGunMagazine";
+import LoadoutSceneGunScope from "./scenes/loadoutSceneGunScope";
+import LoadoutSceneClothes from "./scenes/loadoutSceneClothes";
+import LoadoutSceneClothesShirt from "./scenes/loadoutSceneClothesShirt";
+import LoadoutSceneClothesPants from "./scenes/loadoutSceneClothesPants";
+import levelOne from "./scenes/levelOne";
 
 const DEFAULT_WIDTH = 4096;
 const DEFAULT_HEIGHT = 1714;
@@ -18,11 +26,23 @@ export const CONFIG = {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT,
     },
-    scene: [PreloadScene, MainScene, LoadoutScene],
+    scene: [
+        PreloadScene,
+        MainScene,
+        LoadoutSceneOne,
+        LoadoutSceneTextboxInserts,
+        LoadoutSceneGun,
+        LoadoutSceneGunMagazine,
+        LoadoutSceneGunScope,
+        LoadoutSceneClothes,
+        LoadoutSceneClothesPants,
+        LoadoutSceneClothesShirt,
+        levelOne,
+    ],
     physics: {
         default: "arcade",
         arcade: {
-            debug: false,
+            debug: true,
             gravity: { y: 300 },
         },
     },
