@@ -10,6 +10,7 @@ import LoadoutSceneClothes from "./scenes/loadoutSceneClothes";
 import LoadoutSceneClothesShirt from "./scenes/loadoutSceneClothesShirt";
 import LoadoutSceneClothesPants from "./scenes/loadoutSceneClothesPants";
 import levelOne from "./scenes/levelOne";
+//import levelOnetry from "./scenes/level1";
 
 const DEFAULT_WIDTH = 4096;
 const DEFAULT_HEIGHT = 1714;
