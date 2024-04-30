@@ -12,8 +12,8 @@ export default class PreloadScene extends Phaser.Scene {
             "levelBackg",
             "assets/img/LevelImg/level_background.jpg"
         );
-        this.load.image("ground", "assets/img/LevelImg/groundV2.png");
-        this.load.image("platform", "assets/img/LevelImg/platform.png");
+        this.load.image("ground", "assets/img/LevelImg/groundV3.png");
+        this.load.image("platform", "assets/img/LevelImg/platformV3.png");
         //this.load.image("tiles", "assets/img/tilemap_packed.png");
         //this.load.tilemapTiledJSON("tilemap", "assets/levelOneMap.json");
         //Charicters, rewards, enamys
@@ -30,7 +30,7 @@ export default class PreloadScene extends Phaser.Scene {
         });
 
         // Loadout Menu Screen background
-        this.load.image("LoadoutMenu", "assets/img/LoadoutMenu.jpg");
+        this.load.image("LoadoutMenu", "assets/img/LoadoutMenu.png");
     }
 
     create() {
