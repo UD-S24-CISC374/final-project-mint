@@ -18,14 +18,27 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
 }
 
 class Bullets extends Phaser.Physics.Arcade.Group {
-    constructor(world: Phaser.Physics.Arcade.World, scene: Phaser.Scene) {
+    private readonly fireRate: number;
+    private lastFiredTime: number;
+
+    constructor(
+        world: Phaser.Physics.Arcade.World,
+        scene: Phaser.Scene,
+        fireRate: number
+    ) {
         super(world, scene);
+        this.fireRate = fireRate;
+        this.lastFiredTime = 0;
     }
 
     fireBullet(x: number, y: number, vel: number) {
-        const bullet = new Bullet(this.scene, x, y);
-        this.add(bullet);
-        bullet.fire(x, y, vel);
+        const currentTime = this.scene.time.now;
+        if (currentTime - this.lastFiredTime > this.fireRate) {
+            const bullet = new Bullet(this.scene, x, y);
+            this.add(bullet);
+            bullet.fire(x, y, vel);
+            this.lastFiredTime = currentTime;
+        }
     }
 }
 
@@ -75,15 +88,15 @@ export default class levelOne extends Phaser.Scene {
         this.platforms.create(2000, 1100, "platform");
         this.platforms.create(3000, 1200, "platform");
 
-        this.player = this.physics.add.sprite(100, 450, "dude");
+        this.player = this.physics.add.sprite(100, 450, "cowboy");
         this.player.setBounce(0.2);
         this.player.setCollideWorldBounds(true);
 
         this.anims.create({
             key: "left",
-            frames: this.anims.generateFrameNumbers("dude", {
-                start: 0,
-                end: 3,
+            frames: this.anims.generateFrameNumbers("cowboy", {
+                start: 6,
+                end: 0,
             }),
             frameRate: 10,
             repeat: -1,
@@ -91,21 +104,20 @@ export default class levelOne extends Phaser.Scene {
 
         this.anims.create({
             key: "turn",
-            frames: [{ key: "dude", frame: 4 }],
+            frames: [{ key: "cowboy", frame: 7 }],
             frameRate: 20,
         });
 
         this.anims.create({
             key: "right",
-            frames: this.anims.generateFrameNumbers("dude", {
-                start: 5,
-                end: 8,
+            frames: this.anims.generateFrameNumbers("cowboy", {
+                start: 8,
+                end: 14,
             }),
             frameRate: 10,
             repeat: -1,
         });
 
-        this.physics.add.collider(this.player, this.platforms);
         this.physics.add.collider(this.player, this.platforms);
 
         this.cursors = this.input.keyboard?.createCursorKeys();
@@ -137,7 +149,7 @@ export default class levelOne extends Phaser.Scene {
             color: "#000",
         });*/
 
-        this.bullets = new Bullets(this.physics.world, this);
+        this.bullets = new Bullets(this.physics.world, this, 1000); //this is what changes the fire speed
 
         //this.baddie = this.physics.add.group();
         this.baddie = this.physics.add.group({

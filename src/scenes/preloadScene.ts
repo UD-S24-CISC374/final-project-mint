@@ -28,6 +28,26 @@ export default class PreloadScene extends Phaser.Scene {
             frameWidth: 32,
             frameHeight: 48,
         });
+        this.load.spritesheet("cowboy", "assets/img/LevelImg/Cowboy_15x1.png", {
+            frameWidth: 160,
+            frameHeight: 160,
+        });
+        this.load.spritesheet(
+            "baddieGun",
+            "assets/img/LevelImg/Baddie_Gun1x15.png",
+            {
+                frameWidth: 160,
+                frameHeight: 160,
+            }
+        );
+        this.load.spritesheet(
+            "baddieKnife",
+            "assets/img/LevelImg/Baddie_Knife1x15.png",
+            {
+                frameWidth: 160,
+                frameHeight: 160,
+            }
+        );
 
         // Loadout Menu Screen background
         this.load.image("LoadoutMenu", "assets/img/LoadoutMenu.png");
