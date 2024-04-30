@@ -12,47 +12,25 @@ export default class LoadoutSceneOne extends Phaser.Scene {
         this.add.image(2048, 857, "LoadoutMenu");
 
         // Create Menu Textboxes
+
         this.createClickableText(
             2950,
             250,
             "Classes:",
-            "#ff0000",
+            "#BB00BB",
             "#00000000",
             () => {}
         );
 
-        this.createClickableText(
-            3150,
-            450,
-            "- Gun",
-            "#ff0000",
-            "#00000000",
-            () => {
-                this.scene.start("LoadoutSceneGun");
-                this.scene.bringToTop("LoadoutSceneTextboxInserts");
-            }
-        );
+        this.createClickableImage(3350, 500, "gun_button", () => {
+            this.scene.start("LoadoutSceneGun");
+            this.scene.bringToTop("LoadoutSceneTextboxInserts");
+        });
 
-        this.createClickableText(
-            3150,
-            650,
-            "- Clothes",
-            "#ff0000",
-            "#00000000",
-            () => {
-                this.scene.start("LoadoutSceneClothes");
-                this.scene.bringToTop("LoadoutSceneTextboxInserts");
-            }
-        );
-
-        this.createClickableText(
-            2950,
-            1200,
-            "Click words above to\nnavigate menu options",
-            "#ffffff",
-            "#00000000",
-            () => {}
-        );
+        this.createClickableImage(3350, 700, "clothes_button", () => {
+            this.scene.start("LoadoutSceneClothes");
+            this.scene.bringToTop("LoadoutSceneTextboxInserts");
+        });
     }
 
     createClickableText(
@@ -74,6 +52,37 @@ export default class LoadoutSceneOne extends Phaser.Scene {
 
         const textObject = this.add.text(x, y, text, style).setInteractive();
         textObject.on("pointerdown", onClick);
+    }
+
+    createClickableImage(
+        x: number,
+        y: number,
+        imageName: string,
+        onClick: () => void
+    ) {
+        const button = this.add.image(x, y, imageName).setInteractive();
+
+        button.setScale(2.5);
+
+        button.on("pointerover", () => {
+            this.tweens.add({
+                targets: button,
+                scale: { from: 2.5, to: 2.75 },
+                duration: 200,
+                ease: "Linear",
+            });
+        });
+
+        button.on("pointerout", () => {
+            this.tweens.add({
+                targets: button,
+                scale: { from: 2.75, to: 2.5 },
+                duration: 200,
+                ease: "Linear",
+            });
+        });
+
+        button.on("pointerdown", onClick);
     }
 
     update() {}

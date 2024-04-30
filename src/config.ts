@@ -8,7 +8,7 @@ import LoadoutSceneGunMagazine from "./scenes/loadoutSceneGunMagazine";
 import LoadoutSceneGunScope from "./scenes/loadoutSceneGunScope";
 import LoadoutSceneClothes from "./scenes/loadoutSceneClothes";
 import LoadoutSceneClothesShirt from "./scenes/loadoutSceneClothesShirt";
-import LoadoutSceneClothesPants from "./scenes/loadoutSceneClothesPants";
+import LoadoutSceneClothesShoes from "./scenes/loadoutSceneClothesShoes";
 import levelOne from "./scenes/levelOne";
 import endScene from "./scenes/endScene";
 import instructions from "./scenes/instructions";
@@ -42,7 +42,7 @@ export const CONFIG = {
         LoadoutSceneGunMagazine,
         LoadoutSceneGunScope,
         LoadoutSceneClothes,
-        LoadoutSceneClothesPants,
+        LoadoutSceneClothesShoes,
         LoadoutSceneClothesShirt,
         levelOne,
         endScene,
