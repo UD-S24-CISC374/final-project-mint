@@ -7,34 +7,17 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
     classOneDef: boolean = false;
     attrOneTopDef: boolean = false;
     attrOneBotDef: boolean = false;
-    constrOneLeft: boolean = false;
-    constrOneRight: boolean = false;
-    constrOneTop: boolean = false;
-    constrOneBot: boolean = false;
 
     classTwoDef: boolean = false;
     attrTwoTopDef: boolean = false;
     attrTwoBotDef: boolean = false;
-    constrTwoLeft: boolean = false;
-    constrTwoRight: boolean = false;
-    constrTwoTop: boolean = false;
-    constrTwoBot: boolean = false;
 
-    cOD: string;
-    aOT: string;
-    aOB: string;
-    cOL: string;
-    cOR: string;
-    cOT: string;
-    cOB: string;
-
-    cTD: string;
-    aTT: string;
-    aTB: string;
-    cTL: string;
-    cTR: string;
-    cTT: string;
-    cTB: string;
+    cOD: string | undefined;
+    cTD: string | undefined;
+    aOT: string | undefined;
+    aOB: string | undefined;
+    aTT: string | undefined;
+    aTB: string | undefined;
 
     alpha: boolean = true;
     errFeed: Phaser.GameObjects.Text | null = null;
@@ -44,167 +27,119 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
     }
 
     create() {
-        this.createEditableText(
-            890,
-            292,
-            "CLASS",
-            "#000000",
-            "transparent",
-            "70px",
-            (newValue: string) => {
-                console.log("Text input updated to:", newValue);
-                this.cOD = newValue;
-                if (newValue == "Gun") {
-                    console.log("Set continue to true");
-                    this.classOneDef = true;
-                } else {
-                    this.classOneDef = false;
-                }
+        this.createEditableText(1100, 485, 400, 100, 60, (newValue: string) => {
+            console.log("Text input updated to:", newValue);
+            this.cOD = newValue;
+            if (newValue == "Gun") {
+                console.log("Set continue to true");
+                this.classOneDef = true;
+            } else {
+                this.classOneDef = false;
             }
-        );
-        this.createEditableText(
-            640,
-            470,
-            "ATTRIBUTE:TYPE;",
-            "#000000",
-            "transparent",
-            "50px",
-            (newValue: string) => {
-                console.log("Text input updated to:", newValue);
-                this.aOT = newValue;
-                if (
-                    newValue == "Close:Scope;" ||
-                    newValue == "Close: Scope;" ||
-                    newValue == "Close :Scope;" ||
-                    newValue == "Eagle:Scope;" ||
-                    newValue == "Eagle: Scope;" ||
-                    newValue == "Eagle :Scope;" ||
-                    newValue == "Speed:Magazine;" ||
-                    newValue == "Speed: Magazine;" ||
-                    newValue == "Speed :Magazine;" ||
-                    newValue == "Drum:Magazine;" ||
-                    newValue == "Drum: Magazine;" ||
-                    newValue == "Drum :Magazine;"
-                ) {
-                    console.log("Set continue to true");
-                    this.attrOneTopDef = true;
-                } else {
-                    this.attrOneTopDef = false;
-                }
+        });
+        this.createEditableText(875, 650, 750, 100, 60, (newValue: string) => {
+            console.log("Text input updated to:", newValue);
+            this.aOT = newValue;
+            if (
+                newValue == "Close:Scope;" ||
+                newValue == "Close: Scope;" ||
+                newValue == "Close :Scope;" ||
+                newValue == "Eagle:Scope;" ||
+                newValue == "Eagle: Scope;" ||
+                newValue == "Eagle :Scope;" ||
+                newValue == "Speed:Magazine;" ||
+                newValue == "Speed: Magazine;" ||
+                newValue == "Speed :Magazine;" ||
+                newValue == "Drum:Magazine;" ||
+                newValue == "Drum: Magazine;" ||
+                newValue == "Drum :Magazine;"
+            ) {
+                console.log("Set continue to true");
+                this.attrOneTopDef = true;
+            } else {
+                this.attrOneTopDef = false;
             }
-        );
-        this.createEditableText(
-            640,
-            650,
-            "ATTRIBUTE:TYPE;",
-            "#000000",
-            "transparent",
-            "50px",
-            (newValue: string) => {
-                console.log("Text input updated to:", newValue);
-                this.aOB = newValue;
-                if (
-                    newValue == "Close:Scope;" ||
-                    newValue == "Close: Scope;" ||
-                    newValue == "Close :Scope;" ||
-                    newValue == "Eagle:Scope;" ||
-                    newValue == "Eagle: Scope;" ||
-                    newValue == "Eagle :Scope;" ||
-                    newValue == "Speed:Magazine;" ||
-                    newValue == "Speed: Magazine;" ||
-                    newValue == "Speed :Magazine;" ||
-                    newValue == "Drum:Magazine;" ||
-                    newValue == "Drum: Magazine;" ||
-                    newValue == "Drum :Magazine;"
-                ) {
-                    console.log("Set continue to true");
-                    this.attrOneBotDef = true;
-                } else {
-                    this.attrOneBotDef = false;
-                }
+        });
+        this.createEditableText(875, 825, 750, 100, 60, (newValue: string) => {
+            console.log("Text input updated to:", newValue);
+            this.aOB = newValue;
+            if (
+                newValue == "Close:Scope;" ||
+                newValue == "Close: Scope;" ||
+                newValue == "Close :Scope;" ||
+                newValue == "Eagle:Scope;" ||
+                newValue == "Eagle: Scope;" ||
+                newValue == "Eagle :Scope;" ||
+                newValue == "Speed:Magazine;" ||
+                newValue == "Speed: Magazine;" ||
+                newValue == "Speed :Magazine;" ||
+                newValue == "Drum:Magazine;" ||
+                newValue == "Drum: Magazine;" ||
+                newValue == "Drum :Magazine;"
+            ) {
+                console.log("Set continue to true");
+                this.attrOneBotDef = true;
+            } else {
+                this.attrOneBotDef = false;
             }
-        );
+        });
 
-        this.createEditableText(
-            1920,
-            292,
-            "CLASS",
-            "#000000",
-            "transparent",
-            "70px",
-            (newValue: string) => {
-                console.log("Text input updated to:", newValue);
-                this.cTD = newValue;
-                if (newValue == "Clothes") {
-                    console.log("Set continue to true");
-                    this.classTwoDef = true;
-                } else {
-                    this.classTwoDef = false;
-                }
+        this.createEditableText(2135, 475, 400, 100, 60, (newValue: string) => {
+            console.log("Text input updated to:", newValue);
+            this.cTD = newValue;
+            if (newValue == "Clothes") {
+                console.log("Set continue to true");
+                this.classTwoDef = true;
+            } else {
+                this.classTwoDef = false;
             }
-        );
-        this.createEditableText(
-            1670,
-            470,
-            "ATTRIBUTE:TYPE;",
-            "#000000",
-            "transparent",
-            "50px",
-            (newValue: string) => {
-                console.log("Text input updated to:", newValue);
-                this.aTT = newValue;
-                if (
-                    newValue == "Poncho:Shirt;" ||
-                    newValue == "Poncho: Shirt;" ||
-                    newValue == "Poncho :Shirt;" ||
-                    newValue == "Vest:Shirt;" ||
-                    newValue == "Vest: Shirt;" ||
-                    newValue == "Vest :Shirt;" ||
-                    newValue == "Overalls:Pants;" ||
-                    newValue == "Overalls: Pants;" ||
-                    newValue == "Overalls :Pants;" ||
-                    newValue == "Cargo:Pants;" ||
-                    newValue == "Cargo: Pants;" ||
-                    newValue == "Cargo :Pants;"
-                ) {
-                    console.log("Set continue to true");
-                    this.attrTwoTopDef = true;
-                } else {
-                    this.attrTwoTopDef = false;
-                }
+        });
+        this.createEditableText(1900, 650, 750, 100, 60, (newValue: string) => {
+            console.log("Text input updated to:", newValue);
+            this.aTT = newValue;
+            if (
+                newValue == "Poncho:Shirt;" ||
+                newValue == "Poncho: Shirt;" ||
+                newValue == "Poncho :Shirt;" ||
+                newValue == "Vest:Shirt;" ||
+                newValue == "Vest: Shirt;" ||
+                newValue == "Vest :Shirt;" ||
+                newValue == "Overalls:Pants;" ||
+                newValue == "Overalls: Pants;" ||
+                newValue == "Overalls :Pants;" ||
+                newValue == "Cargo:Pants;" ||
+                newValue == "Cargo: Pants;" ||
+                newValue == "Cargo :Pants;"
+            ) {
+                console.log("Set continue to true");
+                this.attrTwoTopDef = true;
+            } else {
+                this.attrTwoTopDef = false;
             }
-        );
-        this.createEditableText(
-            1670,
-            650,
-            "ATTRIBUTE:TYPE;",
-            "#000000",
-            "transparent",
-            "50px",
-            (newValue: string) => {
-                console.log("Text input updated to:", newValue);
-                this.aTB = newValue;
-                if (
-                    newValue == "Poncho:Shirt;" ||
-                    newValue == "Poncho: Shirt;" ||
-                    newValue == "Poncho :Shirt;" ||
-                    newValue == "Vest:Shirt;" ||
-                    newValue == "Vest: Shirt;" ||
-                    newValue == "Vest :Shirt;" ||
-                    newValue == "Overalls:Pants;" ||
-                    newValue == "Overalls: Pants;" ||
-                    newValue == "Overalls :Pants;" ||
-                    newValue == "Cargo:Pants;" ||
-                    newValue == "Cargo: Pants;" ||
-                    newValue == "Cargo :Pants;"
-                ) {
-                    console.log("Set continue to true");
-                    this.attrTwoBotDef = true;
-                } else {
-                    this.attrTwoBotDef = false;
-                }
+        });
+        this.createEditableText(1900, 825, 750, 100, 60, (newValue: string) => {
+            console.log("Text input updated to:", newValue);
+            this.aTB = newValue;
+            if (
+                newValue == "Poncho:Shirt;" ||
+                newValue == "Poncho: Shirt;" ||
+                newValue == "Poncho :Shirt;" ||
+                newValue == "Vest:Shirt;" ||
+                newValue == "Vest: Shirt;" ||
+                newValue == "Vest :Shirt;" ||
+                newValue == "Overalls:Pants;" ||
+                newValue == "Overalls: Pants;" ||
+                newValue == "Overalls :Pants;" ||
+                newValue == "Cargo:Pants;" ||
+                newValue == "Cargo: Pants;" ||
+                newValue == "Cargo :Pants;"
+            ) {
+                console.log("Set continue to true");
+                this.attrTwoBotDef = true;
+            } else {
+                this.attrTwoBotDef = false;
             }
-        );
+        });
 
         // Create Phaser DOMElement from input
         this.textbox = new Phaser.GameObjects.DOMElement(
@@ -365,11 +300,11 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                         );
                     }
                 } else if (
-                    this.aOT.substring(
+                    this.aOT?.substring(
                         this.aOT.indexOf(":"),
                         this.aOT.length - 1
                     ) ==
-                    this.aOB.substring(
+                    this.aOB?.substring(
                         this.aOB.indexOf(":"),
                         this.aOB.length - 1
                     )
@@ -378,7 +313,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                     this.errFeed = this.add.text(
                         425,
                         1450,
-                        `Cannot apply multiple attributes\n of type "${this.aOT.substring(
+                        `Cannot apply multiple attributes\n of type "${this.aOT?.substring(
                             this.aOT.indexOf(":"),
                             this.aOT.length - 1
                         )}"`,
@@ -516,11 +451,11 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                         );
                     }
                 } else if (
-                    this.aTT.substring(
+                    this.aTT?.substring(
                         this.aTT.indexOf(":"),
                         this.aTT.length - 1
                     ) ==
-                    this.aTB.substring(
+                    this.aTB?.substring(
                         this.aTB.indexOf(":"),
                         this.aTB.length - 1
                     )
@@ -529,7 +464,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                     this.errFeed = this.add.text(
                         425,
                         1450,
-                        `Cannot apply multiple attributes\n of type "${this.aTT.substring(
+                        `Cannot apply multiple attributes\n of type "${this.aTT?.substring(
                             this.aTT.indexOf(":"),
                             this.aTT.length - 1
                         )}"`,
@@ -542,6 +477,20 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
 
                 // IF ALL CONDITIONS ARE MET: Start Level
                 else {
+                    this.classOneDef =
+                        this.attrOneBotDef =
+                        this.attrOneTopDef =
+                        this.classTwoDef =
+                        this.attrTwoBotDef =
+                        this.attrTwoTopDef =
+                            false;
+                    this.cOD =
+                        this.cTD =
+                        this.aOT =
+                        this.aTT =
+                        this.aOB =
+                        this.aTB =
+                            undefined;
                     this.scene.start("levelOne");
                 }
             }
@@ -588,64 +537,6 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
         });
     }
 
-    createEditableText(
-        x: number,
-        y: number,
-        initialText: string,
-        textColor: string,
-        backdrop: string,
-        textSize: string,
-        onChange: (newValue: string) => void
-    ): void {
-        // Adjusts the method for creating editable text elements, focusing on integration with the overlay.
-        const globalInputText =
-            (this.registry.get("gameInputText") as string) || initialText;
-
-        const style: Phaser.Types.GameObjects.Text.TextStyle = {
-            fontFamily: "Arial",
-            fontSize: textSize,
-            color: textColor,
-            align: "center",
-            backgroundColor: backdrop,
-            padding: { left: 5, right: 5, top: 5, bottom: 5 },
-        };
-
-        const textObject = this.add
-            .text(x, y, globalInputText, style)
-            .setInteractive();
-
-        const inputElement = document.createElement("input");
-        inputElement.type = "text";
-        inputElement.value = globalInputText;
-        inputElement.style.position = "fixed";
-        inputElement.style.left = "-9999px";
-        inputElement.style.top = "0px";
-        document.body.appendChild(inputElement);
-
-        const syncTextObject = () => {
-            textObject.setText(inputElement.value || initialText);
-            onChange(inputElement.value);
-        };
-
-        inputElement.oninput = syncTextObject;
-
-        textObject.on("pointerdown", () => {
-            inputElement.value =
-                textObject.text === initialText ? "" : textObject.text;
-            inputElement.focus();
-            inputElement.setSelectionRange(
-                inputElement.value.length,
-                inputElement.value.length
-            );
-        });
-
-        inputElement.addEventListener("input", syncTextObject);
-
-        this.events.once("shutdown", () =>
-            document.body.removeChild(inputElement)
-        );
-    }
-
     createClickableTextAndSize(
         x: number,
         y: number,
@@ -666,6 +557,31 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
 
         const textObject = this.add.text(x, y, text, style).setInteractive();
         textObject.on("pointerdown", onClick);
+    }
+
+    createEditableText(
+        xLoc: number,
+        yLoc: number,
+        width: number,
+        height: number,
+        fontSize: number,
+        readInput: (inputValue: string) => void // Adding the callback function parameter
+    ): void {
+        const userInput = document.createElement("input");
+        userInput.type = "text";
+        userInput.style.width = `${width}px`;
+        userInput.style.height = `${height}px`;
+        userInput.style.border = "2px solid red";
+        userInput.style.color = "#000";
+        userInput.style.fontSize = `${fontSize}px`;
+        userInput.placeholder = "Type Here!!";
+
+        // Event listener to handle input changes
+        userInput.addEventListener("input", () => {
+            readInput(userInput.value); // Call the callback function with the current input value
+        });
+
+        this.add.dom(xLoc, yLoc, userInput);
     }
 
     update() {}
