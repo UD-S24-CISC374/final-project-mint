@@ -53,6 +53,13 @@ export default class levelOne extends Phaser.Scene {
     bullets?: Bullets;
     private colliderInitialized = false;
 
+    private baddieGun?: Phaser.Physics.Arcade.Sprite;
+    private lastBaddieGDirection: string | null = null;
+    private counterGun: number = 0;
+    private baddiKnife?: Phaser.Physics.Arcade.Sprite;
+    private lastBaddieKDirection: string | null = null;
+    private lastDirectionChangeTime: number; //= this.time.now;
+
     //private score = 0;
     //private scoreText?: Phaser.GameObjects.Text;
 
@@ -70,6 +77,7 @@ export default class levelOne extends Phaser.Scene {
     }
 
     create() {
+        this.lastDirectionChangeTime = this.time.now;
         this.add.image(2048, 857, "levelBackg");
         //this.add.image(3072, 857, "levelBackg");
         this.platforms = this.physics.add.staticGroup();
@@ -150,8 +158,40 @@ export default class levelOne extends Phaser.Scene {
         });*/
 
         this.bullets = new Bullets(this.physics.world, this, 1000); //this is what changes the fire speed
+        //creating badies
+        this.baddieGun = this.physics.add.sprite(1500, 100, "baddieGun");
+        this.makeBaddieGun;
+        this.physics.add.collider(this.baddieGun, this.platforms);
+        this.baddieGun.setBounce(0.2);
+        this.baddieGun.setCollideWorldBounds(true);
 
+        this.anims.create({
+            key: "left1",
+            frames: this.anims.generateFrameNumbers("baddieGun", {
+                start: 6,
+                end: 0,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        this.anims.create({
+            key: "turn1",
+            frames: [{ key: "baddieGun", frame: 7 }],
+            frameRate: 20,
+        });
+
+        this.anims.create({
+            key: "right1",
+            frames: this.anims.generateFrameNumbers("baddieGun", {
+                start: 8,
+                end: 14,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
         //this.baddie = this.physics.add.group();
+
         this.baddie = this.physics.add.group({
             key: "baddie1",
             repeat: 2,
@@ -376,11 +416,43 @@ export default class levelOne extends Phaser.Scene {
             ) as Phaser.Physics.Arcade.Sprite;
         }
     }*/
+    private makeBaddieGun() {
+        this.baddieGun?.setBounce(0.2);
+        this.baddieGun?.setCollideWorldBounds(true);
+
+        this.anims.create({
+            key: "left1",
+            frames: this.anims.generateFrameNumbers("baddieGun", {
+                start: 6,
+                end: 0,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        this.anims.create({
+            key: "turn1",
+            frames: [{ key: "baddieGun", frame: 7 }],
+            frameRate: 20,
+        });
+
+        this.anims.create({
+            key: "right1",
+            frames: this.anims.generateFrameNumbers("baddieGun", {
+                start: 8,
+                end: 14,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+    }
 
     update() {
+        //this loads cursors so they work
         if (!this.cursors) {
             return;
         }
+        //this creates the players movement
         if (this.cursors.left.isDown) {
             this.player?.setVelocityX(-160);
             this.player?.anims.play("left", true);
@@ -396,6 +468,7 @@ export default class levelOne extends Phaser.Scene {
         if (this.cursors.up.isDown && this.player?.body?.touching.down) {
             this.player.setVelocityY(-550);
         }
+        //This is how the player fires its bullets
         if (this.cursors.space.isDown && this.player && this.bullets) {
             if (this.lastPlayerDirection === "left") {
                 this.bullets.fireBullet(this.player.x, this.player.y, -1500); // Fire left
@@ -404,6 +477,52 @@ export default class levelOne extends Phaser.Scene {
             } else {
                 // If player direction is unknown, default to firing right
                 this.bullets.fireBullet(this.player.x, this.player.y, 1500);
+            }
+        }
+        //This is having the baddies move left and right
+        const walkDuration = 1500; // Duration for walking in one direction (in milliseconds)
+        const standStillDuration = 500; // Duration for standing still (in milliseconds)
+
+        if (
+            this.lastBaddieGDirection === "right" ||
+            this.lastBaddieGDirection === "left"
+        ) {
+            // If currently walking, continue in the same direction
+            if (this.lastBaddieGDirection === "right") {
+                this.baddieGun?.setVelocityX(160);
+                this.baddieGun?.anims.play("right1", true);
+            } else {
+                this.baddieGun?.setVelocityX(-160);
+                this.baddieGun?.anims.play("left1", true);
+            }
+
+            // Check if it's time to change direction
+            if (this.time.now - this.lastDirectionChangeTime > walkDuration) {
+                // If enough time has passed, change direction
+                if (this.lastBaddieGDirection === "right") {
+                    this.lastBaddieGDirection = "left";
+                } else {
+                    this.lastBaddieGDirection = "right";
+                }
+                this.lastDirectionChangeTime = this.time.now; // Update the last direction change time
+            }
+            //this.lastDirectionChangeTime = this.time.now; // Update the last direction change time
+        } else {
+            // If standing still, play the turn animation
+            this.baddieGun?.setVelocityX(0);
+            this.baddieGun?.anims.play("turn1", true);
+
+            // Check if it's time to start walking or continue standing still
+            if (
+                this.time.now - this.lastDirectionChangeTime >
+                standStillDuration
+            ) {
+                // If enough time has passed, start walking in a random direction
+                this.lastBaddieGDirection = Phaser.Math.RND.pick([
+                    "right",
+                    "left",
+                ]);
+                this.lastDirectionChangeTime = this.time.now; // Update the last direction change time
             }
         }
     }
