@@ -25,10 +25,16 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image("star", "assets/img/star.png");
         this.load.image("bomb", "assets/img/bomb.png");
 
+        this.load.image("LoadoutExample", "assets/img/LoadoutExample.png");
+
         this.load.image("gun_button", "assets/img/buttons/gun/button_gun.png");
         this.load.image(
             "clothes_button",
             "assets/img/buttons/clothes/button_clothes.png"
+        );
+        this.load.image(
+            "example_button",
+            "assets/img/buttons/button_example.png"
         );
         this.load.image(
             "close_button",

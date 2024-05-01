@@ -163,7 +163,11 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             this.textInput.focus();
         });
 
-        this.createClickableImage(1950, 1500, "submit_button", () => {
+        this.createClickableImage(1950, 1600, "example_button", () => {
+            this.scene.start("LoadoutExample");
+        });
+
+        this.createClickableImage(1950, 1450, "submit_button", () => {
             // Conditionals for individual boxes
 
             // ********************************** WEAPON CLASS **********************************
