@@ -13,73 +13,22 @@ export default class LoadoutSceneClothes extends Phaser.Scene {
             2950,
             250,
             "Clothes TYPES:",
-            "#ff0000",
+            "#BB00BB",
             "#00000000",
             () => {}
         );
 
-        this.createClickableText(
-            3150,
-            450,
-            "- :Shirt",
-            "#ff0000",
-            "#00000000",
-            () => {
-                this.scene.start("LoadoutSceneClothesShirt");
-                this.scene.bringToTop("LoadoutSceneTextboxInserts");
-            }
-        );
+        this.createClickableImage(3350, 500, "shirt_button", () => {
+            this.scene.start("LoadoutSceneClothesShirt");
+        });
 
-        this.createClickableText(
-            3150,
-            650,
-            "- :Pants",
-            "#ff0000",
-            "#00000000",
-            () => {
-                this.scene.start("LoadoutSceneClothesPants");
-                this.scene.bringToTop("LoadoutSceneTextboxInserts");
-            }
-        );
+        this.createClickableImage(3350, 700, "shoes_button", () => {
+            this.scene.start("LoadoutSceneClothesShoes");
+        });
 
-        this.createClickableText(
-            3150,
-            850,
-            "- LOCKED",
-            "#ff0000",
-            "#00000000",
-            () => {}
-        );
-
-        this.createClickableText(
-            3150,
-            1050,
-            "- LOCKED",
-            "#ff0000",
-            "#00000000",
-            () => {}
-        );
-
-        this.createClickableText(
-            3150,
-            1250,
-            "- LOCKED",
-            "#ff0000",
-            "#00000000",
-            () => {}
-        );
-
-        this.createClickableText(
-            2950,
-            1450,
-            "GO BACK",
-            "#ffffff",
-            "#654321",
-            () => {
-                this.scene.start("LoadoutSceneOne");
-                this.scene.bringToTop("LoadoutSceneTextboxInserts");
-            }
-        );
+        this.createClickableImage(3150, 1300, "go_back_button", () => {
+            this.scene.start("LoadoutSceneOne");
+        });
     }
 
     createClickableText(
@@ -101,6 +50,37 @@ export default class LoadoutSceneClothes extends Phaser.Scene {
 
         const textObject = this.add.text(x, y, text, style).setInteractive();
         textObject.on("pointerdown", onClick);
+    }
+
+    createClickableImage(
+        x: number,
+        y: number,
+        imageName: string,
+        onClick: () => void
+    ) {
+        const button = this.add.image(x, y, imageName).setInteractive();
+
+        button.setScale(2.5);
+
+        button.on("pointerover", () => {
+            this.tweens.add({
+                targets: button,
+                scale: { from: 2.5, to: 2.75 },
+                duration: 200,
+                ease: "Linear",
+            });
+        });
+
+        button.on("pointerout", () => {
+            this.tweens.add({
+                targets: button,
+                scale: { from: 2.75, to: 2.5 },
+                duration: 200,
+                ease: "Linear",
+            });
+        });
+
+        button.on("pointerdown", onClick);
     }
 
     update() {

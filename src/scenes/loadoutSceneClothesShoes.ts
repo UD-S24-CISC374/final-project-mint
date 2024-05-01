@@ -1,24 +1,24 @@
 import Phaser from "phaser";
 
-export default class LoadoutSceneGunScope extends Phaser.Scene {
+export default class LoadoutSceneClothesShoes extends Phaser.Scene {
     constructor() {
-        super({ key: "LoadoutSceneGunScope" });
+        super({ key: "LoadoutSceneClothesShoes" });
     }
 
-    closeUnlocked: boolean = false;
-    eagleUnlocked: boolean = false;
+    springsUnlocked: boolean = false;
+    wheelsUnlocked: boolean = false;
 
     create() {
         this.add.image(2048, 857, "LoadoutMenu");
 
-        this.closeUnlocked = this.game.registry.get("closeUnlocked");
-        this.eagleUnlocked = this.game.registry.get("eagleUnlocked");
+        this.springsUnlocked = this.game.registry.get("springsUnlocked");
+        this.wheelsUnlocked = this.game.registry.get("wheelsUnlocked");
 
         // Create Menu Textboxes
         this.createClickableText(
             2950,
             250,
-            "Scope ATTRIBUTES:",
+            "Shoes ATTRIBUTES:",
             "#BB00BB",
             "#00000000",
             () => {}
@@ -26,11 +26,11 @@ export default class LoadoutSceneGunScope extends Phaser.Scene {
 
         this.createClickableImage(3350, 500, "none_button", false, () => {});
 
-        if (this.closeUnlocked) {
+        if (this.springsUnlocked) {
             this.createClickableImage(
                 3350,
                 700,
-                "close_button",
+                "springs_button",
                 false,
                 () => {}
             );
@@ -44,11 +44,11 @@ export default class LoadoutSceneGunScope extends Phaser.Scene {
             );
         }
 
-        if (this.eagleUnlocked) {
+        if (this.wheelsUnlocked) {
             this.createClickableImage(
                 3350,
                 900,
-                "eagle_button",
+                "wheels_button",
                 false,
                 () => {}
             );
@@ -63,7 +63,7 @@ export default class LoadoutSceneGunScope extends Phaser.Scene {
         }
 
         this.createClickableImage(3150, 1300, "go_back_button", true, () => {
-            this.scene.start("LoadoutSceneGun");
+            this.scene.start("LoadoutSceneClothes");
         });
     }
 

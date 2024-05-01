@@ -18,14 +18,27 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
 }
 
 class Bullets extends Phaser.Physics.Arcade.Group {
-    constructor(world: Phaser.Physics.Arcade.World, scene: Phaser.Scene) {
+    private readonly fireRate: number;
+    private lastFiredTime: number;
+
+    constructor(
+        world: Phaser.Physics.Arcade.World,
+        scene: Phaser.Scene,
+        fireRate: number
+    ) {
         super(world, scene);
+        this.fireRate = fireRate;
+        this.lastFiredTime = 0;
     }
 
     fireBullet(x: number, y: number, vel: number) {
-        const bullet = new Bullet(this.scene, x, y);
-        this.add(bullet);
-        bullet.fire(x, y, vel);
+        const currentTime = this.scene.time.now;
+        if (currentTime - this.lastFiredTime > this.fireRate) {
+            const bullet = new Bullet(this.scene, x, y);
+            this.add(bullet);
+            bullet.fire(x, y, vel);
+            this.lastFiredTime = currentTime;
+        }
     }
 }
 
@@ -35,10 +48,30 @@ export default class levelOne extends Phaser.Scene {
     private player?: Phaser.Physics.Arcade.Sprite;
     private lastPlayerDirection: string | null = null;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
-    private stars?: Phaser.Physics.Arcade.Group;
+    private stars: Phaser.Physics.Arcade.StaticGroup;
+    private hearts: Phaser.Physics.Arcade.StaticGroup;
     private checkpoint: Phaser.Physics.Arcade.StaticGroup;
-    bullets?: Bullets;
+    private bullets?: Bullets;
     private colliderInitialized = false;
+
+    private baddieGun1?: Phaser.Physics.Arcade.Sprite;
+    private lastBaddieGDirection1: string | null = null;
+    private baddieGun2?: Phaser.Physics.Arcade.Sprite;
+    private lastBaddieGDirection2: string | null = null;
+    private baddieGunAlive1: boolean;
+    private baddieGunAlive2: boolean;
+    private baddieKnife?: Phaser.Physics.Arcade.Sprite;
+    private baddieKnifeAlive1: boolean;
+    private baddieKnifeAlive2: boolean;
+    private badBullets1?: Bullets;
+    private badBullets2?: Bullets;
+    private baddiKnife?: Phaser.Physics.Arcade.Sprite;
+    private lastBaddieKDirection: string | null = null;
+    private lastDirectionChangeTime1: number;
+    private lastDirectionChangeTime2: number;
+    private lastDirectionChangeTime3: number;
+
+    private lives: number;
 
     //private score = 0;
     //private scoreText?: Phaser.GameObjects.Text;
@@ -57,6 +90,9 @@ export default class levelOne extends Phaser.Scene {
     }
 
     create() {
+        this.lastDirectionChangeTime1 = this.time.now;
+        this.lastDirectionChangeTime2 = this.time.now;
+        this.lastDirectionChangeTime3 = this.time.now;
         this.add.image(2048, 857, "levelBackg");
         //this.add.image(3072, 857, "levelBackg");
         this.platforms = this.physics.add.staticGroup();
@@ -75,15 +111,16 @@ export default class levelOne extends Phaser.Scene {
         this.platforms.create(2000, 1100, "platform");
         this.platforms.create(3000, 1200, "platform");
 
-        this.player = this.physics.add.sprite(100, 450, "dude");
+        this.player = this.physics.add.sprite(100, 450, "cowboy");
         this.player.setBounce(0.2);
         this.player.setCollideWorldBounds(true);
+        this.lives = 3; //The number of lives the player has
 
         this.anims.create({
             key: "left",
-            frames: this.anims.generateFrameNumbers("dude", {
-                start: 0,
-                end: 3,
+            frames: this.anims.generateFrameNumbers("cowboy", {
+                start: 6,
+                end: 0,
             }),
             frameRate: 10,
             repeat: -1,
@@ -91,32 +128,31 @@ export default class levelOne extends Phaser.Scene {
 
         this.anims.create({
             key: "turn",
-            frames: [{ key: "dude", frame: 4 }],
+            frames: [{ key: "cowboy", frame: 7 }],
             frameRate: 20,
         });
 
         this.anims.create({
             key: "right",
-            frames: this.anims.generateFrameNumbers("dude", {
-                start: 5,
-                end: 8,
+            frames: this.anims.generateFrameNumbers("cowboy", {
+                start: 8,
+                end: 14,
             }),
             frameRate: 10,
             repeat: -1,
         });
 
         this.physics.add.collider(this.player, this.platforms);
-        this.physics.add.collider(this.player, this.platforms);
 
         this.cursors = this.input.keyboard?.createCursorKeys();
 
         // ORIGINAL CODE FOR ADDING STARS TO OG PHASER GAME (UNUSED)
-        /*this.stars = this.physics.add.group({
-            key: "star",
-            repeat: 15,
-            setXY: { x: 30, y: 0, stepX: 250 },
+        this.hearts = this.physics.add.staticGroup({
+            key: "heart",
+            repeat: 2,
+            setXY: { x: 200, y: 100, stepX: 200 },
         });
-
+        /*
         this.stars.children.iterate((c) => {
             const child = c as Phaser.Physics.Arcade.Image;
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
@@ -137,9 +173,158 @@ export default class levelOne extends Phaser.Scene {
             color: "#000",
         });*/
 
-        this.bullets = new Bullets(this.physics.world, this);
+        this.bullets = new Bullets(this.physics.world, this, 1000); //this is what changes the fire speed\
+        this.physics.add.overlap(this.bullets!, this.platforms!, (bullet) => {
+            bullet.destroy();
+        });
+        //creating 2 gun badies
+        this.baddieGun1 = this.physics.add.sprite(2000, 100, "baddieGun");
+        this.physics.add.collider(this.baddieGun1, this.platforms);
+        this.baddieGun1.setBounce(0.2);
+        this.baddieGun1.setCollideWorldBounds(true);
+        this.badBullets1 = new Bullets(this.physics.world, this, 500); //this is what changes the fire speed
+        this.physics.add.overlap(
+            this.badBullets1!,
+            this.platforms!,
+            (bullet) => {
+                bullet.destroy();
+            }
+        );
+        this.baddieGunAlive1 = true;
 
+        this.baddieGun2 = this.physics.add.sprite(1000, 100, "baddieGun");
+        this.physics.add.collider(this.baddieGun2, this.platforms);
+        this.baddieGun2.setBounce(0.2);
+        this.baddieGun2.setCollideWorldBounds(true);
+        this.badBullets2 = new Bullets(this.physics.world, this, 500); //this is what changes the fire speed
+        this.physics.add.overlap(
+            this.badBullets1!,
+            this.platforms!,
+            (bullet) => {
+                bullet.destroy();
+            }
+        );
+        this.baddieGunAlive2 = true;
+
+        this.anims.create({
+            key: "left1",
+            frames: this.anims.generateFrameNumbers("baddieGun", {
+                start: 6,
+                end: 0,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        this.anims.create({
+            key: "turn1",
+            frames: [{ key: "baddieGun", frame: 7 }],
+            frameRate: 20,
+        });
+
+        this.anims.create({
+            key: "right1",
+            frames: this.anims.generateFrameNumbers("baddieGun", {
+                start: 8,
+                end: 14,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        this.physics.add.overlap(
+            this.bullets!,
+            this.baddieGun1!,
+            (bullet, baddieGun) => {
+                this.handleKillBaddie(
+                    bullet as Bullet,
+                    baddieGun as Phaser.Physics.Arcade.Sprite
+                );
+            },
+            undefined,
+            this
+        );
+        this.physics.add.collider(
+            this.player,
+            this.baddieGun1,
+            this.handleHitBaddie,
+            undefined,
+            this
+        );
+        this.physics.add.overlap(
+            this.bullets!,
+            this.baddieGun2!,
+            (bullet, baddieGun) => {
+                this.handleKillBaddie(
+                    bullet as Bullet,
+                    baddieGun as Phaser.Physics.Arcade.Sprite
+                );
+            },
+            undefined,
+            this
+        );
+        this.physics.add.collider(
+            this.player,
+            this.baddieGun2,
+            this.handleHitBaddie,
+            undefined,
+            this
+        );
+
+        //Knife baddie
+        this.baddieKnife = this.physics.add.sprite(1500, 100, "baddieKnife");
+        this.physics.add.collider(this.baddieKnife, this.platforms);
+        this.baddieKnife.setBounce(0.2);
+        this.baddieKnife.setCollideWorldBounds(true);
+        //this.baddieKnife1 = true;
+
+        this.anims.create({
+            key: "left2",
+            frames: this.anims.generateFrameNumbers("baddieKnife", {
+                start: 6,
+                end: 0,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        this.anims.create({
+            key: "turn2",
+            frames: [{ key: "baddieKnife", frame: 7 }],
+            frameRate: 20,
+        });
+
+        this.anims.create({
+            key: "right2",
+            frames: this.anims.generateFrameNumbers("baddieKnife", {
+                start: 8,
+                end: 14,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        this.physics.add.overlap(
+            this.bullets!,
+            this.baddieKnife!,
+            (bullet, baddieKnife) => {
+                this.handleKillBaddie(
+                    bullet as Bullet,
+                    baddieKnife as Phaser.Physics.Arcade.Sprite
+                );
+            },
+            undefined,
+            this
+        );
+        this.physics.add.collider(
+            this.player,
+            this.baddieKnife,
+            this.handleHitBaddie,
+            undefined,
+            this
+        );
         //this.baddie = this.physics.add.group();
+        /*
         this.baddie = this.physics.add.group({
             key: "baddie1",
             repeat: 2,
@@ -162,19 +347,15 @@ export default class levelOne extends Phaser.Scene {
         );
         this.physics.add.overlap(
             this.bullets!,
-            this.baddie!,
-            (bullet, baddie) => {
+            this.baddieGun!,
+            (bullet, baddieGun) => {
                 this.handleKillBaddie(
                     bullet as Bullet,
-                    baddie as Phaser.Physics.Arcade.Sprite
+                    baddieGun as Phaser.Physics.Arcade.Sprite
                 );
             },
             undefined,
             this
-            /*(bullet, baddie) => {
-                bullet.destroy();
-                baddie.destroy();
-            }*/
         );
 
         this.baddie = this.physics.add.group({
@@ -192,12 +373,12 @@ export default class levelOne extends Phaser.Scene {
         this.physics.add.collider(this.baddie, this.platforms);
         this.physics.add.collider(
             this.player,
-            this.baddie,
+            this.baddieGun,
             this.handleHitBaddie,
             undefined,
             this
         );
-        /*this.baddie.create(
+        this.baddie.create(
             4000,
             1250,
             "baddie1"
@@ -224,15 +405,7 @@ export default class levelOne extends Phaser.Scene {
             undefined,
             this
         );*/
-
-        this.physics.add.collider(
-            this.player,
-            this.checkpoint,
-            this.handleHitCheckpoint,
-            undefined,
-            this
-        );
-        this.physics.add.overlap(
+        /*this.physics.add.overlap(
             this.bullets!,
             this.baddie!,
             (bullet, baddie) => {
@@ -243,59 +416,31 @@ export default class levelOne extends Phaser.Scene {
             },
             undefined,
             this
-            /*(bullet, baddie) => {
-                bullet.destroy();
-                baddie.destroy();
-            }*/
+        );*/
+        this.physics.add.collider(
+            this.player,
+            this.checkpoint,
+            this.handleHitCheckpoint,
+            undefined,
+            this
         );
-        this.physics.add.overlap(this.bullets!, this.platforms!, (bullet) => {
-            bullet.destroy();
-        });
-    }
-    /*private shoot() {
-        const currentTime = this.time.now;
 
-        if (
-            currentTime - this.lastShotTime < this.shootDelay ||
-            !this.canShoot
-        ) {
-            return;
-        }
-
-        const bullet = this.add.image(
-            this.player?.x || 0,
-            this.player?.y || 0,
-            "stars"
-        );
-        bullet.setOrigin(0.5, 0.5); // Set the origin to the center of the image
-
-        let bulletVelocityX = 0;
-
-        if (this.player?.anims.currentAnim?.key === "left") {
-            bulletVelocityX = -1000;
-        } else if (this.player?.anims.currentAnim?.key === "right") {
-            bulletVelocityX = 1000;
-        } else {
-            bulletVelocityX =
-                this.lastPlayerDirection === "left" ? -1000 : 1000;
-        }
-
-        this.tweens.add({
-            targets: bullet,
-            x: bullet.x + bulletVelocityX,
-            duration: 500, // Adjust the duration as needed
-            onComplete: () => {
-                bullet.destroy();
+        /*this.physics.add.overlap(
+            this.player!,
+            this.badBullets!,
+            (bullet) => {
+                this.handlePlayerHit(bullet as Bullet);
             },
-        });
+            undefined,
+            this
+        );*/
 
-        this.lastShotTime = currentTime;
-        this.canShoot = false;
-
-        this.time.delayedCall(this.shootDelay, () => {
-            this.canShoot = true;
-        });
-    }*/
+        // ---------------------------------------------------------------------------------------
+        // @Sibyl here is where I added the example I was talking about
+        this.createItem(600, 675, "wheels_item");
+        this.createItem(3400, 775, "close_item");
+        // ---------------------------------------------------------------------------------------
+    }
 
     private handleHitCheckpoint() {
         this.scene.start("endScene");
@@ -305,7 +450,9 @@ export default class levelOne extends Phaser.Scene {
         baddie: Phaser.Physics.Arcade.Sprite
     ) {
         bullet.destroy();
-        baddie.destroy();
+        baddie.setVisible(false);
+        this.baddieGunAlive1 = false;
+        //baddie.disableBody(true, true); // Disables the baddie sprite
         this.numBaddies--;
         if (this.numBaddies == 0) {
             this.checkpoint.create(
@@ -325,6 +472,30 @@ export default class levelOne extends Phaser.Scene {
 
         this.scene.start("instructions");
     }
+    private handlePlayerHit(bullet: Bullet) {
+        // Destroy the bullet
+        bullet.destroy();
+        this.hideNextObject(this.hearts);
+
+        this.lives--;
+        if (this.lives === 0) {
+            this.handleHitBaddie;
+        }
+        // Handle any other logic for player getting hit
+    }
+
+    private hideNextObject(group: Phaser.Physics.Arcade.StaticGroup) {
+        // Get the first active object in the group
+        const objectToHide = group.getFirstAlive(
+            true
+        ) as Phaser.Physics.Arcade.Sprite;
+        // If there's an active object, hide it
+        objectToHide.setVisible(false);
+        objectToHide.setActive(false);
+        objectToHide.disableBody(true, true); // Disable physics body if applicable
+    }
+
+    // Call the function to hide the next object in the group
 
     /*private handleCollectStar(
         player:
@@ -365,10 +536,38 @@ export default class levelOne extends Phaser.Scene {
         }
     }*/
 
+    // ----------------------------------------------------------------------------------------------------------
+
+    // ADDED BY JAKE - @Sibyl you can use this function to place each item in the level. I added 1 example already:
+    //        this.createItem(500, 500, "wheels_item")
+    // DO NOT UNCOMMENT THAT ^, that's just an example, see beginning of create for applied example.
+
+    createItem(x: number, y: number, imageName: string) {
+        const item = this.physics.add.image(x, y, imageName);
+
+        // Disable gravity for the item to prevent it from falling
+        item.body.setAllowGravity(false);
+
+        // Correctly setting the tween to oscillate around the initial position
+        this.tweens.add({
+            targets: item,
+            y: { from: y - 10, to: y + 10 }, // Move up and down by 10 pixels around the initial y position
+            yoyo: true, // Make the tween go back and forth
+            repeat: -1, // Repeat forever
+            duration: 1000, // Duration of one full cycle up and back down
+            ease: "Sine.easeInOut", // Smooth easing function for natural movement
+        });
+    }
+
+    // ----------------------------------------------------------------------------------------------------------
+
     update() {
+        //this loads cursors so they work
         if (!this.cursors) {
             return;
         }
+        //this creates the players movement
+
         if (this.cursors.left.isDown) {
             this.player?.setVelocityX(-160);
             this.player?.anims.play("left", true);
@@ -384,6 +583,7 @@ export default class levelOne extends Phaser.Scene {
         if (this.cursors.up.isDown && this.player?.body?.touching.down) {
             this.player.setVelocityY(-550);
         }
+        //This is how the player fires its bullets
         if (this.cursors.space.isDown && this.player && this.bullets) {
             if (this.lastPlayerDirection === "left") {
                 this.bullets.fireBullet(this.player.x, this.player.y, -1500); // Fire left
@@ -392,6 +592,175 @@ export default class levelOne extends Phaser.Scene {
             } else {
                 // If player direction is unknown, default to firing right
                 this.bullets.fireBullet(this.player.x, this.player.y, 1500);
+            }
+        }
+
+        //This is having the baddies move left and right
+        const walkDuration = 1500; // Duration for walking in one direction (in milliseconds)
+        const walkDurationk = 3000; // Duration for walking in one direction (in milliseconds)
+        const standStillDuration = 500; // Duration for standing still (in milliseconds)
+        if (this.baddieGun1) {
+            if (
+                this.lastBaddieGDirection1 === "right" ||
+                this.lastBaddieGDirection1 === "left"
+            ) {
+                // If currently walking, continue in the same direction
+                if (this.lastBaddieGDirection1 === "right") {
+                    this.baddieGun1.setVelocityX(160);
+                    this.baddieGun1.anims.play("right1", true);
+                } else {
+                    this.baddieGun1.setVelocityX(-160);
+                    this.baddieGun1.anims.play("left1", true);
+                }
+                if (this.lastBaddieGDirection1 === "left") {
+                    this.badBullets1?.fireBullet(
+                        this.baddieGun1.x,
+                        this.baddieGun1.y,
+                        -1500
+                    ); // Fire left
+                } else {
+                    this.badBullets1?.fireBullet(
+                        this.baddieGun1.x,
+                        this.baddieGun1.y,
+                        1500
+                    ); // Fire right
+                }
+                // Check if it's time to change direction
+                if (
+                    this.time.now - this.lastDirectionChangeTime1 >
+                    walkDuration
+                ) {
+                    // If enough time has passed, change direction
+                    if (this.lastBaddieGDirection1 === "right") {
+                        this.lastBaddieGDirection1 = "left";
+                    } else {
+                        this.lastBaddieGDirection1 = "right";
+                    }
+                    this.lastDirectionChangeTime1 = this.time.now; // Update the last direction change time
+                }
+                //this.lastDirectionChangeTime = this.time.now; // Update the last direction change time
+            } else {
+                // If standing still, play the turn animation
+                this.baddieGun1.setVelocityX(0);
+                this.baddieGun1.anims.play("turn1", true);
+
+                // Check if it's time to start walking or continue standing still
+                if (
+                    this.time.now - this.lastDirectionChangeTime1 >
+                    standStillDuration
+                ) {
+                    // If enough time has passed, start walking in a random direction
+                    this.lastBaddieGDirection1 = Phaser.Math.RND.pick([
+                        "right",
+                        "left",
+                    ]);
+                    this.lastDirectionChangeTime1 = this.time.now; // Update the last direction change time
+                }
+            }
+        }
+        if (this.baddieGun2) {
+            if (
+                this.lastBaddieGDirection2 === "right" ||
+                this.lastBaddieGDirection2 === "left"
+            ) {
+                // If currently walking, continue in the same direction
+                if (this.lastBaddieGDirection2 === "right") {
+                    this.baddieGun2.setVelocityX(160);
+                    this.baddieGun2.anims.play("right1", true);
+                } else {
+                    this.baddieGun2.setVelocityX(-160);
+                    this.baddieGun2.anims.play("left1", true);
+                }
+                if (this.lastBaddieGDirection2 === "left") {
+                    this.badBullets2?.fireBullet(
+                        this.baddieGun2.x,
+                        this.baddieGun2.y,
+                        -1500
+                    ); // Fire left
+                } else {
+                    this.badBullets2?.fireBullet(
+                        this.baddieGun2.x,
+                        this.baddieGun2.y,
+                        1500
+                    ); // Fire right
+                }
+                // Check if it's time to change direction
+                if (
+                    this.time.now - this.lastDirectionChangeTime2 >
+                    walkDuration
+                ) {
+                    // If enough time has passed, change direction
+                    if (this.lastBaddieGDirection2 === "right") {
+                        this.lastBaddieGDirection2 = "left";
+                    } else {
+                        this.lastBaddieGDirection2 = "right";
+                    }
+                    this.lastDirectionChangeTime2 = this.time.now; // Update the last direction change time
+                }
+                //this.lastDirectionChangeTime = this.time.now; // Update the last direction change time
+            } else {
+                // If standing still, play the turn animation
+                this.baddieGun2.setVelocityX(0);
+                this.baddieGun2.anims.play("turn1", true);
+
+                // Check if it's time to start walking or continue standing still
+                if (
+                    this.time.now - this.lastDirectionChangeTime2 >
+                    standStillDuration
+                ) {
+                    // If enough time has passed, start walking in a random direction
+                    this.lastBaddieGDirection2 = Phaser.Math.RND.pick([
+                        "right",
+                        //"left",
+                    ]);
+                    this.lastDirectionChangeTime2 = this.time.now; // Update the last direction change time
+                }
+            }
+        }
+        if (this.baddieKnife) {
+            if (
+                this.lastBaddieKDirection === "right" ||
+                this.lastBaddieKDirection === "left"
+            ) {
+                // If currently walking, continue in the same direction
+                if (this.lastBaddieKDirection === "right") {
+                    this.baddieKnife.setVelocityX(160);
+                    this.baddieKnife.anims.play("right2", true);
+                } else {
+                    this.baddieKnife.setVelocityX(-160);
+                    this.baddieKnife.anims.play("left2", true);
+                }
+                // Check if it's time to change direction
+                if (
+                    this.time.now - this.lastDirectionChangeTime3 >
+                    walkDurationk
+                ) {
+                    // If enough time has passed, change direction
+                    if (this.lastBaddieKDirection === "right") {
+                        this.lastBaddieKDirection = "left";
+                    } else {
+                        this.lastBaddieKDirection = "right";
+                    }
+                    this.lastDirectionChangeTime3 = this.time.now; // Update the last direction change time
+                }
+                //this.lastDirectionChangeTime = this.time.now; // Update the last direction change time
+            } else {
+                // If standing still, play the turn animation
+                this.baddieKnife.setVelocityX(0);
+                this.baddieKnife.anims.play("turn2", true);
+
+                // Check if it's time to start walking or continue standing still
+                if (
+                    this.time.now - this.lastDirectionChangeTime3 >
+                    standStillDuration
+                ) {
+                    // If enough time has passed, start walking in a random direction
+                    this.lastBaddieKDirection = Phaser.Math.RND.pick([
+                        "right",
+                        //"left",
+                    ]);
+                    this.lastDirectionChangeTime3 = this.time.now; // Update the last direction change time
+                }
             }
         }
     }

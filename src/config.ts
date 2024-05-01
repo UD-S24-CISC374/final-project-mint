@@ -8,10 +8,11 @@ import LoadoutSceneGunMagazine from "./scenes/loadoutSceneGunMagazine";
 import LoadoutSceneGunScope from "./scenes/loadoutSceneGunScope";
 import LoadoutSceneClothes from "./scenes/loadoutSceneClothes";
 import LoadoutSceneClothesShirt from "./scenes/loadoutSceneClothesShirt";
-import LoadoutSceneClothesPants from "./scenes/loadoutSceneClothesPants";
+import LoadoutSceneClothesShoes from "./scenes/loadoutSceneClothesShoes";
 import levelOne from "./scenes/levelOne";
 import endScene from "./scenes/endScene";
 import instructions from "./scenes/instructions";
+import LoadoutExample from "./scenes/loadoutExample";
 //import levelOnetry from "./scenes/level1";
 
 const DEFAULT_WIDTH = 4096;
@@ -42,11 +43,12 @@ export const CONFIG = {
         LoadoutSceneGunMagazine,
         LoadoutSceneGunScope,
         LoadoutSceneClothes,
-        LoadoutSceneClothesPants,
+        LoadoutSceneClothesShoes,
         LoadoutSceneClothesShirt,
         levelOne,
         endScene,
         instructions,
+        LoadoutExample,
     ],
     physics: {
         default: "arcade",
