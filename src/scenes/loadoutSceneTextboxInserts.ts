@@ -41,18 +41,27 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             console.log("Text input updated to:", newValue);
             this.aOT = newValue;
             if (
-                newValue == "Close:Scope;" ||
-                newValue == "Close: Scope;" ||
-                newValue == "Close :Scope;" ||
-                newValue == "Eagle:Scope;" ||
-                newValue == "Eagle: Scope;" ||
-                newValue == "Eagle :Scope;" ||
-                newValue == "Speed:Magazine;" ||
-                newValue == "Speed: Magazine;" ||
-                newValue == "Speed :Magazine;" ||
-                newValue == "Drum:Magazine;" ||
-                newValue == "Drum: Magazine;" ||
-                newValue == "Drum :Magazine;"
+                newValue == "none:scope;" ||
+                newValue == "none: scope;" ||
+                newValue == "none :scope;" ||
+                newValue == "close:scope;" ||
+                newValue == "close: scope;" ||
+                newValue == "close :scope;" ||
+                newValue == "eagle:scope;" ||
+                newValue == "eagle: scope;" ||
+                newValue == "eagle :scope;" ||
+                newValue == "none:magazine;" ||
+                newValue == "none: magazine;" ||
+                newValue == "none :magazine;" ||
+                newValue == "speed:magazine;" ||
+                newValue == "speed: magazine;" ||
+                newValue == "speed :magazine;" ||
+                newValue == "drum:magazine;" ||
+                newValue == "drum: magazine;" ||
+                newValue == "drum :magazine;" ||
+                newValue == "minigun:magazine;" ||
+                newValue == "minigun: magazine;" ||
+                newValue == "minigun :magazine;"
             ) {
                 console.log("Set continue to true");
                 this.attrOneTopDef = true;
@@ -64,18 +73,27 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             console.log("Text input updated to:", newValue);
             this.aOB = newValue;
             if (
-                newValue == "Close:Scope;" ||
-                newValue == "Close: Scope;" ||
-                newValue == "Close :Scope;" ||
-                newValue == "Eagle:Scope;" ||
-                newValue == "Eagle: Scope;" ||
-                newValue == "Eagle :Scope;" ||
-                newValue == "Speed:Magazine;" ||
-                newValue == "Speed: Magazine;" ||
-                newValue == "Speed :Magazine;" ||
-                newValue == "Drum:Magazine;" ||
-                newValue == "Drum: Magazine;" ||
-                newValue == "Drum :Magazine;"
+                newValue == "none:scope;" ||
+                newValue == "none: scope;" ||
+                newValue == "none :scope;" ||
+                newValue == "close:scope;" ||
+                newValue == "close: scope;" ||
+                newValue == "close :scope;" ||
+                newValue == "eagle:scope;" ||
+                newValue == "eagle: scope;" ||
+                newValue == "eagle :scope;" ||
+                newValue == "none:magazine;" ||
+                newValue == "none: magazine;" ||
+                newValue == "none :magazine;" ||
+                newValue == "speed:magazine;" ||
+                newValue == "speed: magazine;" ||
+                newValue == "speed :magazine;" ||
+                newValue == "drum:magazine;" ||
+                newValue == "drum: magazine;" ||
+                newValue == "drum :magazine;" ||
+                newValue == "minigun:magazine;" ||
+                newValue == "minigun: magazine;" ||
+                newValue == "minigun :magazine;"
             ) {
                 console.log("Set continue to true");
                 this.attrOneBotDef = true;
@@ -98,18 +116,24 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             console.log("Text input updated to:", newValue);
             this.aTT = newValue;
             if (
-                newValue == "Poncho:Shirt;" ||
-                newValue == "Poncho: Shirt;" ||
-                newValue == "Poncho :Shirt;" ||
-                newValue == "Vest:Shirt;" ||
-                newValue == "Vest: Shirt;" ||
-                newValue == "Vest :Shirt;" ||
-                newValue == "Overalls:Pants;" ||
-                newValue == "Overalls: Pants;" ||
-                newValue == "Overalls :Pants;" ||
-                newValue == "Cargo:Pants;" ||
-                newValue == "Cargo: Pants;" ||
-                newValue == "Cargo :Pants;"
+                newValue == "none:shirt;" ||
+                newValue == "none: shirt;" ||
+                newValue == "none :shirt;" ||
+                newValue == "poncho:shirt;" ||
+                newValue == "poncho: shirt;" ||
+                newValue == "poncho :shirt;" ||
+                newValue == "vest:shirt;" ||
+                newValue == "vest: shirt;" ||
+                newValue == "vest :shirt;" ||
+                newValue == "none:shoes;" ||
+                newValue == "none: shoes;" ||
+                newValue == "none :shoes;" ||
+                newValue == "springs:shoes;" ||
+                newValue == "springs: shoes;" ||
+                newValue == "springs :shoes;" ||
+                newValue == "wheels:shoes;" ||
+                newValue == "wheels: shoes;" ||
+                newValue == "wheels :shoes;"
             ) {
                 console.log("Set continue to true");
                 this.attrTwoTopDef = true;
@@ -121,18 +145,24 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             console.log("Text input updated to:", newValue);
             this.aTB = newValue;
             if (
-                newValue == "Poncho:Shirt;" ||
-                newValue == "Poncho: Shirt;" ||
-                newValue == "Poncho :Shirt;" ||
-                newValue == "Vest:Shirt;" ||
-                newValue == "Vest: Shirt;" ||
-                newValue == "Vest :Shirt;" ||
-                newValue == "Overalls:Pants;" ||
-                newValue == "Overalls: Pants;" ||
-                newValue == "Overalls :Pants;" ||
-                newValue == "Cargo:Pants;" ||
-                newValue == "Cargo: Pants;" ||
-                newValue == "Cargo :Pants;"
+                newValue == "none:shirt;" ||
+                newValue == "none: shirt;" ||
+                newValue == "none :shirt;" ||
+                newValue == "poncho:shirt;" ||
+                newValue == "poncho: shirt;" ||
+                newValue == "poncho :shirt;" ||
+                newValue == "vest:shirt;" ||
+                newValue == "vest: shirt;" ||
+                newValue == "vest :shirt;" ||
+                newValue == "none:shoes;" ||
+                newValue == "none: shoes;" ||
+                newValue == "none :shoes;" ||
+                newValue == "springs:shoes;" ||
+                newValue == "springs: shoes;" ||
+                newValue == "springs :shoes;" ||
+                newValue == "wheels:shoes;" ||
+                newValue == "wheels: shoes;" ||
+                newValue == "wheels :shoes;"
             ) {
                 console.log("Set continue to true");
                 this.attrTwoBotDef = true;
@@ -487,17 +517,19 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
         });
 
         // dev button to skip to level
-        this.createClickableTextAndSize(
-            0,
-            0,
-            "50px",
-            "cheat (devs only)",
-            "#ffffff",
-            "#ff0000",
-            () => {
-                this.scene.start("levelOne");
-            }
-        );
+        if (this.alpha) {
+            this.createClickableTextAndSize(
+                0,
+                0,
+                "50px",
+                "cheat (devs only)",
+                "#ffffff",
+                "#ff0000",
+                () => {
+                    this.scene.start("levelOne");
+                }
+            );
+        }
 
         let graphics = this.add.graphics();
         graphics.fillStyle(0x000000, 1);
