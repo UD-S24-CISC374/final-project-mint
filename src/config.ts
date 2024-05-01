@@ -13,6 +13,9 @@ import levelOne from "./scenes/levelOne";
 import endScene from "./scenes/endScene";
 import instructions from "./scenes/instructions";
 import LoadoutExample from "./scenes/loadoutExample";
+import levelTwo from "./scenes/levelTwo";
+import levelScreen from "./scenes/levelScreen";
+
 //import levelOnetry from "./scenes/level1";
 
 const DEFAULT_WIDTH = 4096;
@@ -49,6 +52,8 @@ export const CONFIG = {
         endScene,
         instructions,
         LoadoutExample,
+        levelTwo,
+        levelScreen,
     ],
     physics: {
         default: "arcade",

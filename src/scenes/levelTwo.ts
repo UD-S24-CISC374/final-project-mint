@@ -60,7 +60,7 @@ class Bullets extends Phaser.Physics.Arcade.Group {
     }
 }
 
-export default class levelOne extends Phaser.Scene {
+export default class levelTwo extends Phaser.Scene {
     //fpsText: FpsText;
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
     private player?: Phaser.Physics.Arcade.Sprite;
@@ -119,7 +119,7 @@ export default class levelOne extends Phaser.Scene {
     private drum: boolean;
 
     constructor() {
-        super({ key: "levelOne" });
+        super({ key: "levelTwo" });
     }
 
     create() {
@@ -385,27 +385,27 @@ export default class levelOne extends Phaser.Scene {
 
         // ---------------------------------------------------------------------------------------
         // @Sibyl here is where I added the example I was talking about
-        const item1 = this.createItem(600, 675, "wheels_item");
+        const item1 = this.createItem(600, 675, "springs_item");
         this.physics.add.collider(
             this.player,
             item1,
             (player, item) => {
-                this.handleItemCollect(item as Phaser.GameObjects.Image, 4);
+                this.handleItemCollect(item as Phaser.GameObjects.Image, 3);
             },
             undefined,
             this
         );
-        const item2 = this.createItem(3400, 775, "close_item");
+        const item2 = this.createItem(3400, 775, "eagle_item");
         this.physics.add.collider(
             this.player,
             item2,
             (player, item) => {
-                this.handleItemCollect(item as Phaser.GameObjects.Image, 5);
+                this.handleItemCollect(item as Phaser.GameObjects.Image, 6);
             },
             undefined,
             this
         );
-        const item3 = this.createItem(2000, 825, "poncho_item");
+        const item3 = this.createItem(2000, 825, "vest_item");
         this.physics.add.collider(
             this.player,
             item3,

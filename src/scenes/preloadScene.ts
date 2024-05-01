@@ -194,6 +194,10 @@ export default class PreloadScene extends Phaser.Scene {
         this.game.registry.set("speedUnlocked", false);
         this.game.registry.set("drumUnlocked", false);
 
+        //Global variables indecating whether a level is unlocked or not
+        this.game.registry.set("levelTwoUnlocked", false);
+        this.game.registry.set("levelThreeUnlocked", false);
+
         // Start First Scene
         this.scene.stop("LoadoutSceneTextboxInserts");
         this.scene.start("instructions");
