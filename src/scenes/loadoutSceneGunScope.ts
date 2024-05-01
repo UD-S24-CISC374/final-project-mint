@@ -11,6 +11,9 @@ export default class LoadoutSceneGunScope extends Phaser.Scene {
     create() {
         this.add.image(2048, 857, "LoadoutMenu");
 
+        this.closeUnlocked = this.game.registry.get("closeUnlocked");
+        this.eagleUnlocked = this.game.registry.get("eagleUnlocked");
+
         // Create Menu Textboxes
         this.createClickableText(
             2950,

@@ -434,6 +434,12 @@ export default class levelOne extends Phaser.Scene {
             undefined,
             this
         );*/
+
+        // ---------------------------------------------------------------------------------------
+        // @Sibyl here is where I added the example I was talking about
+        this.createItem(600, 675, "wheels_item");
+        this.createItem(3400, 775, "close_item");
+        // ---------------------------------------------------------------------------------------
     }
 
     private handleHitCheckpoint() {
@@ -529,6 +535,31 @@ export default class levelOne extends Phaser.Scene {
             ) as Phaser.Physics.Arcade.Sprite;
         }
     }*/
+
+    // ----------------------------------------------------------------------------------------------------------
+
+    // ADDED BY JAKE - @Sibyl you can use this function to place each item in the level. I added 1 example already:
+    //        this.createItem(500, 500, "wheels_item")
+    // DO NOT UNCOMMENT THAT ^, that's just an example, see beginning of create for applied example.
+
+    createItem(x: number, y: number, imageName: string) {
+        const item = this.physics.add.image(x, y, imageName);
+
+        // Disable gravity for the item to prevent it from falling
+        item.body.setAllowGravity(false);
+
+        // Correctly setting the tween to oscillate around the initial position
+        this.tweens.add({
+            targets: item,
+            y: { from: y - 10, to: y + 10 }, // Move up and down by 10 pixels around the initial y position
+            yoyo: true, // Make the tween go back and forth
+            repeat: -1, // Repeat forever
+            duration: 1000, // Duration of one full cycle up and back down
+            ease: "Sine.easeInOut", // Smooth easing function for natural movement
+        });
+    }
+
+    // ----------------------------------------------------------------------------------------------------------
 
     update() {
         //this loads cursors so they work

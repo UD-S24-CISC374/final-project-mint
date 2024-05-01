@@ -27,11 +27,43 @@ export default class PreloadScene extends Phaser.Scene {
 
         this.load.image("LoadoutExample", "assets/img/LoadoutExample.png");
 
+        this.load.image(
+            "minigun_item",
+            "assets/img/LevelImg/Items/minigun_item.png"
+        );
+        this.load.image(
+            "speed_item",
+            "assets/img/LevelImg/Items/speed_item.png"
+        );
+        this.load.image("drum_item", "assets/img/LevelImg/Items/drum_item.png");
+        this.load.image(
+            "close_item",
+            "assets/img/LevelImg/Items/close_item.png"
+        );
+        this.load.image(
+            "eagle_item",
+            "assets/img/LevelImg/Items/eagle_item.png"
+        );
+        this.load.image(
+            "poncho_item",
+            "assets/img/LevelImg/Items/poncho_item.png"
+        );
+        this.load.image("vest_item", "assets/img/LevelImg/Items/vest_item.png");
+        this.load.image(
+            "springs_item",
+            "assets/img/LevelImg/Items/springs_item.png"
+        );
+        this.load.image(
+            "wheels_item",
+            "assets/img/LevelImg/Items/wheels_item.png"
+        );
+
         this.load.image("gun_button", "assets/img/buttons/gun/button_gun.png");
         this.load.image(
             "clothes_button",
             "assets/img/buttons/clothes/button_clothes.png"
         );
+
         this.load.image(
             "example_button",
             "assets/img/buttons/button_example.png"
@@ -132,6 +164,35 @@ export default class PreloadScene extends Phaser.Scene {
     }
 
     create() {
+        // Make all global variables to be edited between scenes
+        /* NOTES:
+         * To access these, use:
+         *          this.game.registry.get("variable-name");
+         *
+         * To update these, use:
+         *          this.game.registry.set("variable-name", this.game.registry.get("variable-name") + number)
+         *
+         * OR update with something like this (prob more useful for what we are doing):
+         *         let var = this.game.registry.get("variable-name");
+         *         this.game.registry.set("variable-name", var + number);
+         */
+        this.game.registry.set("speedModifier", 0); // Left - Right movement velocity
+        this.game.registry.set("jumpModifier", 0); // Jump velocity
+        this.game.registry.set("fireRateModifier", 0); // Shots per second
+        this.game.registry.set("reloadModifier", 0); // Reload time in seconds
+
+        // Global variables for Clothes and Gun Unlocks
+        this.game.registry.set("ponchoUnlocked", false);
+        this.game.registry.set("vestUnlocked", false);
+        this.game.registry.set("springsUnlocked", false);
+        this.game.registry.set("wheelsUnlocked", false);
+
+        this.game.registry.set("closeUnlocked", false);
+        this.game.registry.set("eagleUnlocked", false);
+        this.game.registry.set("minigunUnlocked", false);
+        this.game.registry.set("speedUnlocked", false);
+        this.game.registry.set("drumUnlocked", false);
+
         // Start First Scene
         this.scene.stop("LoadoutSceneTextboxInserts");
         this.scene.start("instructions");

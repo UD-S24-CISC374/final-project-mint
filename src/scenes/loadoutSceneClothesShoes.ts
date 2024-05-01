@@ -11,6 +11,9 @@ export default class LoadoutSceneClothesShoes extends Phaser.Scene {
     create() {
         this.add.image(2048, 857, "LoadoutMenu");
 
+        this.springsUnlocked = this.game.registry.get("springsUnlocked");
+        this.wheelsUnlocked = this.game.registry.get("wheelsUnlocked");
+
         // Create Menu Textboxes
         this.createClickableText(
             2950,

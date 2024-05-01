@@ -12,6 +12,10 @@ export default class LoadoutSceneGunMagazine extends Phaser.Scene {
     create() {
         this.add.image(2048, 857, "LoadoutMenu");
 
+        this.speedUnlocked = this.game.registry.get("speedUnlocked");
+        this.drumUnlocked = this.game.registry.get("drumUnlocked");
+        this.minigunUnlocked = this.game.registry.get("minigunUnlocked");
+
         // Create Menu Textboxes
         this.createClickableText(
             2950,

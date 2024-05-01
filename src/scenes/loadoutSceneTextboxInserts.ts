@@ -22,11 +22,46 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
     alpha: boolean = true;
     errFeed: Phaser.GameObjects.Text | null = null;
 
+    ponchoUnlocked: boolean = false;
+    vestUnlocked: boolean = false;
+    springsUnlocked: boolean = false;
+    wheelsUnlocked: boolean = false;
+    closeUnlocked: boolean = false;
+    eagleUnlocked: boolean = false;
+    speedUnlocked: boolean = false;
+    drumUnlocked: boolean = false;
+    minigunUnlocked: boolean = false;
+
     constructor() {
         super({ key: "LoadoutSceneTextboxInserts", active: true });
     }
 
     create() {
+        this.classOneDef = false;
+        this.classTwoDef = false;
+        this.attrOneTopDef = false;
+        this.attrTwoTopDef = false;
+        this.attrOneBotDef = false;
+        this.attrTwoBotDef = false;
+
+        this.cOD = undefined;
+        this.cTD = undefined;
+        this.aOT = undefined;
+        this.aTT = undefined;
+        this.aOB = undefined;
+        this.aTB = undefined;
+
+        // Check status of unlocked items
+        this.ponchoUnlocked = this.game.registry.get("ponchoUnlocked");
+        this.vestUnlocked = this.game.registry.get("vestUnlocked");
+        this.springsUnlocked = this.game.registry.get("springsUnlocked");
+        this.wheelsUnlocked = this.game.registry.get("wheelsUnlocked");
+        this.closeUnlocked = this.game.registry.get("closeUnlocked");
+        this.eagleUnlocked = this.game.registry.get("eagleUnlocked");
+        this.speedUnlocked = this.game.registry.get("speedUnlocked");
+        this.drumUnlocked = this.game.registry.get("drumUnlocked");
+        this.minigunUnlocked = this.game.registry.get("minigunUnlocked");
+
         this.createEditableText(1100, 485, 400, 100, 60, (newValue: string) => {
             console.log("Text input updated to:", newValue);
             this.cOD = newValue;
@@ -44,24 +79,29 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                 newValue == "none:scope;" ||
                 newValue == "none: scope;" ||
                 newValue == "none :scope;" ||
-                newValue == "close:scope;" ||
-                newValue == "close: scope;" ||
-                newValue == "close :scope;" ||
-                newValue == "eagle:scope;" ||
-                newValue == "eagle: scope;" ||
-                newValue == "eagle :scope;" ||
+                ((newValue == "close:scope;" ||
+                    newValue == "close: scope;" ||
+                    newValue == "close :scope;") &&
+                    this.closeUnlocked) ||
+                ((newValue == "eagle:scope;" ||
+                    newValue == "eagle: scope;" ||
+                    newValue == "eagle :scope;") &&
+                    this.eagleUnlocked) ||
                 newValue == "none:magazine;" ||
                 newValue == "none: magazine;" ||
                 newValue == "none :magazine;" ||
-                newValue == "speed:magazine;" ||
-                newValue == "speed: magazine;" ||
-                newValue == "speed :magazine;" ||
-                newValue == "drum:magazine;" ||
-                newValue == "drum: magazine;" ||
-                newValue == "drum :magazine;" ||
-                newValue == "minigun:magazine;" ||
-                newValue == "minigun: magazine;" ||
-                newValue == "minigun :magazine;"
+                ((newValue == "speed:magazine;" ||
+                    newValue == "speed: magazine;" ||
+                    newValue == "speed :magazine;") &&
+                    this.speedUnlocked) ||
+                ((newValue == "drum:magazine;" ||
+                    newValue == "drum: magazine;" ||
+                    newValue == "drum :magazine;") &&
+                    this.drumUnlocked) ||
+                ((newValue == "minigun:magazine;" ||
+                    newValue == "minigun: magazine;" ||
+                    newValue == "minigun :magazine;") &&
+                    this.minigunUnlocked)
             ) {
                 console.log("Set continue to true");
                 this.attrOneTopDef = true;
@@ -76,24 +116,29 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                 newValue == "none:scope;" ||
                 newValue == "none: scope;" ||
                 newValue == "none :scope;" ||
-                newValue == "close:scope;" ||
-                newValue == "close: scope;" ||
-                newValue == "close :scope;" ||
-                newValue == "eagle:scope;" ||
-                newValue == "eagle: scope;" ||
-                newValue == "eagle :scope;" ||
+                ((newValue == "close:scope;" ||
+                    newValue == "close: scope;" ||
+                    newValue == "close :scope;") &&
+                    this.closeUnlocked) ||
+                ((newValue == "eagle:scope;" ||
+                    newValue == "eagle: scope;" ||
+                    newValue == "eagle :scope;") &&
+                    this.eagleUnlocked) ||
                 newValue == "none:magazine;" ||
                 newValue == "none: magazine;" ||
                 newValue == "none :magazine;" ||
-                newValue == "speed:magazine;" ||
-                newValue == "speed: magazine;" ||
-                newValue == "speed :magazine;" ||
-                newValue == "drum:magazine;" ||
-                newValue == "drum: magazine;" ||
-                newValue == "drum :magazine;" ||
-                newValue == "minigun:magazine;" ||
-                newValue == "minigun: magazine;" ||
-                newValue == "minigun :magazine;"
+                ((newValue == "speed:magazine;" ||
+                    newValue == "speed: magazine;" ||
+                    newValue == "speed :magazine;") &&
+                    this.speedUnlocked) ||
+                ((newValue == "drum:magazine;" ||
+                    newValue == "drum: magazine;" ||
+                    newValue == "drum :magazine;") &&
+                    this.drumUnlocked) ||
+                ((newValue == "minigun:magazine;" ||
+                    newValue == "minigun: magazine;" ||
+                    newValue == "minigun :magazine;") &&
+                    this.minigunUnlocked)
             ) {
                 console.log("Set continue to true");
                 this.attrOneBotDef = true;
@@ -119,21 +164,25 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                 newValue == "none:shirt;" ||
                 newValue == "none: shirt;" ||
                 newValue == "none :shirt;" ||
-                newValue == "poncho:shirt;" ||
-                newValue == "poncho: shirt;" ||
-                newValue == "poncho :shirt;" ||
-                newValue == "vest:shirt;" ||
-                newValue == "vest: shirt;" ||
-                newValue == "vest :shirt;" ||
+                ((newValue == "poncho:shirt;" ||
+                    newValue == "poncho: shirt;" ||
+                    newValue == "poncho :shirt;") &&
+                    this.ponchoUnlocked) ||
+                ((newValue == "vest:shirt;" ||
+                    newValue == "vest: shirt;" ||
+                    newValue == "vest :shirt;") &&
+                    this.vestUnlocked) ||
                 newValue == "none:shoes;" ||
                 newValue == "none: shoes;" ||
                 newValue == "none :shoes;" ||
-                newValue == "springs:shoes;" ||
-                newValue == "springs: shoes;" ||
-                newValue == "springs :shoes;" ||
-                newValue == "wheels:shoes;" ||
-                newValue == "wheels: shoes;" ||
-                newValue == "wheels :shoes;"
+                ((newValue == "springs:shoes;" ||
+                    newValue == "springs: shoes;" ||
+                    newValue == "springs :shoes;") &&
+                    this.springsUnlocked) ||
+                ((newValue == "wheels:shoes;" ||
+                    newValue == "wheels: shoes;" ||
+                    newValue == "wheels :shoes;") &&
+                    this.wheelsUnlocked)
             ) {
                 console.log("Set continue to true");
                 this.attrTwoTopDef = true;
@@ -148,21 +197,25 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                 newValue == "none:shirt;" ||
                 newValue == "none: shirt;" ||
                 newValue == "none :shirt;" ||
-                newValue == "poncho:shirt;" ||
-                newValue == "poncho: shirt;" ||
-                newValue == "poncho :shirt;" ||
-                newValue == "vest:shirt;" ||
-                newValue == "vest: shirt;" ||
-                newValue == "vest :shirt;" ||
+                ((newValue == "poncho:shirt;" ||
+                    newValue == "poncho: shirt;" ||
+                    newValue == "poncho :shirt;") &&
+                    this.ponchoUnlocked) ||
+                ((newValue == "vest:shirt;" ||
+                    newValue == "vest: shirt;" ||
+                    newValue == "vest :shirt;") &&
+                    this.vestUnlocked) ||
                 newValue == "none:shoes;" ||
                 newValue == "none: shoes;" ||
                 newValue == "none :shoes;" ||
-                newValue == "springs:shoes;" ||
-                newValue == "springs: shoes;" ||
-                newValue == "springs :shoes;" ||
-                newValue == "wheels:shoes;" ||
-                newValue == "wheels: shoes;" ||
-                newValue == "wheels :shoes;"
+                ((newValue == "springs:shoes;" ||
+                    newValue == "springs: shoes;" ||
+                    newValue == "springs :shoes;") &&
+                    this.springsUnlocked) ||
+                ((newValue == "wheels:shoes;" ||
+                    newValue == "wheels: shoes;" ||
+                    newValue == "wheels :shoes;") &&
+                    this.wheelsUnlocked)
             ) {
                 console.log("Set continue to true");
                 this.attrTwoBotDef = true;
