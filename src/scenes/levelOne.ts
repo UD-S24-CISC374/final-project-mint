@@ -67,7 +67,9 @@ export default class levelOne extends Phaser.Scene {
     private badBullets2?: Bullets;
     private baddiKnife?: Phaser.Physics.Arcade.Sprite;
     private lastBaddieKDirection: string | null = null;
-    private lastDirectionChangeTime: number; //= this.time.now;
+    private lastDirectionChangeTime1: number;
+    private lastDirectionChangeTime2: number;
+    private lastDirectionChangeTime3: number;
 
     private lives: number;
 
@@ -88,7 +90,9 @@ export default class levelOne extends Phaser.Scene {
     }
 
     create() {
-        this.lastDirectionChangeTime = this.time.now;
+        this.lastDirectionChangeTime1 = this.time.now;
+        this.lastDirectionChangeTime2 = this.time.now;
+        this.lastDirectionChangeTime3 = this.time.now;
         this.add.image(2048, 857, "levelBackg");
         //this.add.image(3072, 857, "levelBackg");
         this.platforms = this.physics.add.staticGroup();
@@ -169,13 +173,23 @@ export default class levelOne extends Phaser.Scene {
             color: "#000",
         });*/
 
-        this.bullets = new Bullets(this.physics.world, this, 1000); //this is what changes the fire speed
-        //creating badies
+        this.bullets = new Bullets(this.physics.world, this, 1000); //this is what changes the fire speed\
+        this.physics.add.overlap(this.bullets!, this.platforms!, (bullet) => {
+            bullet.destroy();
+        });
+        //creating 2 gun badies
         this.baddieGun1 = this.physics.add.sprite(2000, 100, "baddieGun");
         this.physics.add.collider(this.baddieGun1, this.platforms);
         this.baddieGun1.setBounce(0.2);
         this.baddieGun1.setCollideWorldBounds(true);
         this.badBullets1 = new Bullets(this.physics.world, this, 500); //this is what changes the fire speed
+        this.physics.add.overlap(
+            this.badBullets1!,
+            this.platforms!,
+            (bullet) => {
+                bullet.destroy();
+            }
+        );
         this.baddieGunAlive1 = true;
 
         this.baddieGun2 = this.physics.add.sprite(1000, 100, "baddieGun");
@@ -183,6 +197,13 @@ export default class levelOne extends Phaser.Scene {
         this.baddieGun2.setBounce(0.2);
         this.baddieGun2.setCollideWorldBounds(true);
         this.badBullets2 = new Bullets(this.physics.world, this, 500); //this is what changes the fire speed
+        this.physics.add.overlap(
+            this.badBullets1!,
+            this.platforms!,
+            (bullet) => {
+                bullet.destroy();
+            }
+        );
         this.baddieGunAlive2 = true;
 
         this.anims.create({
@@ -245,6 +266,59 @@ export default class levelOne extends Phaser.Scene {
         this.physics.add.collider(
             this.player,
             this.baddieGun2,
+            this.handleHitBaddie,
+            undefined,
+            this
+        );
+
+        //Knife baddie
+        this.baddieKnife = this.physics.add.sprite(1500, 100, "baddieKnife");
+        this.physics.add.collider(this.baddieKnife, this.platforms);
+        this.baddieKnife.setBounce(0.2);
+        this.baddieKnife.setCollideWorldBounds(true);
+        //this.baddieKnife1 = true;
+
+        this.anims.create({
+            key: "left2",
+            frames: this.anims.generateFrameNumbers("baddieKnife", {
+                start: 6,
+                end: 0,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        this.anims.create({
+            key: "turn2",
+            frames: [{ key: "baddieKnife", frame: 7 }],
+            frameRate: 20,
+        });
+
+        this.anims.create({
+            key: "right2",
+            frames: this.anims.generateFrameNumbers("baddieKnife", {
+                start: 8,
+                end: 14,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        this.physics.add.overlap(
+            this.bullets!,
+            this.baddieKnife!,
+            (bullet, baddieKnife) => {
+                this.handleKillBaddie(
+                    bullet as Bullet,
+                    baddieKnife as Phaser.Physics.Arcade.Sprite
+                );
+            },
+            undefined,
+            this
+        );
+        this.physics.add.collider(
+            this.player,
+            this.baddieKnife,
             this.handleHitBaddie,
             undefined,
             this
@@ -350,10 +424,6 @@ export default class levelOne extends Phaser.Scene {
             undefined,
             this
         );
-
-        this.physics.add.overlap(this.bullets!, this.platforms!, (bullet) => {
-            bullet.destroy();
-        });
 
         /*this.physics.add.overlap(
             this.player!,
@@ -496,6 +566,7 @@ export default class levelOne extends Phaser.Scene {
 
         //This is having the baddies move left and right
         const walkDuration = 1500; // Duration for walking in one direction (in milliseconds)
+        const walkDurationk = 3000; // Duration for walking in one direction (in milliseconds)
         const standStillDuration = 500; // Duration for standing still (in milliseconds)
         if (this.baddieGun1) {
             if (
@@ -525,7 +596,7 @@ export default class levelOne extends Phaser.Scene {
                 }
                 // Check if it's time to change direction
                 if (
-                    this.time.now - this.lastDirectionChangeTime >
+                    this.time.now - this.lastDirectionChangeTime1 >
                     walkDuration
                 ) {
                     // If enough time has passed, change direction
@@ -534,7 +605,7 @@ export default class levelOne extends Phaser.Scene {
                     } else {
                         this.lastBaddieGDirection1 = "right";
                     }
-                    this.lastDirectionChangeTime = this.time.now; // Update the last direction change time
+                    this.lastDirectionChangeTime1 = this.time.now; // Update the last direction change time
                 }
                 //this.lastDirectionChangeTime = this.time.now; // Update the last direction change time
             } else {
@@ -544,7 +615,7 @@ export default class levelOne extends Phaser.Scene {
 
                 // Check if it's time to start walking or continue standing still
                 if (
-                    this.time.now - this.lastDirectionChangeTime >
+                    this.time.now - this.lastDirectionChangeTime1 >
                     standStillDuration
                 ) {
                     // If enough time has passed, start walking in a random direction
@@ -552,7 +623,7 @@ export default class levelOne extends Phaser.Scene {
                         "right",
                         "left",
                     ]);
-                    this.lastDirectionChangeTime = this.time.now; // Update the last direction change time
+                    this.lastDirectionChangeTime1 = this.time.now; // Update the last direction change time
                 }
             }
         }
@@ -584,7 +655,7 @@ export default class levelOne extends Phaser.Scene {
                 }
                 // Check if it's time to change direction
                 if (
-                    this.time.now - this.lastDirectionChangeTime >
+                    this.time.now - this.lastDirectionChangeTime2 >
                     walkDuration
                 ) {
                     // If enough time has passed, change direction
@@ -593,7 +664,7 @@ export default class levelOne extends Phaser.Scene {
                     } else {
                         this.lastBaddieGDirection2 = "right";
                     }
-                    this.lastDirectionChangeTime = this.time.now; // Update the last direction change time
+                    this.lastDirectionChangeTime2 = this.time.now; // Update the last direction change time
                 }
                 //this.lastDirectionChangeTime = this.time.now; // Update the last direction change time
             } else {
@@ -603,7 +674,7 @@ export default class levelOne extends Phaser.Scene {
 
                 // Check if it's time to start walking or continue standing still
                 if (
-                    this.time.now - this.lastDirectionChangeTime >
+                    this.time.now - this.lastDirectionChangeTime2 >
                     standStillDuration
                 ) {
                     // If enough time has passed, start walking in a random direction
@@ -611,7 +682,53 @@ export default class levelOne extends Phaser.Scene {
                         "right",
                         //"left",
                     ]);
-                    this.lastDirectionChangeTime = this.time.now; // Update the last direction change time
+                    this.lastDirectionChangeTime2 = this.time.now; // Update the last direction change time
+                }
+            }
+        }
+        if (this.baddieKnife) {
+            if (
+                this.lastBaddieKDirection === "right" ||
+                this.lastBaddieKDirection === "left"
+            ) {
+                // If currently walking, continue in the same direction
+                if (this.lastBaddieKDirection === "right") {
+                    this.baddieKnife.setVelocityX(160);
+                    this.baddieKnife.anims.play("right2", true);
+                } else {
+                    this.baddieKnife.setVelocityX(-160);
+                    this.baddieKnife.anims.play("left2", true);
+                }
+                // Check if it's time to change direction
+                if (
+                    this.time.now - this.lastDirectionChangeTime3 >
+                    walkDurationk
+                ) {
+                    // If enough time has passed, change direction
+                    if (this.lastBaddieKDirection === "right") {
+                        this.lastBaddieKDirection = "left";
+                    } else {
+                        this.lastBaddieKDirection = "right";
+                    }
+                    this.lastDirectionChangeTime3 = this.time.now; // Update the last direction change time
+                }
+                //this.lastDirectionChangeTime = this.time.now; // Update the last direction change time
+            } else {
+                // If standing still, play the turn animation
+                this.baddieKnife.setVelocityX(0);
+                this.baddieKnife.anims.play("turn2", true);
+
+                // Check if it's time to start walking or continue standing still
+                if (
+                    this.time.now - this.lastDirectionChangeTime3 >
+                    standStillDuration
+                ) {
+                    // If enough time has passed, start walking in a random direction
+                    this.lastBaddieKDirection = Phaser.Math.RND.pick([
+                        "right",
+                        //"left",
+                    ]);
+                    this.lastDirectionChangeTime3 = this.time.now; // Update the last direction change time
                 }
             }
         }
