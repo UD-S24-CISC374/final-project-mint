@@ -5,6 +5,9 @@ export default class LoadoutSceneClothesShirt extends Phaser.Scene {
         super({ key: "LoadoutSceneClothesShirt" });
     }
 
+    ponchoUnlocked: boolean = false;
+    vestUnlocked: boolean = false;
+
     create() {
         this.add.image(2048, 857, "LoadoutMenu");
 
@@ -13,66 +16,52 @@ export default class LoadoutSceneClothesShirt extends Phaser.Scene {
             2950,
             250,
             "Shirt ATTRIBUTES:",
-            "#ff0000",
+            "#BB00BB",
             "#00000000",
             () => {}
         );
 
-        this.createClickableText(
-            3150,
-            450,
-            "- Poncho",
-            "#ff0000",
-            "#00000000",
-            () => {}
-        );
+        this.createClickableImage(3350, 500, "none_button", false, () => {});
 
-        this.createClickableText(
-            3150,
-            650,
-            "- Vest",
-            "#ff0000",
-            "#00000000",
-            () => {}
-        );
+        if (this.ponchoUnlocked) {
+            this.createClickableImage(
+                3350,
+                700,
+                "poncho_button",
+                false,
+                () => {}
+            );
+        } else {
+            this.createClickableImage(
+                3350,
+                700,
+                "locked_button",
+                false,
+                () => {}
+            );
+        }
 
-        this.createClickableText(
-            3150,
-            850,
-            "- LOCKED",
-            "#ff0000",
-            "#00000000",
-            () => {}
-        );
+        if (this.vestUnlocked) {
+            this.createClickableImage(
+                3350,
+                900,
+                "vest_button",
+                false,
+                () => {}
+            );
+        } else {
+            this.createClickableImage(
+                3350,
+                900,
+                "locked_button",
+                false,
+                () => {}
+            );
+        }
 
-        this.createClickableText(
-            3150,
-            1050,
-            "- LOCKED",
-            "#ff0000",
-            "#00000000",
-            () => {}
-        );
-
-        this.createClickableText(
-            3150,
-            1250,
-            "- LOCKED",
-            "#ff0000",
-            "#00000000",
-            () => {}
-        );
-
-        this.createClickableText(
-            2950,
-            1450,
-            "GO BACK",
-            "#ffffff",
-            "#654321",
-            () => {
-                this.scene.start("LoadoutSceneClothes");
-            }
-        );
+        this.createClickableImage(3150, 1300, "go_back_button", true, () => {
+            this.scene.start("LoadoutSceneClothes");
+        });
     }
 
     createClickableText(
@@ -94,6 +83,40 @@ export default class LoadoutSceneClothesShirt extends Phaser.Scene {
 
         const textObject = this.add.text(x, y, text, style).setInteractive();
         textObject.on("pointerdown", onClick);
+    }
+
+    createClickableImage(
+        x: number,
+        y: number,
+        imageName: string,
+        goBack: boolean,
+        onClick: () => void
+    ) {
+        const button = this.add.image(x, y, imageName).setInteractive();
+
+        button.setScale(2.5);
+
+        if (goBack) {
+            button.on("pointerover", () => {
+                this.tweens.add({
+                    targets: button,
+                    scale: { from: 2.5, to: 2.75 },
+                    duration: 200,
+                    ease: "Linear",
+                });
+            });
+
+            button.on("pointerout", () => {
+                this.tweens.add({
+                    targets: button,
+                    scale: { from: 2.75, to: 2.5 },
+                    duration: 200,
+                    ease: "Linear",
+                });
+            });
+        }
+
+        button.on("pointerdown", onClick);
     }
 
     update() {

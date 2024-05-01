@@ -163,338 +163,324 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             this.textInput.focus();
         });
 
-        this.createClickableTextAndSize(
-            1565,
-            1450,
-            "100px",
-            "SUBMIT CODE",
-            "#000000",
-            "#00ff00",
-            () => {
-                // Conditionals for individual boxes
+        this.createClickableImage(1950, 1500, "submit_button", () => {
+            // Conditionals for individual boxes
 
-                // ********************************** WEAPON CLASS **********************************
-                if (!this.classOneDef) {
-                    this.errFeed?.destroy();
-                    if (!this.cOD) {
-                        this.errFeed = this.add.text(
-                            425,
-                            1450,
-                            `Cannot leave left CLASS field blank`,
-                            {
-                                font: "45px Arial",
-                                color: "#ffffff",
-                            }
-                        );
-                    } else if (this.cOD == "Clothes") {
-                        this.errFeed = this.add.text(
-                            425,
-                            1450,
-                            `Left CLASS definition must be your weapon,\nnot your apparel`,
-                            {
-                                font: "45px Arial",
-                                color: "#ffffff",
-                            }
-                        );
-                    } else {
-                        this.errFeed = this.add.text(
-                            425,
-                            1450,
-                            `Invalid class name: ${this.cOD}`,
-                            {
-                                font: "45px Arial",
-                                color: "#ffffff",
-                            }
-                        );
-                    }
-                } else if (!this.attrOneTopDef) {
-                    this.errFeed?.destroy();
-                    if (!this.aOT) {
-                        this.errFeed = this.add.text(
-                            425,
-                            1450,
-                            `Cannot leave Gun variable\n"ATTRIBUTE:TYPE;" field blank`,
-                            {
-                                font: "45px Arial",
-                                color: "#ffffff",
-                            }
-                        );
-                    } else if (!this.aOT.includes(":")) {
-                        this.errFeed = this.add.text(
-                            425,
-                            1450,
-                            `Missing colon in "${this.aOT}"\nto distinguish ATTRIBUTE from TYPE`,
-                            {
-                                font: "45px Arial",
-                                color: "#ffffff",
-                            }
-                        );
-                    } else if (this.aOT.charAt(this.aOT.length - 1) != ";") {
-                        this.errFeed = this.add.text(
-                            425,
-                            1450,
-                            `Missing semi-colon after "${this.aOT}"`,
-                            {
-                                font: "45px Arial",
-                                color: "#ffffff",
-                            }
-                        );
-                    } else {
-                        this.errFeed = this.add.text(
-                            425,
-                            1450,
-                            `Invalid Gun variable: ${this.aOT.substring(
-                                0,
-                                this.aOT.length - 1
-                            )}\n\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Gun" class and are\nof the format ATTRIBUTE:TYPE;`,
-                            {
-                                font: "45px Arial",
-                                color: "#ffffff",
-                            }
-                        );
-                    }
-                } else if (!this.attrOneBotDef) {
-                    this.errFeed?.destroy();
-                    if (!this.aOB) {
-                        this.errFeed = this.add.text(
-                            425,
-                            1450,
-                            `Cannot leave Gun variable\n"ATTRIBUTE:TYPE;" field blank`,
-                            {
-                                font: "45px Arial",
-                                color: "#ffffff",
-                            }
-                        );
-                    } else if (!this.aOB.includes(":")) {
-                        this.errFeed = this.add.text(
-                            425,
-                            1450,
-                            `Missing colon in "${this.aOB}"\nto distinguish ATTRIBUTE from TYPE`,
-                            {
-                                font: "45px Arial",
-                                color: "#ffffff",
-                            }
-                        );
-                    } else if (this.aOB.charAt(this.aOB.length - 1) != ";") {
-                        this.errFeed = this.add.text(
-                            425,
-                            1450,
-                            `Missing semi-colon after "${this.aOB}"`,
-                            {
-                                font: "45px Arial",
-                                color: "#ffffff",
-                            }
-                        );
-                    } else {
-                        this.errFeed = this.add.text(
-                            425,
-                            1450,
-                            `Invalid Gun variable: ${this.aOB.substring(
-                                0,
-                                this.aOB.length - 1
-                            )}\n\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Gun" class and are\nof the format "ATTRIBUTE:TYPE;"`,
-                            {
-                                font: "45px Arial",
-                                color: "#ffffff",
-                            }
-                        );
-                    }
-                } else if (
-                    this.aOT?.substring(
+            // ********************************** WEAPON CLASS **********************************
+            if (!this.classOneDef) {
+                this.errFeed?.destroy();
+                if (!this.cOD) {
+                    this.errFeed = this.add.text(
+                        425,
+                        1450,
+                        `Cannot leave left CLASS field blank`,
+                        {
+                            font: "45px Arial",
+                            color: "#ffffff",
+                        }
+                    );
+                } else if (this.cOD == "Clothes") {
+                    this.errFeed = this.add.text(
+                        425,
+                        1450,
+                        `Left CLASS definition must be your weapon,\nnot your apparel`,
+                        {
+                            font: "45px Arial",
+                            color: "#ffffff",
+                        }
+                    );
+                } else {
+                    this.errFeed = this.add.text(
+                        425,
+                        1450,
+                        `Invalid class name: ${this.cOD}`,
+                        {
+                            font: "45px Arial",
+                            color: "#ffffff",
+                        }
+                    );
+                }
+            } else if (!this.attrOneTopDef) {
+                this.errFeed?.destroy();
+                if (!this.aOT) {
+                    this.errFeed = this.add.text(
+                        425,
+                        1450,
+                        `Cannot leave Gun variable\n"ATTRIBUTE:TYPE;" field blank`,
+                        {
+                            font: "45px Arial",
+                            color: "#ffffff",
+                        }
+                    );
+                } else if (!this.aOT.includes(":")) {
+                    this.errFeed = this.add.text(
+                        425,
+                        1450,
+                        `Missing colon in "${this.aOT}"\nto distinguish ATTRIBUTE from TYPE`,
+                        {
+                            font: "45px Arial",
+                            color: "#ffffff",
+                        }
+                    );
+                } else if (this.aOT.charAt(this.aOT.length - 1) != ";") {
+                    this.errFeed = this.add.text(
+                        425,
+                        1450,
+                        `Missing semi-colon after "${this.aOT}"`,
+                        {
+                            font: "45px Arial",
+                            color: "#ffffff",
+                        }
+                    );
+                } else {
+                    this.errFeed = this.add.text(
+                        425,
+                        1450,
+                        `Invalid Gun variable: ${this.aOT.substring(
+                            0,
+                            this.aOT.length - 1
+                        )}\n\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Gun" class and are\nof the format ATTRIBUTE:TYPE;`,
+                        {
+                            font: "45px Arial",
+                            color: "#ffffff",
+                        }
+                    );
+                }
+            } else if (!this.attrOneBotDef) {
+                this.errFeed?.destroy();
+                if (!this.aOB) {
+                    this.errFeed = this.add.text(
+                        425,
+                        1450,
+                        `Cannot leave Gun variable\n"ATTRIBUTE:TYPE;" field blank`,
+                        {
+                            font: "45px Arial",
+                            color: "#ffffff",
+                        }
+                    );
+                } else if (!this.aOB.includes(":")) {
+                    this.errFeed = this.add.text(
+                        425,
+                        1450,
+                        `Missing colon in "${this.aOB}"\nto distinguish ATTRIBUTE from TYPE`,
+                        {
+                            font: "45px Arial",
+                            color: "#ffffff",
+                        }
+                    );
+                } else if (this.aOB.charAt(this.aOB.length - 1) != ";") {
+                    this.errFeed = this.add.text(
+                        425,
+                        1450,
+                        `Missing semi-colon after "${this.aOB}"`,
+                        {
+                            font: "45px Arial",
+                            color: "#ffffff",
+                        }
+                    );
+                } else {
+                    this.errFeed = this.add.text(
+                        425,
+                        1450,
+                        `Invalid Gun variable: ${this.aOB.substring(
+                            0,
+                            this.aOB.length - 1
+                        )}\n\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Gun" class and are\nof the format "ATTRIBUTE:TYPE;"`,
+                        {
+                            font: "45px Arial",
+                            color: "#ffffff",
+                        }
+                    );
+                }
+            } else if (
+                this.aOT?.substring(
+                    this.aOT.indexOf(":"),
+                    this.aOT.length - 1
+                ) ==
+                this.aOB?.substring(this.aOB.indexOf(":"), this.aOB.length - 1)
+            ) {
+                this.errFeed?.destroy();
+                this.errFeed = this.add.text(
+                    425,
+                    1450,
+                    `Cannot apply multiple attributes\n of type "${this.aOT?.substring(
                         this.aOT.indexOf(":"),
                         this.aOT.length - 1
-                    ) ==
-                    this.aOB?.substring(
-                        this.aOB.indexOf(":"),
-                        this.aOB.length - 1
-                    )
-                ) {
-                    this.errFeed?.destroy();
+                    )}"`,
+                    {
+                        font: "45px Arial",
+                        color: "#ffffff",
+                    }
+                );
+            }
+
+            // ********************************** APPAREL CLASS **********************************
+            else if (!this.classTwoDef) {
+                this.errFeed?.destroy();
+                if (!this.cTD) {
                     this.errFeed = this.add.text(
                         425,
                         1450,
-                        `Cannot apply multiple attributes\n of type "${this.aOT?.substring(
-                            this.aOT.indexOf(":"),
-                            this.aOT.length - 1
-                        )}"`,
+                        `Cannot leave right CLASS field blank`,
+                        {
+                            font: "45px Arial",
+                            color: "#ffffff",
+                        }
+                    );
+                } else if (this.cTD == "Gun") {
+                    this.errFeed = this.add.text(
+                        425,
+                        1450,
+                        `Right CLASS definition must be your apparel,\nnot your weapon`,
+                        {
+                            font: "45px Arial",
+                            color: "#ffffff",
+                        }
+                    );
+                } else {
+                    this.errFeed = this.add.text(
+                        425,
+                        1450,
+                        `Invalid class name: ${this.cTD}`,
                         {
                             font: "45px Arial",
                             color: "#ffffff",
                         }
                     );
                 }
-
-                // ********************************** APPAREL CLASS **********************************
-                else if (!this.classTwoDef) {
-                    this.errFeed?.destroy();
-                    if (!this.cTD) {
-                        this.errFeed = this.add.text(
-                            425,
-                            1450,
-                            `Cannot leave right CLASS field blank`,
-                            {
-                                font: "45px Arial",
-                                color: "#ffffff",
-                            }
-                        );
-                    } else if (this.cTD == "Gun") {
-                        this.errFeed = this.add.text(
-                            425,
-                            1450,
-                            `Right CLASS definition must be your apparel,\nnot your weapon`,
-                            {
-                                font: "45px Arial",
-                                color: "#ffffff",
-                            }
-                        );
-                    } else {
-                        this.errFeed = this.add.text(
-                            425,
-                            1450,
-                            `Invalid class name: ${this.cTD}`,
-                            {
-                                font: "45px Arial",
-                                color: "#ffffff",
-                            }
-                        );
-                    }
-                } else if (!this.attrTwoTopDef) {
-                    this.errFeed?.destroy();
-                    if (!this.aTT) {
-                        this.errFeed = this.add.text(
-                            425,
-                            1450,
-                            `Cannot leave Clothes variable\n"ATTRIBUTE:TYPE;" field blank`,
-                            {
-                                font: "45px Arial",
-                                color: "#ffffff",
-                            }
-                        );
-                    } else if (!this.aTT.includes(":")) {
-                        this.errFeed = this.add.text(
-                            425,
-                            1450,
-                            `Missing colon in "${this.aTT}"\nto distinguish ATTRIBUTE from TYPE`,
-                            {
-                                font: "45px Arial",
-                                color: "#ffffff",
-                            }
-                        );
-                    } else if (this.aTT.charAt(this.aTT.length - 1) != ";") {
-                        this.errFeed = this.add.text(
-                            425,
-                            1450,
-                            `Missing semi-colon after "${this.aTT}"`,
-                            {
-                                font: "45px Arial",
-                                color: "#ffffff",
-                            }
-                        );
-                    } else {
-                        this.errFeed = this.add.text(
-                            425,
-                            1450,
-                            `Invalid Clothes variable: ${this.aTT.substring(
-                                0,
-                                this.aTT.length - 1
-                            )}\n\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Clothes" class and are\nof the format ATTRIBUTE:TYPE;`,
-                            {
-                                font: "45px Arial",
-                                color: "#ffffff",
-                            }
-                        );
-                    }
-                } else if (!this.attrTwoBotDef) {
-                    this.errFeed?.destroy();
-                    if (!this.aTB) {
-                        this.errFeed = this.add.text(
-                            425,
-                            1450,
-                            `Cannot leave Clothes variable\n"ATTRIBUTE:TYPE;" field blank`,
-                            {
-                                font: "45px Arial",
-                                color: "#ffffff",
-                            }
-                        );
-                    } else if (!this.aTB.includes(":")) {
-                        this.errFeed = this.add.text(
-                            425,
-                            1450,
-                            `Missing colon in "${this.aTB}"\nto distinguish ATTRIBUTE from TYPE`,
-                            {
-                                font: "45px Arial",
-                                color: "#ffffff",
-                            }
-                        );
-                    } else if (this.aTB.charAt(this.aTB.length - 1) != ";") {
-                        this.errFeed = this.add.text(
-                            425,
-                            1450,
-                            `Missing semi-colon after "${this.aTB}"`,
-                            {
-                                font: "45px Arial",
-                                color: "#ffffff",
-                            }
-                        );
-                    } else {
-                        this.errFeed = this.add.text(
-                            425,
-                            1450,
-                            `Invalid Clothes variable: ${this.aTB.substring(
-                                0,
-                                this.aTB.length - 1
-                            )}\n\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Clothes" class and are\nof the format "ATTRIBUTE:TYPE;"`,
-                            {
-                                font: "45px Arial",
-                                color: "#ffffff",
-                            }
-                        );
-                    }
-                } else if (
-                    this.aTT?.substring(
+            } else if (!this.attrTwoTopDef) {
+                this.errFeed?.destroy();
+                if (!this.aTT) {
+                    this.errFeed = this.add.text(
+                        425,
+                        1450,
+                        `Cannot leave Clothes variable\n"ATTRIBUTE:TYPE;" field blank`,
+                        {
+                            font: "45px Arial",
+                            color: "#ffffff",
+                        }
+                    );
+                } else if (!this.aTT.includes(":")) {
+                    this.errFeed = this.add.text(
+                        425,
+                        1450,
+                        `Missing colon in "${this.aTT}"\nto distinguish ATTRIBUTE from TYPE`,
+                        {
+                            font: "45px Arial",
+                            color: "#ffffff",
+                        }
+                    );
+                } else if (this.aTT.charAt(this.aTT.length - 1) != ";") {
+                    this.errFeed = this.add.text(
+                        425,
+                        1450,
+                        `Missing semi-colon after "${this.aTT}"`,
+                        {
+                            font: "45px Arial",
+                            color: "#ffffff",
+                        }
+                    );
+                } else {
+                    this.errFeed = this.add.text(
+                        425,
+                        1450,
+                        `Invalid Clothes variable: ${this.aTT.substring(
+                            0,
+                            this.aTT.length - 1
+                        )}\n\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Clothes" class and are\nof the format ATTRIBUTE:TYPE;`,
+                        {
+                            font: "45px Arial",
+                            color: "#ffffff",
+                        }
+                    );
+                }
+            } else if (!this.attrTwoBotDef) {
+                this.errFeed?.destroy();
+                if (!this.aTB) {
+                    this.errFeed = this.add.text(
+                        425,
+                        1450,
+                        `Cannot leave Clothes variable\n"ATTRIBUTE:TYPE;" field blank`,
+                        {
+                            font: "45px Arial",
+                            color: "#ffffff",
+                        }
+                    );
+                } else if (!this.aTB.includes(":")) {
+                    this.errFeed = this.add.text(
+                        425,
+                        1450,
+                        `Missing colon in "${this.aTB}"\nto distinguish ATTRIBUTE from TYPE`,
+                        {
+                            font: "45px Arial",
+                            color: "#ffffff",
+                        }
+                    );
+                } else if (this.aTB.charAt(this.aTB.length - 1) != ";") {
+                    this.errFeed = this.add.text(
+                        425,
+                        1450,
+                        `Missing semi-colon after "${this.aTB}"`,
+                        {
+                            font: "45px Arial",
+                            color: "#ffffff",
+                        }
+                    );
+                } else {
+                    this.errFeed = this.add.text(
+                        425,
+                        1450,
+                        `Invalid Clothes variable: ${this.aTB.substring(
+                            0,
+                            this.aTB.length - 1
+                        )}\n\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Clothes" class and are\nof the format "ATTRIBUTE:TYPE;"`,
+                        {
+                            font: "45px Arial",
+                            color: "#ffffff",
+                        }
+                    );
+                }
+            } else if (
+                this.aTT?.substring(
+                    this.aTT.indexOf(":"),
+                    this.aTT.length - 1
+                ) ==
+                this.aTB?.substring(this.aTB.indexOf(":"), this.aTB.length - 1)
+            ) {
+                this.errFeed?.destroy();
+                this.errFeed = this.add.text(
+                    425,
+                    1450,
+                    `Cannot apply multiple attributes\n of type "${this.aTT?.substring(
                         this.aTT.indexOf(":"),
                         this.aTT.length - 1
-                    ) ==
-                    this.aTB?.substring(
-                        this.aTB.indexOf(":"),
-                        this.aTB.length - 1
-                    )
-                ) {
-                    this.errFeed?.destroy();
-                    this.errFeed = this.add.text(
-                        425,
-                        1450,
-                        `Cannot apply multiple attributes\n of type "${this.aTT?.substring(
-                            this.aTT.indexOf(":"),
-                            this.aTT.length - 1
-                        )}"`,
-                        {
-                            font: "45px Arial",
-                            color: "#ffffff",
-                        }
-                    );
-                }
-
-                // IF ALL CONDITIONS ARE MET: Start Level
-                else {
-                    this.classOneDef =
-                        this.attrOneBotDef =
-                        this.attrOneTopDef =
-                        this.classTwoDef =
-                        this.attrTwoBotDef =
-                        this.attrTwoTopDef =
-                            false;
-                    this.cOD =
-                        this.cTD =
-                        this.aOT =
-                        this.aTT =
-                        this.aOB =
-                        this.aTB =
-                            undefined;
-                    this.scene.start("levelOne");
-                }
+                    )}"`,
+                    {
+                        font: "45px Arial",
+                        color: "#ffffff",
+                    }
+                );
             }
-        );
+
+            // IF ALL CONDITIONS ARE MET: Start Level
+            else {
+                this.classOneDef =
+                    this.attrOneBotDef =
+                    this.attrOneTopDef =
+                    this.classTwoDef =
+                    this.attrTwoBotDef =
+                    this.attrTwoTopDef =
+                        false;
+                this.cOD =
+                    this.cTD =
+                    this.aOT =
+                    this.aTT =
+                    this.aOB =
+                    this.aTB =
+                        undefined;
+                this.scene.start("levelOne");
+            }
+        });
 
         // dev button to skip to level
         this.createClickableTextAndSize(
@@ -582,6 +568,37 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
         });
 
         this.add.dom(xLoc, yLoc, userInput);
+    }
+
+    createClickableImage(
+        x: number,
+        y: number,
+        imageName: string,
+        onClick: () => void
+    ) {
+        const button = this.add.image(x, y, imageName).setInteractive();
+
+        button.setScale(2.5);
+
+        button.on("pointerover", () => {
+            this.tweens.add({
+                targets: button,
+                scale: { from: 2.5, to: 2.75 },
+                duration: 200,
+                ease: "Linear",
+            });
+        });
+
+        button.on("pointerout", () => {
+            this.tweens.add({
+                targets: button,
+                scale: { from: 2.75, to: 2.5 },
+                duration: 200,
+                ease: "Linear",
+            });
+        });
+
+        button.on("pointerdown", onClick);
     }
 
     update() {}
