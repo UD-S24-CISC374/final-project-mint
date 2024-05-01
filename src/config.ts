@@ -12,7 +12,6 @@ import LoadoutSceneClothesShoes from "./scenes/loadoutSceneClothesShoes";
 import levelOne from "./scenes/levelOne";
 import endScene from "./scenes/endScene";
 import instructions from "./scenes/instructions";
-//import levelOnetry from "./scenes/level1";
 
 const DEFAULT_WIDTH = 4096;
 const DEFAULT_HEIGHT = 1714;
