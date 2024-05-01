@@ -176,11 +176,11 @@ export default class PreloadScene extends Phaser.Scene {
          *         let var = this.game.registry.get("variable-name");
          *         this.game.registry.set("variable-name", var + number);
          */
-        this.game.registry.set("speedModifier", 0); // Left - Right movement velocity
-        this.game.registry.set("jumpModifier", 0); // Jump velocity
-        this.game.registry.set("fireRateModifier", 0); // Shots per second
-        this.game.registry.set("reloadModifier", 0); // Reload time in seconds
-        this.game.registry.set("magazine", 0); //sets the number of bullets user has
+        this.game.registry.set("speedModifier", 160); // Left - Right movement velocity
+        this.game.registry.set("jumpModifier", -550); // Jump velocity
+        this.game.registry.set("fireRateModifier", 1000); // Shots per second
+        this.game.registry.set("reloadModifier", 3000); // Reload time in milliseconds
+        this.game.registry.set("magazine", 5); //sets the number of bullets user has
 
         // Global variables for Clothes and Gun Unlocks
         this.game.registry.set("ponchoUnlocked", false);

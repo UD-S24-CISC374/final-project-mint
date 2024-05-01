@@ -19,6 +19,49 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
 
 class Bullets extends Phaser.Physics.Arcade.Group {
     private readonly fireRate: number;
+    private readonly maxBullets: number;
+    private readonly timeDelay: number;
+    private lastFiredTime: number;
+    private bulletsFired: number;
+
+    constructor(
+        world: Phaser.Physics.Arcade.World,
+        scene: Phaser.Scene,
+        fireRate: number,
+        maxBullets: number,
+        timeDelay: number
+    ) {
+        super(world, scene);
+        this.fireRate = fireRate;
+        this.lastFiredTime = 0;
+        this.maxBullets = maxBullets;
+        this.timeDelay = timeDelay;
+        this.bulletsFired = 0;
+    }
+
+    fireBullet(x: number, y: number, vel: number) {
+        const currentTime = this.scene.time.now;
+        if (
+            currentTime - this.lastFiredTime > this.fireRate &&
+            this.bulletsFired < this.maxBullets
+        ) {
+            const bullet = new Bullet(this.scene, x, y);
+            this.add(bullet);
+            bullet.fire(x, y, vel);
+            this.lastFiredTime = currentTime;
+            this.bulletsFired++;
+
+            if (this.bulletsFired >= this.maxBullets) {
+                this.scene.time.delayedCall(this.timeDelay, () => {
+                    this.bulletsFired = 0;
+                });
+            }
+        }
+    }
+}
+
+/*class Bullets extends Phaser.Physics.Arcade.Group {
+    private readonly fireRate: number;
     private lastFiredTime: number;
 
     constructor(
@@ -40,7 +83,7 @@ class Bullets extends Phaser.Physics.Arcade.Group {
             this.lastFiredTime = currentTime;
         }
     }
-}
+}*/
 
 export default class levelOne extends Phaser.Scene {
     //fpsText: FpsText;
@@ -85,11 +128,34 @@ export default class levelOne extends Phaser.Scene {
     private lastShotTime = 0;
     private numBaddies = 3;
 
+    //Initializing all of the global variables being used
+    private playerVel: number;
+    private jump: number;
+    private fireRate: number;
+    private reload: number;
+    private numBullets: number;
+    private poncho: boolean; // already part
+    private vest: boolean;
+    private springs: boolean;
+    private wheels: boolean; // already part
+    private close: boolean; // already part
+    private eagle: boolean;
+    private minigun: boolean;
+    private drum: boolean;
+
     constructor() {
         super({ key: "levelOne" });
     }
 
     create() {
+        //initializing the global variables
+        this.playerVel = this.game.registry.get("speedModifier");
+        this.jump = this.game.registry.get("jumpModifier");
+        this.fireRate = this.game.registry.get("fireRateModifier");
+        this.reload = this.game.registry.get("reloadModifier");
+        this.numBullets = this.game.registry.get("magazine");
+        //initalizing all the variables used in the game
+
         this.gameOver = false;
         this.lastDirectionChangeTime1 = this.time.now;
         this.lastDirectionChangeTime2 = this.time.now;
@@ -174,7 +240,13 @@ export default class levelOne extends Phaser.Scene {
             color: "#000",
         });*/
 
-        this.bullets = new Bullets(this.physics.world, this, 1000); //this is what changes the fire speed\
+        this.bullets = new Bullets(
+            this.physics.world,
+            this,
+            this.fireRate,
+            this.numBullets,
+            this.reload
+        ); //this is what changes the fire speed\
         this.physics.add.overlap(this.bullets!, this.platforms!, (bullet) => {
             bullet.destroy();
         });
@@ -184,7 +256,7 @@ export default class levelOne extends Phaser.Scene {
         this.baddieGun1.setBounce(0.2);
         this.baddieGun1.setCollideWorldBounds(true);
         this.baddieGunAlive1 = true;
-        this.badBullets1 = new Bullets(this.physics.world, this, 500); //this is what changes the fire speed
+        this.badBullets1 = new Bullets(this.physics.world, this, 500, 500, 0); //this is what changes the fire speed
         this.physics.add.overlap(
             this.badBullets1!,
             this.platforms!,
@@ -199,7 +271,7 @@ export default class levelOne extends Phaser.Scene {
         this.baddieGun2.setBounce(0.2);
         this.baddieGun2.setCollideWorldBounds(true);
         this.baddieGunAlive2 = true;
-        this.badBullets2 = new Bullets(this.physics.world, this, 500); //this is what changes the fire speed
+        this.badBullets2 = new Bullets(this.physics.world, this, 500, 500, 0); //this is what changes the fire speed
         this.physics.add.overlap(
             this.badBullets1!,
             this.platforms!,
@@ -431,20 +503,57 @@ export default class levelOne extends Phaser.Scene {
             this
         );
 
-        /*this.physics.add.overlap(
+        this.physics.add.overlap(
             this.player!,
-            this.badBullets!,
-            (bullet) => {
+            this.badBullets1!,
+            (player, bullet) => {
                 this.handlePlayerHit(bullet as Bullet);
             },
             undefined,
             this
-        );*/
+        );
+        this.physics.add.overlap(
+            this.player!,
+            this.badBullets2!,
+            (player, bullet) => {
+                this.handlePlayerHit(bullet as Bullet);
+            },
+            undefined,
+            this
+        );
 
         // ---------------------------------------------------------------------------------------
         // @Sibyl here is where I added the example I was talking about
-        this.createItem(600, 675, "wheels_item");
-        this.createItem(3400, 775, "close_item");
+        const item1 = this.createItem(600, 675, "wheels_item");
+        this.physics.add.collider(
+            this.player,
+            item1,
+            (player, item) => {
+                this.handleItemCollect(item as Phaser.GameObjects.Image, 4);
+            },
+            undefined,
+            this
+        );
+        const item2 = this.createItem(3400, 775, "close_item");
+        this.physics.add.collider(
+            this.player,
+            item2,
+            (player, item) => {
+                this.handleItemCollect(item as Phaser.GameObjects.Image, 5);
+            },
+            undefined,
+            this
+        );
+        const item3 = this.createItem(2000, 825, "poncho_item");
+        this.physics.add.collider(
+            this.player,
+            item3,
+            (player, item) => {
+                this.handleItemCollect(item as Phaser.GameObjects.Image, 2);
+            },
+            undefined,
+            this
+        );
         // ---------------------------------------------------------------------------------------
     }
 
@@ -481,7 +590,15 @@ export default class levelOne extends Phaser.Scene {
         this.player?.setTint(0xff0000);
         this.player?.anims.play("turn");
         this.gameOver = true;
-        this.scene.start("instructions");
+        this.time.delayedCall(
+            2000,
+            () => {
+                // Resume the game after the delay
+                this.scene.start("instructions");
+            },
+            [],
+            this
+        );
     }
 
     private handlePlayerHit(bullet: Bullet) {
@@ -491,7 +608,19 @@ export default class levelOne extends Phaser.Scene {
 
         this.lives--;
         if (this.lives === 0) {
-            this.handleHitBaddie;
+            this.physics.pause();
+            this.player?.setTint(0xff0000);
+            this.player?.anims.play("turn");
+            this.gameOver = true;
+            this.time.delayedCall(
+                2000,
+                () => {
+                    // Resume the game after the delay
+                    this.scene.start("instructions");
+                },
+                [],
+                this
+            );
         }
         // Handle any other logic for player getting hit
     }
@@ -569,6 +698,29 @@ export default class levelOne extends Phaser.Scene {
             duration: 1000, // Duration of one full cycle up and back down
             ease: "Sine.easeInOut", // Smooth easing function for natural movement
         });
+        return item;
+    }
+    handleItemCollect(item: Phaser.GameObjects.Image, num: number) {
+        item.destroy();
+        if (num === 1) {
+            this.game.registry.set("ponchoUnlocked", true);
+        } else if (num === 2) {
+            this.game.registry.set("vestUnlocked", true);
+        } else if (num === 3) {
+            this.game.registry.set("springsUnlocked", true);
+        } else if (num === 4) {
+            this.game.registry.set("wheelsUnlocked", true);
+        } else if (num === 5) {
+            this.game.registry.set("closeUnlocked", true);
+        } else if (num === 6) {
+            this.game.registry.set("eagleUnlocked", true);
+        } else if (num === 7) {
+            this.game.registry.set("minigunUnlocked", true);
+        } else if (num === 8) {
+            this.game.registry.set("speedUnlocked", true);
+        } else if (num === 9) {
+            this.game.registry.set("drumUnlocked", true);
+        }
     }
 
     // ----------------------------------------------------------------------------------------------------------
@@ -581,11 +733,11 @@ export default class levelOne extends Phaser.Scene {
         //this creates the players movement
         if (!this.gameOver) {
             if (this.cursors.left.isDown) {
-                this.player?.setVelocityX(-160);
+                this.player?.setVelocityX(-this.playerVel);
                 this.player?.anims.play("left", true);
                 this.lastPlayerDirection = "left";
             } else if (this.cursors.right.isDown) {
-                this.player?.setVelocityX(160);
+                this.player?.setVelocityX(this.playerVel);
                 this.player?.anims.play("right", true);
                 this.lastPlayerDirection = "right";
             } else {
@@ -593,7 +745,7 @@ export default class levelOne extends Phaser.Scene {
                 this.player?.anims.play("turn");
             }
             if (this.cursors.up.isDown && this.player?.body?.touching.down) {
-                this.player.setVelocityY(-550);
+                this.player.setVelocityY(this.jump);
             }
             //This is how the player fires its bullets
             if (this.cursors.space.isDown && this.player && this.bullets) {
@@ -607,7 +759,11 @@ export default class levelOne extends Phaser.Scene {
                     this.bullets.fireBullet(this.player.x, this.player.y, 1500); // Fire right
                 } else {
                     // If player direction is unknown, default to firing right
-                    this.bullets.fireBullet(this.player.x, this.player.y, 1500);
+                    this.bullets.fireBullet(
+                        this.player.x,
+                        this.player.y,
+                        this.fireRate
+                    );
                 }
             }
         }
