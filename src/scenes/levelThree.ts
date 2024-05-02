@@ -108,6 +108,8 @@ export default class levelThree extends Phaser.Scene {
     private lastDirectionChangeTime3: number;
     private lastDirectionChangeTime4: number;
     private lastDirectionChangeTime5: number;
+    private lastDirectionChangeTime6: number;
+    private lastDirectionChangeTime7: number;
 
     private lives: number;
 
@@ -162,6 +164,8 @@ export default class levelThree extends Phaser.Scene {
         this.lastDirectionChangeTime3 = this.time.now;
         this.lastDirectionChangeTime4 = this.time.now;
         this.lastDirectionChangeTime5 = this.time.now;
+        this.lastDirectionChangeTime6 = this.time.now;
+        this.lastDirectionChangeTime7 = this.time.now;
         this.add.image(2048, 857, "levelBackg");
         //this.add.image(3072, 857, "levelBackg");
         this.platforms = this.physics.add.staticGroup();
@@ -292,21 +296,22 @@ export default class levelThree extends Phaser.Scene {
         );
         this.baddieGunAlive4 = true;
 
-        this.boss = this.physics.add.sprite(2000, 100, "baddieGun");
-        this.physics.add.collider(this.baddieGun1, this.platforms);
-        this.baddieGun1.setBounce(0.2);
-        this.baddieGun1.setCollideWorldBounds(true);
-        this.baddieGunAlive1 = true;
-        this.badBullets1 = new Bullets(this.physics.world, this, 500, 500, 0); //this is what changes the fire speed
+        this.boss = this.physics.add.sprite(2000, 100, "boss");
+        this.physics.add.collider(this.boss, this.platforms);
+        this.boss.setBounce(0.2);
+        this.boss.setCollideWorldBounds(true);
+        this.badBullets5 = new Bullets(this.physics.world, this, 500, 500, 0); //this is what changes the fire speed
         this.physics.add.overlap(
-            this.badBullets1!,
+            this.badBullets5!,
             this.platforms!,
             (bullet) => {
                 bullet.destroy();
             }
         );
         this.bossAlive1 = false;
-        this.bulletsHit = 5; //how many bullets it takes to kill the boss;
+        this.bulletsHit = 10; //how many bullets it takes to kill the boss;
+        this.boss.setVisible(false);
+        this.boss.setActive(false);
 
         this.anims.create({
             key: "left3",
@@ -329,16 +334,18 @@ export default class levelThree extends Phaser.Scene {
         });
 
         this.physics.add.overlap(
-            this.bullets!,
             this.boss!,
-            this.handleHitBoss,
+            this.bullets!,
+            (boss, bullet) => {
+                this.handleHitBoss(bullet as Bullet);
+            },
             undefined,
             this
         );
         this.physics.add.collider(
             this.player,
             this.boss,
-            this.handleHitBaddie,
+            this.handleRunIntoBoss,
             undefined,
             this
         );
@@ -567,6 +574,24 @@ export default class levelThree extends Phaser.Scene {
             undefined,
             this
         );
+        this.physics.add.overlap(
+            this.player!,
+            this.badBullets4!,
+            (player, bullet) => {
+                this.handlePlayerHit(bullet as Bullet);
+            },
+            undefined,
+            this
+        );
+        this.physics.add.overlap(
+            this.player!,
+            this.badBullets5!,
+            (player, bullet) => {
+                this.handlePlayerHit(bullet as Bullet);
+            },
+            undefined,
+            this
+        );
 
         // ---------------------------------------------------------------------------------------
         // @Sibyl here is where I added the example I was talking about
@@ -620,25 +645,31 @@ export default class levelThree extends Phaser.Scene {
             this.bossAlive1 = false;
         }
         baddie.setVisible(false);
+        baddie.body = null;
         //baddie.disableBody(true, true); // Disables the baddie sprite
         this.numBaddies--;
         if (this.numBaddies <= 0) {
             this.bossAlive1 = true;
             this.boss?.setVisible(true);
+            this.boss?.setActive(true);
         }
     }
-    handleHitBoss() {
-        this.bulletsHit--;
-        if (this.bulletsHit <= 0) {
-            this.bossAlive1 = false;
-        }
-        if (!this.bossAlive1) {
-            this.boss?.setVisible(false);
-            this.checkpoint.create(
-                4000,
-                1450,
-                "checkpoint"
-            ) as Phaser.Physics.Arcade.Sprite;
+    handleHitBoss(bullet: Bullet) {
+        if (this.bossAlive1) {
+            bullet.destroy();
+            this.bulletsHit--;
+
+            if (this.bulletsHit <= 0) {
+                this.bossAlive1 = false;
+            }
+            if (!this.bossAlive1) {
+                this.boss?.setVisible(false);
+                this.checkpoint.create(
+                    4000,
+                    1450,
+                    "checkpoint"
+                ) as Phaser.Physics.Arcade.Sprite;
+            }
         }
     }
 
@@ -657,6 +688,24 @@ export default class levelThree extends Phaser.Scene {
             [],
             this
         );
+    }
+    private handleRunIntoBoss() {
+        if (this.bossAlive1) {
+            this.physics.pause();
+            this.player?.setTint(0xff0000);
+            this.player?.anims.play("turn");
+            this.gameOver = true;
+            this.time.delayedCall(
+                2000,
+                () => {
+                    // Resume the game after the delay
+                    this.scene.launch("LoadoutSceneTextboxInserts");
+                    this.scene.start("LoadoutSceneOne");
+                },
+                [],
+                this
+            );
+        }
     }
 
     /*private handlePlayerHit(bullet: Bullet) {
@@ -985,7 +1034,7 @@ export default class levelThree extends Phaser.Scene {
 
                 // Check if it's time to change direction
                 if (
-                    this.time.now - this.lastDirectionChangeTime1 >
+                    this.time.now - this.lastDirectionChangeTime3 >
                     walkDuration
                 ) {
                     // If enough time has passed, change direction
