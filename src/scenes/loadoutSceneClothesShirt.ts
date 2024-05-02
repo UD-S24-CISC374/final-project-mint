@@ -21,6 +21,7 @@ export default class LoadoutSceneClothesShirt extends Phaser.Scene {
             "Shirt ATTRIBUTES:",
             "#BB00BB",
             "#00000000",
+            "100px",
             () => {}
         );
 
@@ -32,6 +33,15 @@ export default class LoadoutSceneClothesShirt extends Phaser.Scene {
                 700,
                 "poncho_button",
                 false,
+                () => {}
+            );
+            this.createClickableText(
+                3600,
+                635,
+                "+ 1 bullet resistance",
+                "#00bb00",
+                "#00000000",
+                "50px",
                 () => {}
             );
         } else {
@@ -50,6 +60,15 @@ export default class LoadoutSceneClothesShirt extends Phaser.Scene {
                 900,
                 "vest_button",
                 false,
+                () => {}
+            );
+            this.createClickableText(
+                3600,
+                835,
+                "+ 2 bullet resistance",
+                "#00bb00",
+                "#00000000",
+                "50px",
                 () => {}
             );
         } else {
@@ -73,12 +92,13 @@ export default class LoadoutSceneClothesShirt extends Phaser.Scene {
         text: string,
         textColor: string,
         backdrop: string,
+        size: string,
         onClick: () => void
     ): void {
         // Predefined style for all clickable text instances
         const style: Phaser.Types.GameObjects.Text.TextStyle = {
             fontFamily: "Arial",
-            fontSize: "100px",
+            fontSize: size,
             color: textColor,
             align: "center",
             backgroundColor: backdrop,
