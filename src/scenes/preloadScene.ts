@@ -178,7 +178,11 @@ export default class PreloadScene extends Phaser.Scene {
          */
         this.game.registry.set("speedModifier", 160); // Left - Right movement velocity
         this.game.registry.set("jumpModifier", -550); // Jump velocity
-        this.game.registry.set("sheildModifier", 1); //how many bullets it takes to loose a life
+        this.game.registry.set("shieldModifier", 1); // how many bullets it takes to loose a life
+        // -------- STILL NEED TO ADD THIS ---------
+        this.game.registry.set("playerWeight", 2); // determines how much gravity acts on the player
+        // -----------------------------------------
+        this.game.registry.set("bulletSpeed", 1500); // how fast the bullets travel
         this.game.registry.set("fireRateModifier", 1000); // Shots per second
         this.game.registry.set("reloadModifier", 3000); // Reload time in milliseconds
         this.game.registry.set("magazine", 5); //sets the number of bullets user has

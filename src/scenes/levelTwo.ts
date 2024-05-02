@@ -116,6 +116,7 @@ export default class levelTwo extends Phaser.Scene {
     private fireRate: number;
     private reload: number;
     private numBullets: number;
+    private bulletSpeed: number;
     private poncho: boolean; // already part
     private vest: boolean;
     private springs: boolean;
@@ -136,10 +137,11 @@ export default class levelTwo extends Phaser.Scene {
         this.fireRate = this.game.registry.get("fireRateModifier");
         this.reload = this.game.registry.get("reloadModifier");
         this.numBullets = this.game.registry.get("magazine");
+        this.bulletSpeed = this.game.registry.get("bulletSpeed");
         this.numBaddies = 3;
         //initalizing all the variables used in the game
         this.bulletsHitCount = 0;
-        this.bulletsBeforeLifeLoss = this.game.registry.get("sheildModifier"); // Number of bullets before losing a life
+        this.bulletsBeforeLifeLoss = this.game.registry.get("shieldModifier"); // Number of bullets before losing a life
 
         this.gameOver = false;
         this.lastDirectionChangeTime1 = this.time.now;
@@ -698,10 +700,14 @@ export default class levelTwo extends Phaser.Scene {
                     this.bullets.fireBullet(
                         this.player.x,
                         this.player.y,
-                        -1500
+                        -1 * this.bulletSpeed
                     ); // Fire left
                 } else if (this.lastPlayerDirection === "right") {
-                    this.bullets.fireBullet(this.player.x, this.player.y, 1500); // Fire right
+                    this.bullets.fireBullet(
+                        this.player.x,
+                        this.player.y,
+                        this.bulletSpeed
+                    ); // Fire right
                 } else {
                     // If player direction is unknown, default to firing right
                     this.bullets.fireBullet(
