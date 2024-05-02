@@ -487,12 +487,12 @@ export default class levelTwo extends Phaser.Scene {
             undefined,
             this
         );
-        const item3 = this.createItem(2500, 685, "vest_item");
+        const item3 = this.createItem(2500, 685, "speed_item");
         this.physics.add.collider(
             this.player,
             item3,
             (player, item) => {
-                this.handleItemCollect(item as Phaser.GameObjects.Image, 2);
+                this.handleItemCollect(item as Phaser.GameObjects.Image, 8);
             },
             undefined,
             this
@@ -502,8 +502,8 @@ export default class levelTwo extends Phaser.Scene {
 
     private handleHitCheckpoint() {
         this.game.registry.set("levelThreeUnlocked", true);
-        this.scene.launch("LoadoutSceneTextboxInserts");
-        this.scene.start("LoadoutSceneOne");
+        this.game.registry.set("previousLevel", 2);
+        this.scene.start("CompleteLevelScreen");
     }
     private handleKillBaddie(
         bullet: Bullet,

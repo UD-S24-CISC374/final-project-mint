@@ -418,8 +418,8 @@ export default class levelOne extends Phaser.Scene {
 
     private handleHitCheckpoint() {
         this.game.registry.set("levelTwoUnlocked", true);
-        this.scene.launch("LoadoutSceneTextboxInserts");
-        this.scene.start("LoadoutSceneOne");
+        this.game.registry.set("previousLevel", 1);
+        this.scene.start("CompleteLevelScreen");
     }
     private handleKillBaddie(
         bullet: Bullet,

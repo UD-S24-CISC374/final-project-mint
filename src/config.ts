@@ -16,6 +16,8 @@ import LoadoutExample from "./scenes/loadoutExample";
 import levelTwo from "./scenes/levelTwo";
 import levelThree from "./scenes/levelThree";
 import levelScreen from "./scenes/levelScreen";
+import CompleteLevelScreen from "./scenes/completeLevelScreen";
+import TitleScreen from "./scenes/titleScreen";
 
 //import levelOnetry from "./scenes/level1";
 
@@ -56,6 +58,8 @@ export const CONFIG = {
         levelTwo,
         levelThree,
         levelScreen,
+        CompleteLevelScreen,
+        TitleScreen,
     ],
     physics: {
         default: "arcade",

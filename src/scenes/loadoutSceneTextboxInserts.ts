@@ -474,7 +474,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                         `Invalid Clothes variable: ${this.aTT.substring(
                             0,
                             this.aTT.length - 1
-                        )}\n\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Clothes" class, are\nof the format "ATTRIBUTE:TYPE;",\nand are all lowercase.`,
+                        )}\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Clothes" class, are\nof the format "ATTRIBUTE:TYPE;",\nand are all lowercase.`,
                         {
                             font: "45px Arial",
                             color: "#ffffff",
@@ -520,7 +520,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                         `Invalid Clothes variable: ${this.aTB.substring(
                             0,
                             this.aTB.length - 1
-                        )}\n\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Clothes" class, are\nof the format "ATTRIBUTE:TYPE;",\nand are all lowercase.`,
+                        )}\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Clothes" class, are\nof the format "ATTRIBUTE:TYPE;",\nand are all lowercase.`,
                         {
                             font: "45px Arial",
                             color: "#ffffff",
@@ -643,10 +643,12 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                     this.aTT?.substring(0, this.aTT.indexOf(":")) == "wheels"
                 ) {
                     this.game.registry.set("speedModifier", 300);
+                    this.game.registry.set("jumpModifier", -550);
                 } else if (
                     this.aTT?.substring(0, this.aTT.indexOf(":")) == "springs"
                 ) {
                     this.game.registry.set("jumpModifier", -750);
+                    this.game.registry.set("speedModifier", 160);
                 }
 
                 if (this.aTB?.substring(0, this.aTB.indexOf(":")) == "none") {
@@ -671,10 +673,12 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                     this.aTB?.substring(0, this.aTB.indexOf(":")) == "wheels"
                 ) {
                     this.game.registry.set("speedModifier", 300);
+                    this.game.registry.set("jumpModifier", -550);
                 } else if (
                     this.aTB?.substring(0, this.aTB.indexOf(":")) == "springs"
                 ) {
                     this.game.registry.set("jumpModifier", -750);
+                    this.game.registry.set("speedModifier", 160);
                 }
 
                 this.classOneDef =
