@@ -71,7 +71,10 @@ export default class levelOne extends Phaser.Scene {
     private checkpoint: Phaser.Physics.Arcade.StaticGroup;
     private bullets?: Bullets;
     private colliderInitialized = false;
+    private bulletsHitCount: number;
+    private bulletsBeforeLifeLoss: number; // Number of bullets before losing a life
 
+    //variables to control baddies
     private baddieGun1?: Phaser.Physics.Arcade.Sprite;
     private lastBaddieGDirection1: string | null = null;
     private baddieGun2?: Phaser.Physics.Arcade.Sprite;
@@ -83,25 +86,15 @@ export default class levelOne extends Phaser.Scene {
     private baddieKnifeAlive2: boolean;
     private badBullets1?: Bullets;
     private badBullets2?: Bullets;
-    private baddiKnife?: Phaser.Physics.Arcade.Sprite;
+    private baddiKnife1?: Phaser.Physics.Arcade.Sprite;
     private lastBaddieKDirection: string | null = null;
     private lastDirectionChangeTime1: number;
     private lastDirectionChangeTime2: number;
     private lastDirectionChangeTime3: number;
 
     private lives: number;
-
-    //private score = 0;
-    //private scoreText?: Phaser.GameObjects.Text;
-
-    private baddie?: Phaser.Physics.Arcade.Group;
-
     private gameOver: boolean;
-
-    private canShoot = true;
-    private shootDelay = 500; // Delay in milliseconds between shots
-    private lastShotTime = 0;
-    private numBaddies = 3;
+    private numBaddies: number;
 
     //Initializing all of the global variables being used
     private playerVel: number;
@@ -129,7 +122,10 @@ export default class levelOne extends Phaser.Scene {
         this.fireRate = this.game.registry.get("fireRateModifier");
         this.reload = this.game.registry.get("reloadModifier");
         this.numBullets = this.game.registry.get("magazine");
+        this.numBaddies = 3;
         //initalizing all the variables used in the game
+        this.bulletsHitCount = 0;
+        this.bulletsBeforeLifeLoss = this.game.registry.get("sheildModifier"); // Number of bullets before losing a life
 
         this.gameOver = false;
         this.lastDirectionChangeTime1 = this.time.now;
@@ -419,7 +415,9 @@ export default class levelOne extends Phaser.Scene {
     }
 
     private handleHitCheckpoint() {
-        this.scene.start("endScene");
+        this.game.registry.set("levelTwoUnlocked", true);
+        this.scene.launch("LoadoutSceneTextboxInserts");
+        this.scene.start("LoadoutSceneOne");
     }
     private handleKillBaddie(
         bullet: Bullet,
@@ -455,14 +453,15 @@ export default class levelOne extends Phaser.Scene {
             2000,
             () => {
                 // Resume the game after the delay
-                this.scene.start("instructions");
+                this.scene.launch("LoadoutSceneTextboxInserts");
+                this.scene.start("LoadoutSceneOne");
             },
             [],
             this
         );
     }
 
-    private handlePlayerHit(bullet: Bullet) {
+    /*private handlePlayerHit(bullet: Bullet) {
         // Destroy the bullet
         bullet.destroy();
         this.hideNextObject(this.hearts);
@@ -477,13 +476,50 @@ export default class levelOne extends Phaser.Scene {
                 2000,
                 () => {
                     // Resume the game after the delay
-                    this.scene.start("instructions");
+                    this.scene.launch("LoadoutSceneTextboxInserts");
+                    this.scene.start("LoadoutSceneOne");
                 },
                 [],
                 this
             );
         }
-        // Handle any other logic for player getting hit
+    }*/
+    private handlePlayerHit(bullet: Bullet) {
+        // Destroy the bullet
+        bullet.destroy();
+
+        // Increment the bullets hit count
+        this.bulletsHitCount++;
+
+        // Check if the player should lose a life
+        if (this.bulletsHitCount >= this.bulletsBeforeLifeLoss) {
+            // Reset the bullets hit count
+            this.bulletsHitCount = 0;
+
+            // Hide the next heart
+            this.hideNextObject(this.hearts);
+
+            // Decrease lives
+            this.lives--;
+
+            if (this.lives === 0) {
+                this.physics.pause();
+                this.player?.setTint(0xff0000);
+                this.player?.anims.play("turn");
+                this.gameOver = true;
+
+                // Delay before restarting the scene
+                this.time.delayedCall(
+                    2000,
+                    () => {
+                        this.scene.launch("LoadoutSceneTextboxInserts");
+                        this.scene.start("LoadoutSceneOne");
+                    },
+                    [],
+                    this
+                );
+            }
+        }
     }
 
     private hideNextObject(group: Phaser.Physics.Arcade.StaticGroup) {

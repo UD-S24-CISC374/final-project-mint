@@ -51,7 +51,7 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image("vest_item", "assets/img/LevelImg/Items/vest_item.png");
         this.load.image(
             "springs_item",
-            "assets/img/LevelImg/Items/springs_item.png"
+            "assets/img/LevelImg/Items/spring_item.png"
         );
         this.load.image(
             "wheels_item",
@@ -178,6 +178,7 @@ export default class PreloadScene extends Phaser.Scene {
          */
         this.game.registry.set("speedModifier", 160); // Left - Right movement velocity
         this.game.registry.set("jumpModifier", -550); // Jump velocity
+        this.game.registry.set("sheildModifier", 1); //how many bullets it takes to loose a life
         this.game.registry.set("fireRateModifier", 1000); // Shots per second
         this.game.registry.set("reloadModifier", 3000); // Reload time in milliseconds
         this.game.registry.set("magazine", 5); //sets the number of bullets user has
@@ -195,8 +196,8 @@ export default class PreloadScene extends Phaser.Scene {
         this.game.registry.set("drumUnlocked", false);
 
         //Global variables indecating whether a level is unlocked or not
-        this.game.registry.set("levelTwoUnlocked", false);
-        this.game.registry.set("levelThreeUnlocked", false);
+        this.game.registry.set("levelTwoUnlocked", true);
+        this.game.registry.set("levelThreeUnlocked", true);
 
         // Start First Scene
         this.scene.stop("LoadoutSceneTextboxInserts");

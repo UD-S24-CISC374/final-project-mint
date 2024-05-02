@@ -60,7 +60,7 @@ class Bullets extends Phaser.Physics.Arcade.Group {
     }
 }
 
-export default class levelTwo extends Phaser.Scene {
+export default class levelThree extends Phaser.Scene {
     //fpsText: FpsText;
     private platforms?: Phaser.Physics.Arcade.StaticGroup;
     private player?: Phaser.Physics.Arcade.Sprite;
@@ -126,7 +126,7 @@ export default class levelTwo extends Phaser.Scene {
     private drum: boolean;
 
     constructor() {
-        super({ key: "levelTwo" });
+        super({ key: "levelThree" });
     }
 
     create() {
@@ -465,32 +465,22 @@ export default class levelTwo extends Phaser.Scene {
 
         // ---------------------------------------------------------------------------------------
         // @Sibyl here is where I added the example I was talking about
-        const item1 = this.createItem(600, 675, "springs_item");
+        const item1 = this.createItem(600, 675, "drum_item");
         this.physics.add.collider(
             this.player,
             item1,
             (player, item) => {
-                this.handleItemCollect(item as Phaser.GameObjects.Image, 3);
+                this.handleItemCollect(item as Phaser.GameObjects.Image, 9);
             },
             undefined,
             this
         );
-        const item2 = this.createItem(3400, 775, "eagle_item");
+        const item2 = this.createItem(3400, 775, "speed_item");
         this.physics.add.collider(
             this.player,
             item2,
             (player, item) => {
-                this.handleItemCollect(item as Phaser.GameObjects.Image, 6);
-            },
-            undefined,
-            this
-        );
-        const item3 = this.createItem(2000, 825, "vest_item");
-        this.physics.add.collider(
-            this.player,
-            item3,
-            (player, item) => {
-                this.handleItemCollect(item as Phaser.GameObjects.Image, 2);
+                this.handleItemCollect(item as Phaser.GameObjects.Image, 8);
             },
             undefined,
             this
@@ -499,9 +489,7 @@ export default class levelTwo extends Phaser.Scene {
     }
 
     private handleHitCheckpoint() {
-        this.game.registry.set("levelThreeUnlocked", true);
-        this.scene.launch("LoadoutSceneTextboxInserts");
-        this.scene.start("LoadoutSceneOne");
+        this.scene.start("endScene");
     }
     private handleKillBaddie(
         bullet: Bullet,

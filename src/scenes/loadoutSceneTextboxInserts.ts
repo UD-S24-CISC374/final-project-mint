@@ -579,7 +579,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                 "#ffffff",
                 "#ff0000",
                 () => {
-                    this.scene.start("levelOne");
+                    this.scene.start("levelScreen"); ///Sibyl
                 }
             );
         }
