@@ -91,6 +91,12 @@ export default class levelThree extends Phaser.Scene {
     private badBullets3?: Bullets;
     private badBullets4?: Bullets;
 
+    private boss?: Phaser.Physics.Arcade.Sprite;
+    private lastBossDirection: string | null = null;
+    private bossAlive1: boolean;
+    private badBullets5?: Bullets;
+    private bulletsHit: number;
+
     private baddieKnife1?: Phaser.Physics.Arcade.Sprite;
     private baddieKnife2?: Phaser.Physics.Arcade.Sprite;
     private baddieKnifeAlive1: boolean;
@@ -101,6 +107,7 @@ export default class levelThree extends Phaser.Scene {
     private lastDirectionChangeTime2: number;
     private lastDirectionChangeTime3: number;
     private lastDirectionChangeTime4: number;
+    private lastDirectionChangeTime5: number;
 
     private lives: number;
 
@@ -152,6 +159,7 @@ export default class levelThree extends Phaser.Scene {
         this.lastDirectionChangeTime2 = this.time.now;
         this.lastDirectionChangeTime3 = this.time.now;
         this.lastDirectionChangeTime4 = this.time.now;
+        this.lastDirectionChangeTime5 = this.time.now;
         this.add.image(2048, 857, "levelBackg");
         //this.add.image(3072, 857, "levelBackg");
         this.platforms = this.physics.add.staticGroup();
@@ -267,7 +275,7 @@ export default class levelThree extends Phaser.Scene {
         );
         this.baddieGunAlive3 = true;
 
-        this.baddieGun4 = this.physics.add.sprite(2000, 100, "baddieGun");
+        this.baddieGun4 = this.physics.add.sprite(1600, 100, "baddieGun");
         this.physics.add.collider(this.baddieGun4, this.platforms);
         this.baddieGun4.setBounce(0.2);
         this.baddieGun4.setCollideWorldBounds(true);
@@ -281,6 +289,60 @@ export default class levelThree extends Phaser.Scene {
             }
         );
         this.baddieGunAlive4 = true;
+
+        this.boss = this.physics.add.sprite(2000, 100, "baddieGun");
+        this.physics.add.collider(this.baddieGun1, this.platforms);
+        this.baddieGun1.setBounce(0.2);
+        this.baddieGun1.setCollideWorldBounds(true);
+        this.baddieGunAlive1 = true;
+        this.badBullets1 = new Bullets(this.physics.world, this, 500, 500, 0); //this is what changes the fire speed
+        this.physics.add.overlap(
+            this.badBullets1!,
+            this.platforms!,
+            (bullet) => {
+                bullet.destroy();
+            }
+        );
+        this.bossAlive1 = false;
+        this.bulletsHit = 5; //how many bullets it takes to kill the boss;
+
+        this.anims.create({
+            key: "left3",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 0,
+                end: 2,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        this.anims.create({
+            key: "right3",
+            frames: this.anims.generateFrameNumbers("boss", {
+                start: 3,
+                end: 5,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        });
+
+        this.physics.add.overlap(
+            this.bullets!,
+            this.boss!,
+            this.handleHitBoss,
+            undefined,
+            this
+        );
+        this.physics.add.collider(
+            this.player,
+            this.boss,
+            this.handleHitBaddie,
+            undefined,
+            this
+        );
+        //this.boss.setVisible(false);
+
+        //creating the animations for the gun
 
         this.anims.create({
             key: "left1",
@@ -551,11 +613,24 @@ export default class levelThree extends Phaser.Scene {
             this.baddieGunAlive3 = false;
         } else if (type === 6) {
             this.baddieGunAlive4 = false;
+        } else if (type === 7) {
+            this.bossAlive1 = false;
         }
         baddie.setVisible(false);
         //baddie.disableBody(true, true); // Disables the baddie sprite
         this.numBaddies--;
-        if (this.numBaddies == 0) {
+        if (this.numBaddies <= 0) {
+            this.bossAlive1 = true;
+            this.boss?.setVisible(true);
+        }
+    }
+    handleHitBoss() {
+        this.bulletsHit--;
+        if (this.bulletsHit <= 0) {
+            this.bossAlive1 = false;
+        }
+        if (!this.bossAlive1) {
+            this.boss?.setVisible(false);
             this.checkpoint.create(
                 4000,
                 1450,
@@ -1085,6 +1160,68 @@ export default class levelThree extends Phaser.Scene {
                         //"left",
                     ]);
                     this.lastDirectionChangeTime3 = this.time.now; // Update the last direction change time
+                }
+            }
+        }
+        if (this.bossAlive1) {
+            if (
+                this.lastBossDirection === "right" ||
+                this.lastBossDirection === "left"
+            ) {
+                // If currently walking, continue in the same direction
+                if (this.lastBossDirection === "right") {
+                    this.boss?.setVelocityX(160);
+                    this.boss?.anims.play("right3", true);
+                } else {
+                    this.boss?.setVelocityX(-160);
+                    this.boss?.anims.play("left3", true);
+                }
+                if (this.boss) {
+                    if (this.lastBossDirection === "left") {
+                        this.badBullets5?.fireBullet(
+                            this.boss.x,
+                            this.boss.y,
+                            -1000
+                        ); // Fire left
+                    } else {
+                        this.badBullets5?.fireBullet(
+                            this.boss.x,
+                            this.boss.y,
+                            1000
+                        ); // Fire right
+                    }
+                }
+
+                // Check if it's time to change direction
+                if (
+                    this.time.now - this.lastDirectionChangeTime5 >
+                    walkDurationk
+                ) {
+                    // If enough time has passed, change direction
+                    if (this.lastBossDirection === "right") {
+                        this.lastBossDirection = "left";
+                    } else {
+                        this.lastBossDirection = "right";
+                    }
+                    this.lastDirectionChangeTime5 = this.time.now; // Update the last direction change time
+                }
+                //this.lastDirectionChangeTime = this.time.now; // Update the last direction change time
+            } else {
+                // If standing still, play the turn animation
+                this.boss?.setVelocityX(0);
+                this.boss?.anims.play("turn1", true);
+
+                // Check if it's time to start walking or continue standing still
+                if (
+                    this.time.now - this.lastDirectionChangeTime5 >
+                    standStillDuration
+                ) {
+                    // If enough time has passed, start walking in a random direction
+                    this.lastBossDirection = Phaser.Math.RND.pick([
+                        "right",
+                        "left",
+                    ]);
+                    this.lastDirectionChangeTime5 = this.time.now; // Update the last direction change time
                 }
             }
         }

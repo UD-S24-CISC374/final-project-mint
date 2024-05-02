@@ -158,6 +158,10 @@ export default class PreloadScene extends Phaser.Scene {
                 frameHeight: 160,
             }
         );
+        this.load.spritesheet("boss", "assets/img/LevelImg/boss.png", {
+            frameWidth: 256,
+            frameHeight: 256,
+        });
 
         // Loadout Menu Screen background
         this.load.image("LoadoutMenu", "assets/img/LoadoutMenu.png");
@@ -178,10 +182,10 @@ export default class PreloadScene extends Phaser.Scene {
          */
         this.game.registry.set("speedModifier", 160); // Left - Right movement velocity
         this.game.registry.set("jumpModifier", -550); // Jump velocity
-        this.game.registry.set("sheildModifier", 1); //how many bullets it takes to loose a life
-        this.game.registry.set("fireRateModifier", 1000); // Shots per second
+        this.game.registry.set("sheildModifier", 100); //how many bullets it takes to loose a life orignal number 1
+        this.game.registry.set("fireRateModifier", 100); // Shots per second original number 1000
         this.game.registry.set("reloadModifier", 3000); // Reload time in milliseconds
-        this.game.registry.set("magazine", 5); //sets the number of bullets user has
+        this.game.registry.set("magazine", 500); //sets the number of bullets user has original number 5
 
         // Global variables for Clothes and Gun Unlocks
         this.game.registry.set("ponchoUnlocked", false);
