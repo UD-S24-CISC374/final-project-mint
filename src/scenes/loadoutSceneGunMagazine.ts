@@ -23,6 +23,7 @@ export default class LoadoutSceneGunMagazine extends Phaser.Scene {
             "Magazine ATTRIBUTES:",
             "#BB00BB",
             "#00000000",
+            "100px",
             () => {}
         );
 
@@ -34,6 +35,24 @@ export default class LoadoutSceneGunMagazine extends Phaser.Scene {
                 700,
                 "speed_button",
                 false,
+                () => {}
+            );
+            this.createClickableText(
+                3600,
+                635,
+                "- 1 reload time",
+                "#00bb00",
+                "#00000000",
+                "50px",
+                () => {}
+            );
+            this.createClickableText(
+                3600,
+                695,
+                "- 1 bullet",
+                "#bb0000",
+                "#00000000",
+                "50px",
                 () => {}
             );
         } else {
@@ -54,6 +73,24 @@ export default class LoadoutSceneGunMagazine extends Phaser.Scene {
                 false,
                 () => {}
             );
+            this.createClickableText(
+                3600,
+                835,
+                "+ 5 bullets",
+                "#00bb00",
+                "#00000000",
+                "50px",
+                () => {}
+            );
+            this.createClickableText(
+                3600,
+                895,
+                "+ 1 reload time",
+                "#bb0000",
+                "#00000000",
+                "50px",
+                () => {}
+            );
         } else {
             this.createClickableImage(
                 3350,
@@ -70,6 +107,24 @@ export default class LoadoutSceneGunMagazine extends Phaser.Scene {
                 1100,
                 "minigun_button",
                 false,
+                () => {}
+            );
+            this.createClickableText(
+                3600,
+                1035,
+                "+ 50 bullets",
+                "#00bb00",
+                "#00000000",
+                "50px",
+                () => {}
+            );
+            this.createClickableText(
+                3600,
+                1095,
+                "+ 10 reload time",
+                "#bb0000",
+                "#00000000",
+                "50px",
                 () => {}
             );
         } else {
@@ -93,12 +148,13 @@ export default class LoadoutSceneGunMagazine extends Phaser.Scene {
         text: string,
         textColor: string,
         backdrop: string,
+        size: string,
         onClick: () => void
     ): void {
         // Predefined style for all clickable text instances
         const style: Phaser.Types.GameObjects.Text.TextStyle = {
             fontFamily: "Arial",
-            fontSize: "100px",
+            fontSize: size,
             color: textColor,
             align: "center",
             backgroundColor: backdrop,

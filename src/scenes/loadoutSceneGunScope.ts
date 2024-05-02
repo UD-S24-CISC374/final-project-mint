@@ -21,6 +21,7 @@ export default class LoadoutSceneGunScope extends Phaser.Scene {
             "Scope ATTRIBUTES:",
             "#BB00BB",
             "#00000000",
+            "100px",
             () => {}
         );
 
@@ -32,6 +33,24 @@ export default class LoadoutSceneGunScope extends Phaser.Scene {
                 700,
                 "close_button",
                 false,
+                () => {}
+            );
+            this.createClickableText(
+                3600,
+                635,
+                "+ 5 fire rate",
+                "#00bb00",
+                "#00000000",
+                "50px",
+                () => {}
+            );
+            this.createClickableText(
+                3600,
+                695,
+                "- 2 shot distance",
+                "#bb0000",
+                "#00000000",
+                "50px",
                 () => {}
             );
         } else {
@@ -50,6 +69,24 @@ export default class LoadoutSceneGunScope extends Phaser.Scene {
                 900,
                 "eagle_button",
                 false,
+                () => {}
+            );
+            this.createClickableText(
+                3600,
+                835,
+                "+ 10 shot distance",
+                "#00bb00",
+                "#00000000",
+                "50px",
+                () => {}
+            );
+            this.createClickableText(
+                3600,
+                895,
+                "- 5 fire rate",
+                "#bb0000",
+                "#00000000",
+                "50px",
                 () => {}
             );
         } else {
@@ -73,12 +110,13 @@ export default class LoadoutSceneGunScope extends Phaser.Scene {
         text: string,
         textColor: string,
         backdrop: string,
+        size: string,
         onClick: () => void
     ): void {
         // Predefined style for all clickable text instances
         const style: Phaser.Types.GameObjects.Text.TextStyle = {
             fontFamily: "Arial",
-            fontSize: "100px",
+            fontSize: size,
             color: textColor,
             align: "center",
             backgroundColor: backdrop,
