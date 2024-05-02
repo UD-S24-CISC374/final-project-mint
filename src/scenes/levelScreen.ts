@@ -12,6 +12,7 @@ export default class levelScreen extends Phaser.Scene {
 
     create() {
         this.levelTwoUnlocked = this.game.registry.get("levelTwoUnlocked");
+        this.levelThreeUnlocked = this.game.registry.get("levelThreeUnlocked");
         this.add.image(2048, 857, "levelBackg");
         this.createClickableText(
             2950,

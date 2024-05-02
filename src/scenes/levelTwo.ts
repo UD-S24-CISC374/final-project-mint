@@ -136,7 +136,7 @@ export default class levelTwo extends Phaser.Scene {
         this.fireRate = this.game.registry.get("fireRateModifier");
         this.reload = this.game.registry.get("reloadModifier");
         this.numBullets = this.game.registry.get("magazine");
-        this.numBaddies = 3;
+        this.numBaddies = 5;
         //initalizing all the variables used in the game
         this.bulletsHitCount = 0;
         this.bulletsBeforeLifeLoss = this.game.registry.get("sheildModifier"); // Number of bullets before losing a life
