@@ -383,12 +383,12 @@ export default class levelOne extends Phaser.Scene {
 
         // ---------------------------------------------------------------------------------------
         // @Sibyl here is where I added the example I was talking about
-        const item1 = this.createItem(600, 675, "wheels_item");
+        const item1 = this.createItem(600, 675, "springs_item");
         this.physics.add.collider(
             this.player,
             item1,
             (player, item) => {
-                this.handleItemCollect(item as Phaser.GameObjects.Image, 4);
+                this.handleItemCollect(item as Phaser.GameObjects.Image, 3);
             },
             undefined,
             this
@@ -403,12 +403,12 @@ export default class levelOne extends Phaser.Scene {
             undefined,
             this
         );
-        const item3 = this.createItem(2000, 825, "poncho_item");
+        const item3 = this.createItem(2000, 975, "poncho_item");
         this.physics.add.collider(
             this.player,
             item3,
             (player, item) => {
-                this.handleItemCollect(item as Phaser.GameObjects.Image, 2);
+                this.handleItemCollect(item as Phaser.GameObjects.Image, 1);
             },
             undefined,
             this

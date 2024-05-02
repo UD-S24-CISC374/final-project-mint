@@ -19,7 +19,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
     aTT: string | undefined;
     aTB: string | undefined;
 
-    alpha: boolean = true;
+    beta: boolean = true;
     errFeed: Phaser.GameObjects.Text | null = null;
 
     ponchoUnlocked: boolean = false;
@@ -696,7 +696,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
         });
 
         // dev button to skip to level
-        if (this.alpha) {
+        if (this.beta) {
             this.createClickableTextAndSize(
                 0,
                 0,
@@ -705,6 +705,8 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                 "#ffffff",
                 "#ff0000",
                 () => {
+                    this.game.registry.set("levelTwoUnlocked", true);
+                    this.game.registry.set("levelThreeUnlocked", true);
                     this.scene.start("levelScreen"); ///Sibyl
                 }
             );
