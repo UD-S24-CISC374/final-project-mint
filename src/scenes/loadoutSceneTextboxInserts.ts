@@ -280,7 +280,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                     this.errFeed = this.add.text(
                         425,
                         1450,
-                        `Invalid class name: ${this.cOD}`,
+                        `Invalid class name: ${this.cOD}\nInput is case sensitive.`,
                         {
                             font: "45px Arial",
                             color: "#ffffff",
@@ -323,10 +323,10 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                     this.errFeed = this.add.text(
                         425,
                         1450,
-                        `Invalid Gun variable: ${this.aOT.substring(
+                        `Invalid Gun variable: "${this.aOT.substring(
                             0,
                             this.aOT.length - 1
-                        )}\n\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Gun" class and are\nof the format ATTRIBUTE:TYPE;`,
+                        )}"\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Gun" class, are\nof the format "ATTRIBUTE:TYPE;",\nand are all lowercase.`,
                         {
                             font: "45px Arial",
                             color: "#ffffff",
@@ -369,10 +369,10 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                     this.errFeed = this.add.text(
                         425,
                         1450,
-                        `Invalid Gun variable: ${this.aOB.substring(
+                        `Invalid Gun variable: "${this.aOB.substring(
                             0,
                             this.aOB.length - 1
-                        )}\n\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Gun" class and are\nof the format "ATTRIBUTE:TYPE;"`,
+                        )}"\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Gun" class, are\nof the format "ATTRIBUTE:TYPE;",\nand are all lowercase.`,
                         {
                             font: "45px Arial",
                             color: "#ffffff",
@@ -428,7 +428,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                     this.errFeed = this.add.text(
                         425,
                         1450,
-                        `Invalid class name: ${this.cTD}`,
+                        `Invalid class name: ${this.cTD}\nInput is case sensitive.`,
                         {
                             font: "45px Arial",
                             color: "#ffffff",
@@ -474,7 +474,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                         `Invalid Clothes variable: ${this.aTT.substring(
                             0,
                             this.aTT.length - 1
-                        )}\n\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Clothes" class and are\nof the format ATTRIBUTE:TYPE;`,
+                        )}\n\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Clothes" class, are\nof the format "ATTRIBUTE:TYPE;",\nand are all lowercase.`,
                         {
                             font: "45px Arial",
                             color: "#ffffff",
@@ -520,7 +520,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                         `Invalid Clothes variable: ${this.aTB.substring(
                             0,
                             this.aTB.length - 1
-                        )}\n\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Clothes" class and are\nof the format "ATTRIBUTE:TYPE;"`,
+                        )}\n\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Clothes" class, are\nof the format "ATTRIBUTE:TYPE;",\nand are all lowercase.`,
                         {
                             font: "45px Arial",
                             color: "#ffffff",
@@ -582,7 +582,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                 } else if (
                     this.aOT?.substring(0, this.aOT.indexOf(":")) == "minigun"
                 ) {
-                    this.game.registry.set("reloadModifier", 100);
+                    this.game.registry.set("reloadModifier", 8000);
                     this.game.registry.set("magazine", 100);
                 }
 

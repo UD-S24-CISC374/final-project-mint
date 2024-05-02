@@ -173,12 +173,12 @@ export default class levelThree extends Phaser.Scene {
         ) as Phaser.Physics.Arcade.Sprite;
         ground.setScale(2).refreshBody();
 
-        this.platforms.create(600, 800, "platform");
         this.platforms.create(50, 1200, "platform");
-        this.platforms.create(1000, 400, "platform");
-        this.platforms.create(3400, 900, "platform");
-        this.platforms.create(2000, 1100, "platform");
+        this.platforms.create(1300, 400, "platform");
+        this.platforms.create(1300, 1200, "platform");
+        this.platforms.create(3000, 400, "platform");
         this.platforms.create(3000, 1200, "platform");
+        this.platforms.create(2200, 800, "platform");
 
         this.player = this.physics.add.sprite(100, 450, "cowboy");
         this.player.setBounce(0.2);
@@ -570,7 +570,7 @@ export default class levelThree extends Phaser.Scene {
 
         // ---------------------------------------------------------------------------------------
         // @Sibyl here is where I added the example I was talking about
-        const item1 = this.createItem(600, 675, "drum_item");
+        const item1 = this.createItem(1300, 280, "drum_item");
         this.physics.add.collider(
             this.player,
             item1,
@@ -580,7 +580,7 @@ export default class levelThree extends Phaser.Scene {
             undefined,
             this
         );
-        const item2 = this.createItem(3400, 775, "speed_item");
+        const item2 = this.createItem(3000, 280, "speed_item");
         this.physics.add.collider(
             this.player,
             item2,

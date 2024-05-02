@@ -146,10 +146,10 @@ export default class levelOne extends Phaser.Scene {
 
         this.platforms.create(600, 800, "platform");
         this.platforms.create(50, 1200, "platform");
-        this.platforms.create(1000, 400, "platform");
+        this.platforms.create(1200, 400, "platform");
         this.platforms.create(3400, 900, "platform");
         this.platforms.create(2000, 1100, "platform");
-        this.platforms.create(3000, 1200, "platform");
+        this.platforms.create(2800, 1300, "platform");
 
         this.player = this.physics.add.sprite(100, 450, "cowboy");
         this.player.setBounce(0.2);
