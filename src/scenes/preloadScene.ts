@@ -51,7 +51,7 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image("vest_item", "assets/img/LevelImg/Items/vest_item.png");
         this.load.image(
             "springs_item",
-            "assets/img/LevelImg/Items/springs_item.png"
+            "assets/img/LevelImg/Items/spring_item.png"
         );
         this.load.image(
             "wheels_item",
@@ -121,6 +121,10 @@ export default class PreloadScene extends Phaser.Scene {
             "assets/img/buttons/clothes/button_wheels.png"
         );
         this.load.image(
+            "complete_game_button",
+            "assets/img/buttons/button_complete_game.png"
+        );
+        this.load.image(
             "submit_button",
             "assets/img/buttons/button_submit_code.png"
         );
@@ -133,11 +137,19 @@ export default class PreloadScene extends Phaser.Scene {
             "locked_button",
             "assets/img/buttons/button_locked.png"
         );
+        this.load.image(
+            "return_to_loadout_button",
+            "assets/img/buttons/button_return_to_loadout.png"
+        );
+        this.load.image("cleared_level", "assets/img/cleared_level.png");
 
         this.load.spritesheet("dude", "assets/img/dude.png", {
             frameWidth: 32,
             frameHeight: 48,
         });
+
+        this.load.image("title_screen", "assets/img/title_screen.png");
+
         this.load.spritesheet("cowboy", "assets/img/LevelImg/Cowboy_15x1.png", {
             frameWidth: 160,
             frameHeight: 160,
@@ -158,9 +170,39 @@ export default class PreloadScene extends Phaser.Scene {
                 frameHeight: 160,
             }
         );
+        this.load.spritesheet("boss", "assets/img/LevelImg/boss.png", {
+            frameWidth: 256,
+            frameHeight: 256,
+        });
 
         // Loadout Menu Screen background
         this.load.image("LoadoutMenu", "assets/img/LoadoutMenu.png");
+
+        this.load.image("begin_button", "assets/img/buttons/button_begin.png");
+        this.load.image(
+            "start_game_button",
+            "assets/img/buttons/button_start_game.png"
+        );
+        this.load.image(
+            "level_1_button",
+            "assets/img/LevelSelection/level_1_button.png"
+        );
+        this.load.image(
+            "level_2_button",
+            "assets/img/LevelSelection/level_2_button.png"
+        );
+        this.load.image(
+            "level_3_button",
+            "assets/img/LevelSelection/level_3_button.png"
+        );
+        this.load.image(
+            "level_locked_button",
+            "assets/img/LevelSelection/locked_level.png"
+        );
+        this.load.image(
+            "level_select_screen",
+            "assets/img/LevelSelection/level_select_screen.png"
+        );
     }
 
     create() {
@@ -176,10 +218,17 @@ export default class PreloadScene extends Phaser.Scene {
          *         let var = this.game.registry.get("variable-name");
          *         this.game.registry.set("variable-name", var + number);
          */
-        this.game.registry.set("speedModifier", 0); // Left - Right movement velocity
-        this.game.registry.set("jumpModifier", 0); // Jump velocity
-        this.game.registry.set("fireRateModifier", 0); // Shots per second
-        this.game.registry.set("reloadModifier", 0); // Reload time in seconds
+        this.game.registry.set("speedModifier", 160); // Left - Right movement velocity (original value 160)
+        this.game.registry.set("jumpModifier", -550); // Jump velocity
+        this.game.registry.set("shieldModifier", 1); // how many bullets it takes to loose a life
+        // -------- STILL NEED TO ADD THIS ---------
+        this.game.registry.set("playerWeight", 1); // determines how much gravity acts on the player
+        // -----------------------------------------
+        this.game.registry.set("bulletSpeed", 1500); // how fast the bullets travel
+        this.game.registry.set("fireRateModifier", 1000); // Shots per second
+        this.game.registry.set("reloadModifier", 3000); // Reload time in milliseconds
+        this.game.registry.set("magazine", 5); //sets the number of bullets user has original number 5
+        this.game.registry.set("previousLevel", 1);
 
         // Global variables for Clothes and Gun Unlocks
         this.game.registry.set("ponchoUnlocked", false);
@@ -193,8 +242,12 @@ export default class PreloadScene extends Phaser.Scene {
         this.game.registry.set("speedUnlocked", false);
         this.game.registry.set("drumUnlocked", false);
 
+        //Global variables indecating whether a level is unlocked or not
+        this.game.registry.set("levelTwoUnlocked", false);
+        this.game.registry.set("levelThreeUnlocked", false);
+
         // Start First Scene
         this.scene.stop("LoadoutSceneTextboxInserts");
-        this.scene.start("instructions");
+        this.scene.start("TitleScreen");
     }
 }

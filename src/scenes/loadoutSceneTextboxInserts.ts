@@ -19,7 +19,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
     aTT: string | undefined;
     aTB: string | undefined;
 
-    alpha: boolean = true;
+    beta: boolean = true;
     errFeed: Phaser.GameObjects.Text | null = null;
 
     ponchoUnlocked: boolean = false;
@@ -280,7 +280,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                     this.errFeed = this.add.text(
                         425,
                         1450,
-                        `Invalid class name: ${this.cOD}`,
+                        `Invalid class name: ${this.cOD}\nInput is case sensitive.`,
                         {
                             font: "45px Arial",
                             color: "#ffffff",
@@ -323,10 +323,10 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                     this.errFeed = this.add.text(
                         425,
                         1450,
-                        `Invalid Gun variable: ${this.aOT.substring(
+                        `Invalid Gun variable: "${this.aOT.substring(
                             0,
                             this.aOT.length - 1
-                        )}\n\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Gun" class and are\nof the format ATTRIBUTE:TYPE;`,
+                        )}"\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Gun" class, are\nof the format "ATTRIBUTE:TYPE;",\nand are all lowercase.`,
                         {
                             font: "45px Arial",
                             color: "#ffffff",
@@ -369,10 +369,10 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                     this.errFeed = this.add.text(
                         425,
                         1450,
-                        `Invalid Gun variable: ${this.aOB.substring(
+                        `Invalid Gun variable: "${this.aOB.substring(
                             0,
                             this.aOB.length - 1
-                        )}\n\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Gun" class and are\nof the format "ATTRIBUTE:TYPE;"`,
+                        )}"\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Gun" class, are\nof the format "ATTRIBUTE:TYPE;",\nand are all lowercase.`,
                         {
                             font: "45px Arial",
                             color: "#ffffff",
@@ -428,7 +428,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                     this.errFeed = this.add.text(
                         425,
                         1450,
-                        `Invalid class name: ${this.cTD}`,
+                        `Invalid class name: ${this.cTD}\nInput is case sensitive.`,
                         {
                             font: "45px Arial",
                             color: "#ffffff",
@@ -474,7 +474,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                         `Invalid Clothes variable: ${this.aTT.substring(
                             0,
                             this.aTT.length - 1
-                        )}\n\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Clothes" class and are\nof the format ATTRIBUTE:TYPE;`,
+                        )}\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Clothes" class, are\nof the format "ATTRIBUTE:TYPE;",\nand are all lowercase.`,
                         {
                             font: "45px Arial",
                             color: "#ffffff",
@@ -520,7 +520,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                         `Invalid Clothes variable: ${this.aTB.substring(
                             0,
                             this.aTB.length - 1
-                        )}\n\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Clothes" class and are\nof the format "ATTRIBUTE:TYPE;"`,
+                        )}\nMake sure ATTRIBUTE and TYPE exist in\nthe Menu under the "Clothes" class, are\nof the format "ATTRIBUTE:TYPE;",\nand are all lowercase.`,
                         {
                             font: "45px Arial",
                             color: "#ffffff",
@@ -551,6 +551,136 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
 
             // IF ALL CONDITIONS ARE MET: Start Level
             else {
+                if (this.aOT?.substring(0, this.aOT.indexOf(":")) == "none") {
+                    if (this.aOT.includes("scope")) {
+                        this.game.registry.set("bulletSpeed", 1500);
+                        this.game.registry.set("fireRateModifier", 1000);
+                    } else {
+                        this.game.registry.set("reloadModifier", 3000);
+                        this.game.registry.set("magazine", 5);
+                    }
+                } else if (
+                    this.aOT?.substring(0, this.aOT.indexOf(":")) == "close"
+                ) {
+                    this.game.registry.set("bulletSpeed", 1200);
+                    this.game.registry.set("fireRateModifier", 200);
+                } else if (
+                    this.aOT?.substring(0, this.aOT.indexOf(":")) == "eagle"
+                ) {
+                    this.game.registry.set("bulletSpeed", 3000);
+                    this.game.registry.set("fireRateModifier", 1750);
+                } else if (
+                    this.aOT?.substring(0, this.aOT.indexOf(":")) == "drum"
+                ) {
+                    this.game.registry.set("reloadModifier", 5000);
+                    this.game.registry.set("magazine", 15);
+                } else if (
+                    this.aOT?.substring(0, this.aOT.indexOf(":")) == "speed"
+                ) {
+                    this.game.registry.set("reloadModifier", 1000);
+                    this.game.registry.set("magazine", 8);
+                } else if (
+                    this.aOT?.substring(0, this.aOT.indexOf(":")) == "minigun"
+                ) {
+                    this.game.registry.set("reloadModifier", 8000);
+                    this.game.registry.set("magazine", 100);
+                }
+
+                if (this.aOB?.substring(0, this.aOB.indexOf(":")) == "none") {
+                    if (this.aOB.includes("scope")) {
+                        this.game.registry.set("bulletSpeed", 1500);
+                        this.game.registry.set("fireRateModifier", 1000);
+                    } else {
+                        this.game.registry.set("reloadModifier", 3000);
+                        this.game.registry.set("magazine", 5);
+                    }
+                } else if (
+                    this.aOB?.substring(0, this.aOB.indexOf(":")) == "close"
+                ) {
+                    this.game.registry.set("bulletSpeed", 1000);
+                    this.game.registry.set("fireRateModifier", 200);
+                } else if (
+                    this.aOB?.substring(0, this.aOB.indexOf(":")) == "eagle"
+                ) {
+                    this.game.registry.set("bulletSpeed", 3000);
+                    this.game.registry.set("fireRateModifier", 1500);
+                } else if (
+                    this.aOB?.substring(0, this.aOB.indexOf(":")) == "drum"
+                ) {
+                    this.game.registry.set("reloadModifier", 5000);
+                    this.game.registry.set("magazine", 15);
+                } else if (
+                    this.aOB?.substring(0, this.aOB.indexOf(":")) == "speed"
+                ) {
+                    this.game.registry.set("reloadModifier", 1000);
+                    this.game.registry.set("magazine", 8);
+                } else if (
+                    this.aOB?.substring(0, this.aOB.indexOf(":")) == "minigun"
+                ) {
+                    this.game.registry.set("reloadModifier", 100);
+                    this.game.registry.set("magazine", 100);
+                }
+
+                if (this.aTT?.substring(0, this.aTT.indexOf(":")) == "none") {
+                    if (this.aTT.includes("shirt")) {
+                        this.game.registry.set("speedModifier", 160);
+                        this.game.registry.set("jumpModifier", -550);
+                    } else {
+                        this.game.registry.set("shieldModifier", 1);
+                        this.game.registry.set("playerWeight", 2);
+                    }
+                } else if (
+                    this.aTT?.substring(0, this.aTT.indexOf(":")) == "poncho"
+                ) {
+                    this.game.registry.set("shieldModifier", 3);
+                    this.game.registry.set("playerWeight", 3);
+                } else if (
+                    this.aTT?.substring(0, this.aTT.indexOf(":")) == "vest"
+                ) {
+                    this.game.registry.set("shieldModifier", 2);
+                    this.game.registry.set("playerWeight", 2);
+                } else if (
+                    this.aTT?.substring(0, this.aTT.indexOf(":")) == "wheels"
+                ) {
+                    this.game.registry.set("speedModifier", 300);
+                    this.game.registry.set("jumpModifier", -550);
+                } else if (
+                    this.aTT?.substring(0, this.aTT.indexOf(":")) == "springs"
+                ) {
+                    this.game.registry.set("jumpModifier", -750);
+                    this.game.registry.set("speedModifier", 160);
+                }
+
+                if (this.aTB?.substring(0, this.aTB.indexOf(":")) == "none") {
+                    if (this.aTB.includes("shirt")) {
+                        this.game.registry.set("speedModifier", 160);
+                        this.game.registry.set("jumpModifier", -550);
+                    } else {
+                        this.game.registry.set("shieldModifier", 1);
+                        this.game.registry.set("playerWeight", 2);
+                    }
+                } else if (
+                    this.aTB?.substring(0, this.aTB.indexOf(":")) == "poncho"
+                ) {
+                    this.game.registry.set("shieldModifier", 3);
+                    this.game.registry.set("playerWeight", 3);
+                } else if (
+                    this.aTB?.substring(0, this.aTB.indexOf(":")) == "vest"
+                ) {
+                    this.game.registry.set("shieldModifier", 2);
+                    this.game.registry.set("playerWeight", 2);
+                } else if (
+                    this.aTB?.substring(0, this.aTB.indexOf(":")) == "wheels"
+                ) {
+                    this.game.registry.set("speedModifier", 300);
+                    this.game.registry.set("jumpModifier", -550);
+                } else if (
+                    this.aTB?.substring(0, this.aTB.indexOf(":")) == "springs"
+                ) {
+                    this.game.registry.set("jumpModifier", -750);
+                    this.game.registry.set("speedModifier", 160);
+                }
+
                 this.classOneDef =
                     this.attrOneBotDef =
                     this.attrOneTopDef =
@@ -565,12 +695,12 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                     this.aOB =
                     this.aTB =
                         undefined;
-                this.scene.start("levelOne");
+                this.scene.start("levelScreen");
             }
         });
 
         // dev button to skip to level
-        if (this.alpha) {
+        if (this.beta) {
             this.createClickableTextAndSize(
                 0,
                 0,
@@ -579,7 +709,9 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                 "#ffffff",
                 "#ff0000",
                 () => {
-                    this.scene.start("levelOne");
+                    this.game.registry.set("levelTwoUnlocked", true);
+                    this.game.registry.set("levelThreeUnlocked", true);
+                    this.scene.start("levelScreen"); ///Sibyl
                 }
             );
         }
