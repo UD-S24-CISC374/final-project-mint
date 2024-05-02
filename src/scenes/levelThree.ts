@@ -489,6 +489,7 @@ export default class levelThree extends Phaser.Scene {
     }
 
     private handleHitCheckpoint() {
+        this.game.registry.set("minigunUnlocked", true);
         this.scene.start("endScene");
     }
     private handleKillBaddie(
