@@ -578,12 +578,12 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                     this.aOT?.substring(0, this.aOT.indexOf(":")) == "speed"
                 ) {
                     this.game.registry.set("reloadModifier", 1000);
-                    this.game.registry.set("magazine", 8);
+                    this.game.registry.set("magazine", 4);
                 } else if (
                     this.aOT?.substring(0, this.aOT.indexOf(":")) == "minigun"
                 ) {
-                    this.game.registry.set("reloadModifier", 8000);
-                    this.game.registry.set("magazine", 100);
+                    this.game.registry.set("reloadModifier", 10000);
+                    this.game.registry.set("magazine", 55);
                 }
 
                 if (this.aOB?.substring(0, this.aOB.indexOf(":")) == "none") {
@@ -613,12 +613,12 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                     this.aOB?.substring(0, this.aOB.indexOf(":")) == "speed"
                 ) {
                     this.game.registry.set("reloadModifier", 1000);
-                    this.game.registry.set("magazine", 8);
+                    this.game.registry.set("magazine", 4);
                 } else if (
                     this.aOB?.substring(0, this.aOB.indexOf(":")) == "minigun"
                 ) {
-                    this.game.registry.set("reloadModifier", 100);
-                    this.game.registry.set("magazine", 100);
+                    this.game.registry.set("reloadModifier", 10000);
+                    this.game.registry.set("magazine", 55);
                 }
 
                 if (this.aTT?.substring(0, this.aTT.indexOf(":")) == "none") {

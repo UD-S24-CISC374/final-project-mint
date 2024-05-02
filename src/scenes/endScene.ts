@@ -24,7 +24,7 @@ export default class endScene extends Phaser.Scene {
             return;
         }
         if (this.cursors.space.isDown) {
-            this.scene.start("instructions");
+            this.scene.start("TitleScreen");
         }
     }
 }

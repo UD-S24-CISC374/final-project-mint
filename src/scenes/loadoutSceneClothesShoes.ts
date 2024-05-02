@@ -21,6 +21,7 @@ export default class LoadoutSceneClothesShoes extends Phaser.Scene {
             "Shoes ATTRIBUTES:",
             "#BB00BB",
             "#00000000",
+            "100px",
             () => {}
         );
 
@@ -32,6 +33,15 @@ export default class LoadoutSceneClothesShoes extends Phaser.Scene {
                 700,
                 "springs_button",
                 false,
+                () => {}
+            );
+            this.createClickableText(
+                3600,
+                635,
+                "+ 5 jump height",
+                "#00bb00",
+                "#00000000",
+                "50px",
                 () => {}
             );
         } else {
@@ -50,6 +60,15 @@ export default class LoadoutSceneClothesShoes extends Phaser.Scene {
                 900,
                 "wheels_button",
                 false,
+                () => {}
+            );
+            this.createClickableText(
+                3600,
+                835,
+                "+ 5 movement speed",
+                "#00bb00",
+                "#00000000",
+                "50px",
                 () => {}
             );
         } else {
@@ -73,12 +92,13 @@ export default class LoadoutSceneClothesShoes extends Phaser.Scene {
         text: string,
         textColor: string,
         backdrop: string,
+        size: string,
         onClick: () => void
     ): void {
         // Predefined style for all clickable text instances
         const style: Phaser.Types.GameObjects.Text.TextStyle = {
             fontFamily: "Arial",
-            fontSize: "100px",
+            fontSize: size,
             color: textColor,
             align: "center",
             backgroundColor: backdrop,
