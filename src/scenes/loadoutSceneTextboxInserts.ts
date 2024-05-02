@@ -562,7 +562,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                 } else if (
                     this.aOT?.substring(0, this.aOT.indexOf(":")) == "close"
                 ) {
-                    this.game.registry.set("bulletSpeed", 1000);
+                    this.game.registry.set("bulletSpeed", 1200);
                     this.game.registry.set("fireRateModifier", 200);
                 } else if (
                     this.aOT?.substring(0, this.aOT.indexOf(":")) == "eagle"
@@ -603,7 +603,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                     this.aOB?.substring(0, this.aOB.indexOf(":")) == "eagle"
                 ) {
                     this.game.registry.set("bulletSpeed", 3000);
-                    this.game.registry.set("fireRateModifier", 1750);
+                    this.game.registry.set("fireRateModifier", 1500);
                 } else if (
                     this.aOB?.substring(0, this.aOB.indexOf(":")) == "drum"
                 ) {
@@ -632,29 +632,49 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                 } else if (
                     this.aTT?.substring(0, this.aTT.indexOf(":")) == "poncho"
                 ) {
-                    this.game.registry.set("shieldModifier", 2);
+                    this.game.registry.set("shieldModifier", 3);
                     this.game.registry.set("playerWeight", 3);
                 } else if (
-                    this.aTT?.substring(0, this.aTT.indexOf(":")) == "eagle"
+                    this.aTT?.substring(0, this.aTT.indexOf(":")) == "vest"
                 ) {
-                    this.game.registry.set("shieldModifier", 1);
-                    this.game.registry.set("playerWeight", 1);
-                } // LEFT OFF HERE
-                else if (
-                    this.aTT?.substring(0, this.aTT.indexOf(":")) == "drum"
-                ) {
-                    this.game.registry.set("reloadModifier", 5000);
-                    this.game.registry.set("magazine", 15);
+                    this.game.registry.set("shieldModifier", 2);
+                    this.game.registry.set("playerWeight", 2);
                 } else if (
-                    this.aTT?.substring(0, this.aTT.indexOf(":")) == "speed"
+                    this.aTT?.substring(0, this.aTT.indexOf(":")) == "wheels"
                 ) {
-                    this.game.registry.set("reloadModifier", 1000);
-                    this.game.registry.set("magazine", 8);
+                    this.game.registry.set("speedModifier", 300);
                 } else if (
-                    this.aTT?.substring(0, this.aTT.indexOf(":")) == "minigun"
+                    this.aTT?.substring(0, this.aTT.indexOf(":")) == "springs"
                 ) {
-                    this.game.registry.set("reloadModifier", 100);
-                    this.game.registry.set("magazine", 100);
+                    this.game.registry.set("jumpModifier", -750);
+                }
+
+                if (this.aTB?.substring(0, this.aTB.indexOf(":")) == "none") {
+                    if (this.aTB.includes("shirt")) {
+                        this.game.registry.set("speedModifier", 160);
+                        this.game.registry.set("jumpModifier", -550);
+                    } else {
+                        this.game.registry.set("shieldModifier", 1);
+                        this.game.registry.set("playerWeight", 2);
+                    }
+                } else if (
+                    this.aTB?.substring(0, this.aTB.indexOf(":")) == "poncho"
+                ) {
+                    this.game.registry.set("shieldModifier", 3);
+                    this.game.registry.set("playerWeight", 3);
+                } else if (
+                    this.aTB?.substring(0, this.aTB.indexOf(":")) == "vest"
+                ) {
+                    this.game.registry.set("shieldModifier", 2);
+                    this.game.registry.set("playerWeight", 2);
+                } else if (
+                    this.aTB?.substring(0, this.aTB.indexOf(":")) == "wheels"
+                ) {
+                    this.game.registry.set("speedModifier", 300);
+                } else if (
+                    this.aTB?.substring(0, this.aTB.indexOf(":")) == "springs"
+                ) {
+                    this.game.registry.set("jumpModifier", -750);
                 }
 
                 this.classOneDef =
@@ -671,7 +691,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                     this.aOB =
                     this.aTB =
                         undefined;
-                this.scene.start("levelOne");
+                this.scene.start("levelScreen");
             }
         });
 

@@ -158,9 +158,34 @@ export default class PreloadScene extends Phaser.Scene {
                 frameHeight: 160,
             }
         );
+        this.load.spritesheet("boss", "assets/img/LevelImg/boss.png", {
+            frameWidth: 256,
+            frameHeight: 256,
+        });
 
         // Loadout Menu Screen background
         this.load.image("LoadoutMenu", "assets/img/LoadoutMenu.png");
+
+        this.load.image(
+            "level_1_button",
+            "assets/img/LevelSelection/level_1_button.png"
+        );
+        this.load.image(
+            "level_2_button",
+            "assets/img/LevelSelection/level_2_button.png"
+        );
+        this.load.image(
+            "level_3_button",
+            "assets/img/LevelSelection/level_3_button.png"
+        );
+        this.load.image(
+            "level_locked_button",
+            "assets/img/LevelSelection/locked_level.png"
+        );
+        this.load.image(
+            "level_select_screen",
+            "assets/img/LevelSelection/level_select_screen.png"
+        );
     }
 
     create() {
@@ -176,16 +201,16 @@ export default class PreloadScene extends Phaser.Scene {
          *         let var = this.game.registry.get("variable-name");
          *         this.game.registry.set("variable-name", var + number);
          */
-        this.game.registry.set("speedModifier", 160); // Left - Right movement velocity
+        this.game.registry.set("speedModifier", 160); // Left - Right movement velocity (original value 160)
         this.game.registry.set("jumpModifier", -550); // Jump velocity
         this.game.registry.set("shieldModifier", 1); // how many bullets it takes to loose a life
         // -------- STILL NEED TO ADD THIS ---------
-        this.game.registry.set("playerWeight", 2); // determines how much gravity acts on the player
+        this.game.registry.set("playerWeight", 1); // determines how much gravity acts on the player
         // -----------------------------------------
         this.game.registry.set("bulletSpeed", 1500); // how fast the bullets travel
         this.game.registry.set("fireRateModifier", 1000); // Shots per second
         this.game.registry.set("reloadModifier", 3000); // Reload time in milliseconds
-        this.game.registry.set("magazine", 5); //sets the number of bullets user has
+        this.game.registry.set("magazine", 5); //sets the number of bullets user has original number 5
 
         // Global variables for Clothes and Gun Unlocks
         this.game.registry.set("ponchoUnlocked", false);
@@ -200,8 +225,8 @@ export default class PreloadScene extends Phaser.Scene {
         this.game.registry.set("drumUnlocked", false);
 
         //Global variables indecating whether a level is unlocked or not
-        this.game.registry.set("levelTwoUnlocked", true);
-        this.game.registry.set("levelThreeUnlocked", true);
+        this.game.registry.set("levelTwoUnlocked", false);
+        this.game.registry.set("levelThreeUnlocked", false);
 
         // Start First Scene
         this.scene.stop("LoadoutSceneTextboxInserts");
