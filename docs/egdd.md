@@ -4,7 +4,7 @@
 
 ## Elevator Pitch
 
-Step into a totally accurate representation of Wild West with Western Weaponsmith: Code Arsenal, a unique single-player platformer that blends 2D adventure with coding education as players craft their weapon load-outs through coding classes to rescue the captive saloon people and conquer enemies in this comedic coding quest.
+Step into a totally accurate representation of Wild West with Western Weaponsmith: Code Arsenal, a unique single-player platformer that blends 2D adventure with coding education as players craft their weapon load-outs through coding classes and instances in TypeScript to conquer enemies in this comedic coding quest.
 
 ## Influences (Brief)
 
