@@ -28,7 +28,7 @@ Step into a totally accurate representation of Wild West with Western Weaponsmit
 # Screenshot
 
 Example game play:
-![Example](./docs/large.png "Example")
+![Example](./docs/small.png "Example")
 
 # Gameplay Video
 
