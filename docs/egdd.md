@@ -20,10 +20,10 @@ Step into a totally accurate representation of Wild West with Western Weaponsmit
 
 ## Core Gameplay Mechanics (Brief)
 
--   Navigate your sheriff using the WASD keys
+-   Navigate your sheriff using the arrow keys
 -   Attack/use your item by clicking the space bar
 -   Loading a new level or reaching a checkpoint will prompt the user to edit their loadout by bringing up the coding arsenal book
--   Navigate unlocked classes and types in the coding menu using the arrow keys
+-   Navigate unlocked classes and types in the coding menu by clicking through
 -   Select which part of the coding arsenal book you are writing in by selecting it with your pointer/cursor
 -   Use your keyboard to type into each field of the class definition in order to create your loadout (based on the classes and types you have unlocked, as indicated in the coding menu)
 -   When the user’s health reaches 0, the user will be prompted to either restart with their current level loadout, to edit their loadout, or to exit to the main menu
@@ -36,6 +36,7 @@ Step into a totally accurate representation of Wild West with Western Weaponsmit
 
 -   Introductory TypeScript Programming
 -   Class Definitions in Object-Oriented Programming
+-   basic typescript instances
 
 ## Target Audiences
 
@@ -51,7 +52,6 @@ Step into a totally accurate representation of Wild West with Western Weaponsmit
 
 -   Writing Classes: By the end of gameplay, users will be able to write classes and constructors to initialize and create objects in TypeScript
 -   Class - Object Relationships: By the end of gameplay users will be able to explain the relationship between objects and the instance variables defined in the class definition describing the object’s properties
--   Describe the “this” operator: By the end of gameplay, users will be able to describe the difference between two variables with the same name but one variable is preceded by the “this” operator
 
 ## Prerequisite Knowledge
 
@@ -102,7 +102,7 @@ Players use a “command window” to add on/ modify an existing weapon, or make
 -   User can only utilize classes and attributes which they have collected/already own
 -   All enemies must be defeated for boss to appear
     -   “Defeated” means enemy health bar has depleted to 0 and enemy disappears from the screen
--   Can only change weapon between levels, before boss, or between deaths
+-   Can only change weapon between levels, or between deaths
 -   If user health bar reaches 0, level restarts
     -   If user dies 3 times in the same level, entire game resets
 

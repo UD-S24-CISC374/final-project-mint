@@ -27,15 +27,16 @@ Step into a totally accurate representation of Wild West with Western Weaponsmit
 
 # Screenshot
 
-TEXT GOES HERE
+Example game play!
+![Example Screenshot](/docs/large.png "Example")
 
 # Gameplay Video
 
-TEXT GOES HERE
+[https://drive.google.com/file/d/1nNhORH82lCROw4jYb86jMfRGHVT-mQvN/view?ts=6642a7e6]
 
 # Educational Game Design Document
 
-Link to our [egdd](Educational Game Design Document)
+Link to our [https://github.com/UD-S24-CISC374/final-project-mint/blob/main/docs/egdd.md](Educational Game Design Document)
 
 # Credits
 
