@@ -11,7 +11,7 @@ export default class LoadoutExample extends Phaser.Scene {
     create() {
         this.add.image(2048, 857, "LoadoutExample");
 
-        this.createClickableImage(2000, 1575, "go_back_button", () => {
+        this.createClickableImage(2025, 1550, "go_back_button", () => {
             this.scene.start("LoadoutSceneTextboxInserts");
         });
     }
@@ -24,12 +24,12 @@ export default class LoadoutExample extends Phaser.Scene {
     ) {
         const button = this.add.image(x, y, imageName).setInteractive();
 
-        button.setScale(2.5);
+        button.setScale(3.5);
 
         button.on("pointerover", () => {
             this.tweens.add({
                 targets: button,
-                scale: { from: 2.5, to: 2.75 },
+                scale: { from: 3.5, to: 3.75 },
                 duration: 200,
                 ease: "Linear",
             });
@@ -38,7 +38,7 @@ export default class LoadoutExample extends Phaser.Scene {
         button.on("pointerout", () => {
             this.tweens.add({
                 targets: button,
-                scale: { from: 2.75, to: 2.5 },
+                scale: { from: 3.75, to: 3.5 },
                 duration: 200,
                 ease: "Linear",
             });
