@@ -467,36 +467,42 @@ export default class levelTwo extends Phaser.Scene {
 
         // ---------------------------------------------------------------------------------------
         // @Sibyl here is where I added the example I was talking about
-        const item1 = this.createItem(985, 685, "wheels_item");
-        this.physics.add.collider(
-            this.player,
-            item1,
-            (player, item) => {
-                this.handleItemCollect(item as Phaser.GameObjects.Image, 4);
-            },
-            undefined,
-            this
-        );
-        const item2 = this.createItem(3250, 285, "eagle_item");
-        this.physics.add.collider(
-            this.player,
-            item2,
-            (player, item) => {
-                this.handleItemCollect(item as Phaser.GameObjects.Image, 6);
-            },
-            undefined,
-            this
-        );
-        const item3 = this.createItem(2500, 685, "speed_item");
-        this.physics.add.collider(
-            this.player,
-            item3,
-            (player, item) => {
-                this.handleItemCollect(item as Phaser.GameObjects.Image, 8);
-            },
-            undefined,
-            this
-        );
+        if (!this.game.registry.get("wheelsUnlocked")) {
+            const item1 = this.createItem(985, 685, "wheels_item");
+            this.physics.add.collider(
+                this.player,
+                item1,
+                (player, item) => {
+                    this.handleItemCollect(item as Phaser.GameObjects.Image, 4);
+                },
+                undefined,
+                this
+            );
+        }
+        if (!this.game.registry.get("eagleUnlocked")) {
+            const item2 = this.createItem(3250, 285, "eagle_item");
+            this.physics.add.collider(
+                this.player,
+                item2,
+                (player, item) => {
+                    this.handleItemCollect(item as Phaser.GameObjects.Image, 6);
+                },
+                undefined,
+                this
+            );
+        }
+        if (!this.game.registry.get("speedUnlocked")) {
+            const item3 = this.createItem(2500, 685, "speed_item");
+            this.physics.add.collider(
+                this.player,
+                item3,
+                (player, item) => {
+                    this.handleItemCollect(item as Phaser.GameObjects.Image, 8);
+                },
+                undefined,
+                this
+            );
+        }
         // ---------------------------------------------------------------------------------------
     }
 

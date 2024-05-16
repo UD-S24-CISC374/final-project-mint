@@ -595,26 +595,30 @@ export default class levelThree extends Phaser.Scene {
 
         // ---------------------------------------------------------------------------------------
         // @Sibyl here is where I added the example I was talking about
-        const item1 = this.createItem(1300, 280, "drum_item");
-        this.physics.add.collider(
-            this.player,
-            item1,
-            (player, item) => {
-                this.handleItemCollect(item as Phaser.GameObjects.Image, 9);
-            },
-            undefined,
-            this
-        );
-        const item2 = this.createItem(3000, 280, "vest_item");
-        this.physics.add.collider(
-            this.player,
-            item2,
-            (player, item) => {
-                this.handleItemCollect(item as Phaser.GameObjects.Image, 2);
-            },
-            undefined,
-            this
-        );
+        if (!this.game.registry.get("drumUnlocked")) {
+            const item1 = this.createItem(1300, 280, "drum_item");
+            this.physics.add.collider(
+                this.player,
+                item1,
+                (player, item) => {
+                    this.handleItemCollect(item as Phaser.GameObjects.Image, 9);
+                },
+                undefined,
+                this
+            );
+        }
+        if (!this.game.registry.get("vestUnlocked")) {
+            const item2 = this.createItem(3000, 280, "vest_item");
+            this.physics.add.collider(
+                this.player,
+                item2,
+                (player, item) => {
+                    this.handleItemCollect(item as Phaser.GameObjects.Image, 2);
+                },
+                undefined,
+                this
+            );
+        }
         // ---------------------------------------------------------------------------------------
     }
 

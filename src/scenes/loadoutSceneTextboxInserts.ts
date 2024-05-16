@@ -15,7 +15,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
     aTT: string | undefined;
     aTB: string | undefined;
 
-    beta: boolean = false;
+    beta: boolean = true;
     errFeed: Phaser.GameObjects.Text | null = null;
 
     ponchoUnlocked: boolean = false;
@@ -43,6 +43,34 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
         this.aOB = undefined;
         this.aTB = undefined;
 
+        // dev button to skip to level
+        if (this.beta) {
+            this.game.registry.set("levelTwoUnlocked", true);
+            this.game.registry.set("levelThreeUnlocked", true);
+            this.game.registry.set("ponchoUnlocked", true);
+            this.game.registry.set("vestUnlocked", true);
+            this.game.registry.set("springsUnlocked", true);
+            this.game.registry.set("wheelsUnlocked", true);
+
+            this.game.registry.set("closeUnlocked", true);
+            this.game.registry.set("eagleUnlocked", true);
+            this.game.registry.set("minigunUnlocked", true);
+            this.game.registry.set("speedUnlocked", true);
+            this.game.registry.set("drumUnlocked", true);
+
+            this.createClickableTextAndSize(
+                0,
+                0,
+                "50px",
+                "cheat (devs only)",
+                "#ffffff",
+                "#ff0000",
+                () => {
+                    this.scene.start("levelScreen"); ///Sibyl
+                }
+            );
+        }
+
         // Check status of unlocked items
         this.ponchoUnlocked = this.game.registry.get("ponchoUnlocked");
         this.vestUnlocked = this.game.registry.get("vestUnlocked");
@@ -59,9 +87,8 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             this.aOB = newValue;
             if (
                 newValue == "none" ||
-                (newValue == "speed" && this.speedUnlocked) ||
-                (newValue == "drum" && this.drumUnlocked) ||
-                (newValue == "minigun" && this.minigunUnlocked)
+                (newValue == "close" && this.closeUnlocked) ||
+                (newValue == "eagle" && this.eagleUnlocked)
             ) {
                 console.log("Set continue to true");
                 this.attrOneBotDef = true;
@@ -74,8 +101,9 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             this.aOT = newValue;
             if (
                 newValue == "none" ||
-                (newValue == "close" && this.closeUnlocked) ||
-                (newValue == "eagle" && this.eagleUnlocked)
+                (newValue == "speed" && this.speedUnlocked) ||
+                (newValue == "drum" && this.drumUnlocked) ||
+                (newValue == "minigun" && this.minigunUnlocked)
             ) {
                 console.log("Set continue to true");
                 this.attrOneTopDef = true;
@@ -85,7 +113,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
         });
 
         this.createEditableText(
-            1480,
+            2040,
             1165,
             400,
             100,
@@ -95,8 +123,8 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                 this.aTT = newValue;
                 if (
                     newValue == "none" ||
-                    (newValue == "springs" && this.springsUnlocked) ||
-                    (newValue == "wheels" && this.wheelsUnlocked)
+                    (newValue == "poncho" && this.ponchoUnlocked) ||
+                    (newValue == "vest" && this.vestUnlocked)
                 ) {
                     console.log("Set continue to true");
                     this.attrTwoTopDef = true;
@@ -106,7 +134,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             }
         );
         this.createEditableText(
-            2040,
+            1480,
             1165,
             400,
             100,
@@ -116,8 +144,8 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                 this.aTB = newValue;
                 if (
                     newValue == "none" ||
-                    (newValue == "poncho" && this.ponchoUnlocked) ||
-                    (newValue == "vest" && this.vestUnlocked)
+                    (newValue == "springs" && this.springsUnlocked) ||
+                    (newValue == "wheels" && this.wheelsUnlocked)
                 ) {
                     console.log("Set continue to true");
                     this.attrTwoBotDef = true;
@@ -207,9 +235,9 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
             }
 
             // ********************************** APPAREL CLASS **********************************
-            else if (!this.attrTwoTopDef) {
+            else if (!this.attrTwoBotDef) {
                 this.errFeed?.destroy();
-                if (!this.aTT) {
+                if (!this.aTB) {
                     this.errFeed = this.add.text(
                         225,
                         1450,
@@ -223,16 +251,16 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                     this.errFeed = this.add.text(
                         225,
                         1450,
-                        `Unrecognized Shoes: ${this.aTT}\nEnsure you have the Shoes\nunlocked by checking the menu.\nInputs are case sensitive.`,
+                        `Unrecognized Shoes: ${this.aTB}\nEnsure you have the Shirt\nunlocked by checking the menu.\nInputs are case sensitive.`,
                         {
                             font: "45px Arial",
                             color: "#ffffff",
                         }
                     );
                 }
-            } else if (!this.attrTwoBotDef) {
+            } else if (!this.attrTwoTopDef) {
                 this.errFeed?.destroy();
-                if (!this.aTB) {
+                if (!this.aTT) {
                     this.errFeed = this.add.text(
                         225,
                         1450,
@@ -246,7 +274,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                     this.errFeed = this.add.text(
                         225,
                         1450,
-                        `Unrecognized Shirt: ${this.aTB}\nEnsure you have the Shirt\nunlocked by checking the menu.\nInputs are case sensitive.`,
+                        `Unrecognized Shirt: ${this.aTT}\nEnsure you have the Shoes\nunlocked by checking the menu.\nInputs are case sensitive.`,
                         {
                             font: "45px Arial",
                             color: "#ffffff",
@@ -257,71 +285,51 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
 
             // IF ALL CONDITIONS ARE MET: Start Level
             else {
-                if (this.aOT == "none") {
-                    if (this.aOT.includes("scope")) {
-                        this.game.registry.set("bulletSpeed", 1500);
-                        this.game.registry.set("fireRateModifier", 1000);
-                    } else {
-                        this.game.registry.set("reloadModifier", 3000);
-                        this.game.registry.set("magazine", 5);
-                    }
-                } else if (this.aOT == "close") {
+                if (this.aOB == "none") {
+                    this.game.registry.set("reloadModifier", 3000);
+                    this.game.registry.set("magazine", 5);
+                } else if (this.aOB == "close") {
                     this.game.registry.set("bulletSpeed", 1200);
                     this.game.registry.set("fireRateModifier", 200);
-                } else if (this.aOT == "eagle") {
+                } else if (this.aOB == "eagle") {
                     this.game.registry.set("bulletSpeed", 3000);
                     this.game.registry.set("fireRateModifier", 1750);
                 }
 
-                if (this.aOB == "none") {
-                    if (this.aOB.includes("scope")) {
-                        this.game.registry.set("bulletSpeed", 1500);
-                        this.game.registry.set("fireRateModifier", 1000);
-                    } else {
-                        this.game.registry.set("reloadModifier", 3000);
-                        this.game.registry.set("magazine", 5);
-                    }
-                } else if (this.aOB == "drum") {
+                if (this.aOT == "none") {
+                    this.game.registry.set("reloadModifier", 3000);
+                    this.game.registry.set("magazine", 5);
+                } else if (this.aOT == "drum") {
                     this.game.registry.set("reloadModifier", 5000);
                     this.game.registry.set("magazine", 15);
-                } else if (this.aOB == "speed") {
+                } else if (this.aOT == "speed") {
                     this.game.registry.set("reloadModifier", 1000);
                     this.game.registry.set("magazine", 4);
-                } else if (this.aOB == "minigun") {
+                } else if (this.aOT == "minigun") {
                     this.game.registry.set("reloadModifier", 10000);
                     this.game.registry.set("magazine", 55);
                 }
 
                 if (this.aTT == "none") {
-                    if (this.aTT.includes("shirt")) {
-                        this.game.registry.set("speedModifier", 160);
-                        this.game.registry.set("jumpModifier", -550);
-                    } else {
-                        this.game.registry.set("shieldModifier", 1);
-                        this.game.registry.set("playerWeight", 2);
-                    }
-                } else if (this.aTT == "wheels") {
-                    this.game.registry.set("speedModifier", 300);
-                    this.game.registry.set("jumpModifier", -550);
-                } else if (this.aTT == "springs") {
-                    this.game.registry.set("jumpModifier", -750);
-                    this.game.registry.set("speedModifier", 160);
+                    this.game.registry.set("shieldModifier", 1);
+                    this.game.registry.set("playerWeight", 2);
+                } else if (this.aTT == "poncho") {
+                    this.game.registry.set("shieldModifier", 3);
+                    this.game.registry.set("playerWeight", 3);
+                } else if (this.aTT == "vest") {
+                    this.game.registry.set("shieldModifier", 2);
+                    this.game.registry.set("playerWeight", 2);
                 }
 
                 if (this.aTB == "none") {
-                    if (this.aTB.includes("shirt")) {
-                        this.game.registry.set("speedModifier", 160);
-                        this.game.registry.set("jumpModifier", -550);
-                    } else {
-                        this.game.registry.set("shieldModifier", 1);
-                        this.game.registry.set("playerWeight", 2);
-                    }
-                } else if (this.aTB == "poncho") {
-                    this.game.registry.set("shieldModifier", 3);
-                    this.game.registry.set("playerWeight", 3);
-                } else if (this.aTB == "vest") {
-                    this.game.registry.set("shieldModifier", 2);
-                    this.game.registry.set("playerWeight", 2);
+                    this.game.registry.set("speedModifier", 160);
+                    this.game.registry.set("jumpModifier", -550);
+                } else if (this.aTB == "wheels") {
+                    this.game.registry.set("speedModifier", 300);
+                    this.game.registry.set("jumpModifier", -550);
+                } else if (this.aTB == "springs") {
+                    this.game.registry.set("jumpModifier", -750);
+                    this.game.registry.set("speedModifier", 160);
                 }
 
                 this.attrOneBotDef =
@@ -333,34 +341,6 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                 this.scene.start("levelScreen");
             }
         });
-
-        // dev button to skip to level
-        if (this.beta) {
-            this.createClickableTextAndSize(
-                0,
-                0,
-                "50px",
-                "cheat (devs only)",
-                "#ffffff",
-                "#ff0000",
-                () => {
-                    this.scene.start("levelScreen"); ///Sibyl
-                }
-            );
-
-            this.game.registry.set("levelTwoUnlocked", true);
-            this.game.registry.set("levelThreeUnlocked", true);
-            this.game.registry.set("ponchoUnlocked", true);
-            this.game.registry.set("vestUnlocked", true);
-            this.game.registry.set("springsUnlocked", true);
-            this.game.registry.set("wheelsUnlocked", true);
-
-            this.game.registry.set("closeUnlocked", true);
-            this.game.registry.set("eagleUnlocked", true);
-            this.game.registry.set("minigunUnlocked", true);
-            this.game.registry.set("speedUnlocked", true);
-            this.game.registry.set("drumUnlocked", true);
-        }
 
         let graphics = this.add.graphics();
         graphics.fillStyle(0x000000, 1);

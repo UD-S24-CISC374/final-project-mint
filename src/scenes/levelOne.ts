@@ -383,36 +383,43 @@ export default class levelOne extends Phaser.Scene {
 
         // ---------------------------------------------------------------------------------------
         // @Sibyl here is where I added the example I was talking about
-        const item1 = this.createItem(600, 675, "springs_item");
-        this.physics.add.collider(
-            this.player,
-            item1,
-            (player, item) => {
-                this.handleItemCollect(item as Phaser.GameObjects.Image, 3);
-            },
-            undefined,
-            this
-        );
-        const item2 = this.createItem(3400, 775, "close_item");
-        this.physics.add.collider(
-            this.player,
-            item2,
-            (player, item) => {
-                this.handleItemCollect(item as Phaser.GameObjects.Image, 5);
-            },
-            undefined,
-            this
-        );
-        const item3 = this.createItem(2000, 975, "poncho_item");
-        this.physics.add.collider(
-            this.player,
-            item3,
-            (player, item) => {
-                this.handleItemCollect(item as Phaser.GameObjects.Image, 1);
-            },
-            undefined,
-            this
-        );
+        if (!this.game.registry.get("springsUnlocked")) {
+            const item1 = this.createItem(600, 675, "springs_item");
+
+            this.physics.add.collider(
+                this.player,
+                item1,
+                (player, item) => {
+                    this.handleItemCollect(item as Phaser.GameObjects.Image, 3);
+                },
+                undefined,
+                this
+            );
+        }
+        if (!this.game.registry.get("closeUnlocked")) {
+            const item2 = this.createItem(3400, 775, "close_item");
+            this.physics.add.collider(
+                this.player,
+                item2,
+                (player, item) => {
+                    this.handleItemCollect(item as Phaser.GameObjects.Image, 5);
+                },
+                undefined,
+                this
+            );
+        }
+        if (!this.game.registry.get("ponchoUnlocked")) {
+            const item3 = this.createItem(2000, 975, "poncho_item");
+            this.physics.add.collider(
+                this.player,
+                item3,
+                (player, item) => {
+                    this.handleItemCollect(item as Phaser.GameObjects.Image, 1);
+                },
+                undefined,
+                this
+            );
+        }
         // ---------------------------------------------------------------------------------------
     }
 
