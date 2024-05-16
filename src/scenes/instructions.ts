@@ -8,6 +8,11 @@ export default class instructions extends Phaser.Scene {
 
     create() {
         this.add.image(2048, 857, "levelBackg");
+
+        let graphics = this.add.graphics();
+        graphics.fillStyle(0xffffff, 1);
+        graphics.fillRect(500, 475, 3250, 800);
+
         this.cursors = this.input.keyboard?.createCursorKeys();
         this.scoreText = this.add.text(1550, 500, "INSTRUCTIONS:", {
             fontSize: "125px",
@@ -16,7 +21,7 @@ export default class instructions extends Phaser.Scene {
         this.scoreText = this.add.text(
             550,
             700,
-            "1. Click buttons under “Menu” to see what classes, types, and attributes you have unlocked.",
+            "1. Click buttons under “Menu” to see which Types and Items you have available.",
             {
                 fontSize: "45px",
                 color: "#000",
@@ -25,7 +30,7 @@ export default class instructions extends Phaser.Scene {
         this.scoreText = this.add.text(
             550,
             800,
-            "2. Use the textboxes to fill in the missing components of each class using your unlocked items.",
+            "2. Fill in the textboxes with the missing information.",
             {
                 fontSize: "45px",
                 color: "#000",
@@ -34,7 +39,7 @@ export default class instructions extends Phaser.Scene {
         this.scoreText = this.add.text(
             550,
             900,
-            "3. Click “Submit Code” and rectify any errors that you see in the errors box.",
+            "3. Click Check Code” and rectify any errors that you see in the errors box.",
             {
                 fontSize: "45px",
                 color: "#000",
@@ -52,7 +57,7 @@ export default class instructions extends Phaser.Scene {
         this.scoreText = this.add.text(
             550,
             1100,
-            "5. Pick up items in each level to make them available in your inventory under the class 'Menu' on the loadout screen.",
+            "5. Pick up items in each level to make them available in your inventory under the 'Menu' on the loadout screen.",
             {
                 fontSize: "45px",
                 color: "#000",
