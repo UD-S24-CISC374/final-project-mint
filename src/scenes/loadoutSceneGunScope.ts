@@ -16,28 +16,59 @@ export default class LoadoutSceneGunScope extends Phaser.Scene {
 
         // Create Menu Textboxes
         this.createClickableText(
-            2950,
+            2650,
             250,
-            "Scope ATTRIBUTES:",
+            "Scope Items:",
             "#BB00BB",
             "#00000000",
             "100px",
             () => {}
         );
 
-        this.createClickableImage(3350, 500, "none_button", false, () => {});
+        this.createClickableText(
+            2650,
+            400,
+            "type Scope =",
+            "#000000",
+            "#00000000",
+            "65px",
+            () => {}
+        );
+
+        this.createClickableText(
+            3300,
+            400,
+            "|                       |                  ;",
+            "#000000",
+            "#00000000",
+            "65px",
+            () => {}
+        );
+
+        this.createClickableText(
+            3050,
+            400,
+            ' "none"         "close"           "eagle"',
+            "#00BB00",
+            "#00000000",
+            "65px",
+            () => {}
+        );
+
+        this.createClickableImage(3050, 600, 2, "none_button", false, () => {});
 
         if (this.closeUnlocked) {
             this.createClickableImage(
-                3350,
-                700,
+                3050,
+                800,
+                2,
                 "close_button",
                 false,
                 () => {}
             );
             this.createClickableText(
-                3600,
-                635,
+                3300,
+                735,
                 "+ 5 fire rate",
                 "#00bb00",
                 "#00000000",
@@ -45,8 +76,8 @@ export default class LoadoutSceneGunScope extends Phaser.Scene {
                 () => {}
             );
             this.createClickableText(
-                3600,
-                695,
+                3300,
+                795,
                 "- 2 shot distance",
                 "#bb0000",
                 "#00000000",
@@ -55,8 +86,17 @@ export default class LoadoutSceneGunScope extends Phaser.Scene {
             );
         } else {
             this.createClickableImage(
-                3350,
-                700,
+                3050,
+                800,
+                2,
+                "locked_button",
+                false,
+                () => {}
+            );
+            this.createClickableImage(
+                3525,
+                435,
+                1.25,
                 "locked_button",
                 false,
                 () => {}
@@ -65,15 +105,16 @@ export default class LoadoutSceneGunScope extends Phaser.Scene {
 
         if (this.eagleUnlocked) {
             this.createClickableImage(
-                3350,
-                900,
+                3050,
+                1000,
+                2,
                 "eagle_button",
                 false,
                 () => {}
             );
             this.createClickableText(
-                3600,
-                835,
+                3300,
+                935,
                 "+ 10 shot distance",
                 "#00bb00",
                 "#00000000",
@@ -81,8 +122,8 @@ export default class LoadoutSceneGunScope extends Phaser.Scene {
                 () => {}
             );
             this.createClickableText(
-                3600,
-                895,
+                3300,
+                995,
                 "- 5 fire rate",
                 "#bb0000",
                 "#00000000",
@@ -91,17 +132,33 @@ export default class LoadoutSceneGunScope extends Phaser.Scene {
             );
         } else {
             this.createClickableImage(
-                3350,
-                900,
+                3050,
+                1000,
+                2,
+                "locked_button",
+                false,
+                () => {}
+            );
+            this.createClickableImage(
+                3925,
+                435,
+                1.25,
                 "locked_button",
                 false,
                 () => {}
             );
         }
 
-        this.createClickableImage(3150, 1300, "go_back_button", true, () => {
-            this.scene.start("LoadoutSceneGun");
-        });
+        this.createClickableImage(
+            2950,
+            1400,
+            2.75,
+            "go_back_button",
+            true,
+            () => {
+                this.scene.start("LoadoutSceneGun");
+            }
+        );
     }
 
     createClickableText(
@@ -129,19 +186,20 @@ export default class LoadoutSceneGunScope extends Phaser.Scene {
     createClickableImage(
         x: number,
         y: number,
+        scaler: number,
         imageName: string,
         goBack: boolean,
         onClick: () => void
     ) {
         const button = this.add.image(x, y, imageName).setInteractive();
 
-        button.setScale(2.5);
+        button.setScale(scaler);
 
         if (goBack) {
             button.on("pointerover", () => {
                 this.tweens.add({
                     targets: button,
-                    scale: { from: 2.5, to: 2.75 },
+                    scale: { from: scaler, to: scaler + 0.25 },
                     duration: 200,
                     ease: "Linear",
                 });
@@ -150,7 +208,7 @@ export default class LoadoutSceneGunScope extends Phaser.Scene {
             button.on("pointerout", () => {
                 this.tweens.add({
                     targets: button,
-                    scale: { from: 2.75, to: 2.5 },
+                    scale: { from: scaler + 0.25, to: scaler },
                     duration: 200,
                     ease: "Linear",
                 });

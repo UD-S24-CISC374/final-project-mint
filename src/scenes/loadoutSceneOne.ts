@@ -14,20 +14,20 @@ export default class LoadoutSceneOne extends Phaser.Scene {
         // Create Menu Textboxes
 
         this.createClickableText(
-            2950,
-            250,
-            "Classes:",
+            2650,
+            280,
+            "Click the buttons below to\nview your unlocked items:",
             "#BB00BB",
             "#00000000",
             () => {}
         );
 
-        this.createClickableImage(3350, 500, "gun_button", () => {
+        this.createClickableImage(3325, 600, "gun_button", () => {
             this.scene.start("LoadoutSceneGun");
             this.scene.bringToTop("LoadoutSceneTextboxInserts");
         });
 
-        this.createClickableImage(3350, 700, "clothes_button", () => {
+        this.createClickableImage(3325, 900, "clothes_button", () => {
             this.scene.start("LoadoutSceneClothes");
             this.scene.bringToTop("LoadoutSceneTextboxInserts");
         });
@@ -44,7 +44,7 @@ export default class LoadoutSceneOne extends Phaser.Scene {
         // Predefined style for all clickable text instances
         const style: Phaser.Types.GameObjects.Text.TextStyle = {
             fontFamily: "Arial",
-            fontSize: "100px",
+            fontSize: "60px",
             color: textColor,
             align: "center",
             backgroundColor: backdrop,
@@ -62,12 +62,12 @@ export default class LoadoutSceneOne extends Phaser.Scene {
     ) {
         const button = this.add.image(x, y, imageName).setInteractive();
 
-        button.setScale(2.5);
+        button.setScale(3);
 
         button.on("pointerover", () => {
             this.tweens.add({
                 targets: button,
-                scale: { from: 2.5, to: 2.75 },
+                scale: { from: 3, to: 3.25 },
                 duration: 200,
                 ease: "Linear",
             });
@@ -76,7 +76,7 @@ export default class LoadoutSceneOne extends Phaser.Scene {
         button.on("pointerout", () => {
             this.tweens.add({
                 targets: button,
-                scale: { from: 2.75, to: 2.5 },
+                scale: { from: 3.25, to: 3 },
                 duration: 200,
                 ease: "Linear",
             });

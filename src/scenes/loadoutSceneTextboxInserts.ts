@@ -19,7 +19,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
     aTT: string | undefined;
     aTB: string | undefined;
 
-    beta: boolean = true;
+    beta: boolean = false;
     errFeed: Phaser.GameObjects.Text | null = null;
 
     ponchoUnlocked: boolean = false;
@@ -714,6 +714,16 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                     this.scene.start("levelScreen"); ///Sibyl
                 }
             );
+            this.game.registry.set("ponchoUnlocked", true);
+            this.game.registry.set("vestUnlocked", true);
+            this.game.registry.set("springsUnlocked", true);
+            this.game.registry.set("wheelsUnlocked", true);
+
+            this.game.registry.set("closeUnlocked", true);
+            this.game.registry.set("eagleUnlocked", true);
+            this.game.registry.set("minigunUnlocked", true);
+            this.game.registry.set("speedUnlocked", true);
+            this.game.registry.set("drumUnlocked", true);
         }
 
         let graphics = this.add.graphics();
@@ -723,24 +733,6 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
         this.add.text(375, 1370, "Error Feedback:", {
             font: "60px Arial",
             color: "#ffffff",
-        });
-
-        let weaponGraphic = this.add.graphics();
-        weaponGraphic.fillStyle(0xffffff, 1);
-        weaponGraphic.fillRect(575, 152, 525, 100);
-
-        this.add.text(600, 167, "WEAPON CLASS", {
-            font: "60px Arial",
-            color: "#000000",
-        });
-
-        let apparelGraphic = this.add.graphics();
-        apparelGraphic.fillStyle(0xffffff, 1);
-        apparelGraphic.fillRect(1650, 152, 525, 100);
-
-        this.add.text(1675, 167, "APPAREL CLASS", {
-            font: "60px Arial",
-            color: "#000000",
         });
     }
 

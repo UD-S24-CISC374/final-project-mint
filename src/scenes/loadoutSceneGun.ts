@@ -10,23 +10,23 @@ export default class LoadoutSceneGun extends Phaser.Scene {
 
         // Create Menu Textboxes
         this.createClickableText(
-            2950,
+            2650,
             250,
-            "Gun TYPES:",
+            "Gun Types:",
             "#BB00BB",
             "#00000000",
             () => {}
         );
 
-        this.createClickableImage(3350, 500, "magazine_button", () => {
+        this.createClickableImage(3350, 600, "magazine_button", () => {
             this.scene.start("LoadoutSceneGunMagazine");
         });
 
-        this.createClickableImage(3350, 700, "scope_button", () => {
+        this.createClickableImage(3350, 900, "scope_button", () => {
             this.scene.start("LoadoutSceneGunScope");
         });
 
-        this.createClickableImage(3150, 1300, "go_back_button", () => {
+        this.createClickableImage(2950, 1400, "go_back_button", () => {
             this.scene.start("LoadoutSceneOne");
         });
     }
@@ -60,12 +60,12 @@ export default class LoadoutSceneGun extends Phaser.Scene {
     ) {
         const button = this.add.image(x, y, imageName).setInteractive();
 
-        button.setScale(2.5);
+        button.setScale(2.75);
 
         button.on("pointerover", () => {
             this.tweens.add({
                 targets: button,
-                scale: { from: 2.5, to: 2.75 },
+                scale: { from: 2.75, to: 3 },
                 duration: 200,
                 ease: "Linear",
             });
@@ -74,7 +74,7 @@ export default class LoadoutSceneGun extends Phaser.Scene {
         button.on("pointerout", () => {
             this.tweens.add({
                 targets: button,
-                scale: { from: 2.75, to: 2.5 },
+                scale: { from: 3, to: 2.75 },
                 duration: 200,
                 ease: "Linear",
             });

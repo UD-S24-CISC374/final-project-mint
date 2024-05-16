@@ -18,28 +18,60 @@ export default class LoadoutSceneGunMagazine extends Phaser.Scene {
 
         // Create Menu Textboxes
         this.createClickableText(
-            2950,
+            2650,
             250,
-            "Magazine ATTRIBUTES:",
+            "Magazine Items:",
             "#BB00BB",
             "#00000000",
             "100px",
             () => {}
         );
 
-        this.createClickableImage(3350, 500, "none_button", false, () => {});
+        // Create Type setup text
+        this.createClickableText(
+            2650,
+            410,
+            "type Magazine =",
+            "#000000",
+            "#00000000",
+            "55px",
+            () => {}
+        );
+
+        this.createClickableText(
+            3300,
+            400,
+            "|                       |                  ;",
+            "#000000",
+            "#00000000",
+            "65px",
+            () => {}
+        );
+
+        this.createClickableText(
+            3050,
+            400,
+            '  "none"       "speed"           "drum"',
+            "#00BB00",
+            "#00000000",
+            "65px",
+            () => {}
+        );
+
+        this.createClickableImage(3050, 600, 2, "none_button", false, () => {});
 
         if (this.speedUnlocked) {
             this.createClickableImage(
-                3350,
-                700,
+                3050,
+                800,
+                2,
                 "speed_button",
                 false,
                 () => {}
             );
             this.createClickableText(
-                3600,
-                635,
+                3300,
+                735,
                 "- 1 reload time",
                 "#00bb00",
                 "#00000000",
@@ -47,8 +79,8 @@ export default class LoadoutSceneGunMagazine extends Phaser.Scene {
                 () => {}
             );
             this.createClickableText(
-                3600,
-                695,
+                3300,
+                795,
                 "- 1 bullet",
                 "#bb0000",
                 "#00000000",
@@ -57,8 +89,17 @@ export default class LoadoutSceneGunMagazine extends Phaser.Scene {
             );
         } else {
             this.createClickableImage(
-                3350,
-                700,
+                3050,
+                800,
+                2,
+                "locked_button",
+                false,
+                () => {}
+            );
+            this.createClickableImage(
+                3525,
+                435,
+                1.25,
                 "locked_button",
                 false,
                 () => {}
@@ -67,15 +108,16 @@ export default class LoadoutSceneGunMagazine extends Phaser.Scene {
 
         if (this.drumUnlocked) {
             this.createClickableImage(
-                3350,
-                900,
+                3050,
+                1000,
+                2,
                 "drum_button",
                 false,
                 () => {}
             );
             this.createClickableText(
-                3600,
-                835,
+                3300,
+                935,
                 "+ 5 bullets",
                 "#00bb00",
                 "#00000000",
@@ -83,8 +125,8 @@ export default class LoadoutSceneGunMagazine extends Phaser.Scene {
                 () => {}
             );
             this.createClickableText(
-                3600,
-                895,
+                3300,
+                995,
                 "+ 1 reload time",
                 "#bb0000",
                 "#00000000",
@@ -93,8 +135,17 @@ export default class LoadoutSceneGunMagazine extends Phaser.Scene {
             );
         } else {
             this.createClickableImage(
-                3350,
-                900,
+                3050,
+                1000,
+                2,
+                "locked_button",
+                false,
+                () => {}
+            );
+            this.createClickableImage(
+                3925,
+                435,
+                1.25,
                 "locked_button",
                 false,
                 () => {}
@@ -103,15 +154,16 @@ export default class LoadoutSceneGunMagazine extends Phaser.Scene {
 
         if (this.minigunUnlocked) {
             this.createClickableImage(
-                3350,
-                1100,
+                3050,
+                1200,
+                2,
                 "minigun_button",
                 false,
                 () => {}
             );
             this.createClickableText(
-                3600,
-                1035,
+                3300,
+                1135,
                 "+ 50 bullets",
                 "#00bb00",
                 "#00000000",
@@ -119,8 +171,8 @@ export default class LoadoutSceneGunMagazine extends Phaser.Scene {
                 () => {}
             );
             this.createClickableText(
-                3600,
-                1095,
+                3300,
+                1195,
                 "+ 10 reload time",
                 "#bb0000",
                 "#00000000",
@@ -128,18 +180,26 @@ export default class LoadoutSceneGunMagazine extends Phaser.Scene {
                 () => {}
             );
         } else {
-            this.createClickableImage(
-                3350,
-                1100,
+            /*this.createClickableImage(
+                3050,
+                1200,
+                2,
                 "locked_button",
                 false,
                 () => {}
-            );
+            );*/
         }
 
-        this.createClickableImage(3150, 1300, "go_back_button", true, () => {
-            this.scene.start("LoadoutSceneGun");
-        });
+        this.createClickableImage(
+            2950,
+            1400,
+            2.75,
+            "go_back_button",
+            true,
+            () => {
+                this.scene.start("LoadoutSceneGun");
+            }
+        );
     }
 
     createClickableText(
@@ -167,19 +227,20 @@ export default class LoadoutSceneGunMagazine extends Phaser.Scene {
     createClickableImage(
         x: number,
         y: number,
+        scaler: number,
         imageName: string,
         goBack: boolean,
         onClick: () => void
     ) {
         const button = this.add.image(x, y, imageName).setInteractive();
 
-        button.setScale(2.5);
+        button.setScale(scaler);
 
         if (goBack) {
             button.on("pointerover", () => {
                 this.tweens.add({
                     targets: button,
-                    scale: { from: 2.5, to: 2.75 },
+                    scale: { from: scaler, to: scaler + 0.25 },
                     duration: 200,
                     ease: "Linear",
                 });
@@ -188,7 +249,7 @@ export default class LoadoutSceneGunMagazine extends Phaser.Scene {
             button.on("pointerout", () => {
                 this.tweens.add({
                     targets: button,
-                    scale: { from: 2.75, to: 2.5 },
+                    scale: { from: scaler + 0.25, to: scaler },
                     duration: 200,
                     ease: "Linear",
                 });
