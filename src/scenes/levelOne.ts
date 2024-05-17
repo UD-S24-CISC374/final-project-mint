@@ -612,6 +612,9 @@ export default class levelOne extends Phaser.Scene {
             if (this.cursors.up.isDown && this.player?.body?.touching.down) {
                 this.player.setVelocityY(this.jump);
             }
+            if (this.cursors.down.isDown && !this.player?.body?.touching.down) {
+                this.player?.setVelocityY(1000);
+            }
             //This is how the player fires its bullets
             if (this.cursors.space.isDown && this.player && this.bullets) {
                 if (this.lastPlayerDirection === "left") {

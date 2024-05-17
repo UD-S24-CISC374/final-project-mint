@@ -118,6 +118,8 @@ export default class levelThree extends Phaser.Scene {
 
     private baddie?: Phaser.Physics.Arcade.Group;
 
+    private bossCollider?: Phaser.Physics.Arcade.Collider;
+
     private gameOver: boolean;
 
     private canShoot = true;
@@ -339,13 +341,6 @@ export default class levelThree extends Phaser.Scene {
             (boss, bullet) => {
                 this.handleHitBoss(bullet as Bullet);
             },
-            undefined,
-            this
-        );
-        this.physics.add.collider(
-            this.player,
-            this.boss,
-            this.handleRunIntoBoss,
             undefined,
             this
         );
@@ -656,6 +651,13 @@ export default class levelThree extends Phaser.Scene {
             this.bossAlive1 = true;
             this.boss?.setVisible(true);
             this.boss?.setActive(true);
+            this.bossCollider = this.physics.add.collider(
+                this.player!,
+                this.boss!,
+                this.handleRunIntoBoss,
+                undefined,
+                this
+            );
         }
     }
     handleHitBoss(bullet: Bullet) {
@@ -663,11 +665,20 @@ export default class levelThree extends Phaser.Scene {
             bullet.destroy();
             this.bulletsHit--;
 
+            // Tint the boss red to indicate it took damage
+            this.boss?.setTint(0xff0000);
+
+            // Create a tween to clear the tint after a short duration
+            this.time.delayedCall(200, () => {
+                this.boss?.clearTint();
+            });
+
             if (this.bulletsHit <= 0) {
                 this.bossAlive1 = false;
             }
             if (!this.bossAlive1) {
                 this.boss?.setVisible(false);
+                this.bossCollider?.destroy();
                 this.checkpoint.create(
                     4000,
                     1450,
@@ -854,6 +865,9 @@ export default class levelThree extends Phaser.Scene {
             }
             if (this.cursors.up.isDown && this.player?.body?.touching.down) {
                 this.player.setVelocityY(this.jump);
+            }
+            if (this.cursors.down.isDown && !this.player?.body?.touching.down) {
+                this.player?.setVelocityY(1000);
             }
             //This is how the player fires its bullets
             if (this.cursors.space.isDown && this.player && this.bullets) {

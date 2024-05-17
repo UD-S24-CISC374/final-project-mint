@@ -15,7 +15,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
     aTT: string | undefined;
     aTB: string | undefined;
 
-    beta: boolean = false;
+    beta: boolean = true;
     errFeed: Phaser.GameObjects.Text | null = null;
 
     ponchoUnlocked: boolean = false;
