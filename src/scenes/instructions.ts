@@ -2,6 +2,7 @@ import Phaser from "phaser";
 export default class instructions extends Phaser.Scene {
     private scoreText?: Phaser.GameObjects.Text;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
+
     constructor() {
         super({ key: "instructions" });
     }
@@ -21,7 +22,7 @@ export default class instructions extends Phaser.Scene {
         this.scoreText = this.add.text(
             550,
             700,
-            "1. Click buttons under “Menu” to see which Types and Items you have available.",
+            '1. Click buttons under "Menu" to see which Types and Items you have available.',
             {
                 fontSize: "45px",
                 color: "#000",
@@ -39,7 +40,7 @@ export default class instructions extends Phaser.Scene {
         this.scoreText = this.add.text(
             550,
             900,
-            "3. Click Check Code” and rectify any errors that you see in the errors box.",
+            '3. Click "Check Code" and rectify any errors that you see in the errors box.',
             {
                 fontSize: "45px",
                 color: "#000",
@@ -57,7 +58,7 @@ export default class instructions extends Phaser.Scene {
         this.scoreText = this.add.text(
             550,
             1100,
-            "5. Pick up items in each level to make them available in your inventory under the 'Menu' on the loadout screen.",
+            '5. Pick up items in each level to make them available in your inventory under the "Menu" on the loadout screen.',
             {
                 fontSize: "45px",
                 color: "#000",
@@ -74,6 +75,8 @@ export default class instructions extends Phaser.Scene {
         );
 
         this.createClickableImage(2048, 1450, "begin_button", () => {
+            this.game.registry.get("menuMusic").stop();
+            this.game.registry.get("codingMusic").play();
             this.scene.launch("LoadoutSceneTextboxInserts");
             this.scene.start("LoadoutSceneOne");
         });

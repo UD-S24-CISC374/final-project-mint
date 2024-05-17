@@ -50,6 +50,7 @@ export default class CompleteLevelScreen extends Phaser.Scene {
                 "return_to_loadout_button",
                 true,
                 () => {
+                    this.game.registry.get("codingMusic").play();
                     this.scene.launch("LoadoutSceneTextboxInserts");
                     this.scene.start("LoadoutSceneOne");
                 }

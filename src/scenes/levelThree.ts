@@ -58,6 +58,27 @@ class Bullets extends Phaser.Physics.Arcade.Group {
             }
         }
     }
+
+    fireBulletPlayer(x: number, y: number, vel: number, action: () => void) {
+        const currentTime = this.scene.time.now;
+        if (
+            currentTime - this.lastFiredTime > this.fireRate &&
+            this.bulletsFired < this.maxBullets
+        ) {
+            const bullet = new Bullet(this.scene, x, y);
+            this.add(bullet);
+            bullet.fire(x, y, vel);
+            this.lastFiredTime = currentTime;
+            this.bulletsFired++;
+            action();
+
+            if (this.bulletsFired >= this.maxBullets) {
+                this.scene.time.delayedCall(this.timeDelay, () => {
+                    this.bulletsFired = 0;
+                });
+            }
+        }
+    }
 }
 
 export default class levelThree extends Phaser.Scene {
@@ -618,6 +639,7 @@ export default class levelThree extends Phaser.Scene {
     }
 
     private handleHitCheckpoint() {
+        this.game.registry.get("levelMusic").stop();
         this.game.registry.set("minigunUnlocked", true);
         this.game.registry.set("previousLevel", 3);
         this.scene.start("CompleteLevelScreen");
@@ -648,6 +670,7 @@ export default class levelThree extends Phaser.Scene {
         //baddie.disableBody(true, true); // Disables the baddie sprite
         this.numBaddies--;
         if (this.numBaddies <= 0) {
+            this.game.registry.get("levelMusic").play();
             this.bossAlive1 = true;
             this.boss?.setVisible(true);
             this.boss?.setActive(true);
@@ -697,6 +720,7 @@ export default class levelThree extends Phaser.Scene {
             2000,
             () => {
                 // Resume the game after the delay
+                this.game.registry.get("codingMusic").play();
                 this.scene.launch("LoadoutSceneTextboxInserts");
                 this.scene.start("LoadoutSceneOne");
             },
@@ -775,6 +799,7 @@ export default class levelThree extends Phaser.Scene {
                 this.time.delayedCall(
                     2000,
                     () => {
+                        this.game.registry.get("codingMusic").play();
                         this.scene.launch("LoadoutSceneTextboxInserts");
                         this.scene.start("LoadoutSceneOne");
                     },
@@ -864,6 +889,7 @@ export default class levelThree extends Phaser.Scene {
                 this.player?.anims.play("turn");
             }
             if (this.cursors.up.isDown && this.player?.body?.touching.down) {
+                this.game.registry.get("jumpSound").play({ volume: 1.5 });
                 this.player.setVelocityY(this.jump);
             }
             if (this.cursors.down.isDown && !this.player?.body?.touching.down) {
@@ -872,23 +898,32 @@ export default class levelThree extends Phaser.Scene {
             //This is how the player fires its bullets
             if (this.cursors.space.isDown && this.player && this.bullets) {
                 if (this.lastPlayerDirection === "left") {
-                    this.bullets.fireBullet(
+                    this.bullets.fireBulletPlayer(
                         this.player.x,
                         this.player.y,
-                        -1 * this.bulletSpeed
+                        -1 * this.bulletSpeed,
+                        () => {
+                            this.game.registry.get("pewSound").play();
+                        }
                     ); // Fire left
                 } else if (this.lastPlayerDirection === "right") {
-                    this.bullets.fireBullet(
+                    this.bullets.fireBulletPlayer(
                         this.player.x,
                         this.player.y,
-                        this.bulletSpeed
+                        this.bulletSpeed,
+                        () => {
+                            this.game.registry.get("pewSound").play();
+                        }
                     ); // Fire right
                 } else {
                     // If player direction is unknown, default to firing right
-                    this.bullets.fireBullet(
+                    this.bullets.fireBulletPlayer(
                         this.player.x,
                         this.player.y,
-                        this.fireRate
+                        this.fireRate,
+                        () => {
+                            this.game.registry.get("pewSound").play();
+                        }
                     );
                 }
             }

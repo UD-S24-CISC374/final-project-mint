@@ -1,6 +1,12 @@
 import Phaser from "phaser";
 
 export default class PreloadScene extends Phaser.Scene {
+    private menu_music?: Phaser.Sound.BaseSound;
+    private coding_music?: Phaser.Sound.BaseSound;
+    private level_music?: Phaser.Sound.BaseSound;
+    private pew_sound?: Phaser.Sound.BaseSound;
+    private jump_sound?: Phaser.Sound.BaseSound;
+
     constructor() {
         super({ key: "PreloadScene" });
     }
@@ -203,6 +209,11 @@ export default class PreloadScene extends Phaser.Scene {
             "level_select_screen",
             "assets/img/LevelSelection/level_select_screen.png"
         );
+        this.load.audio("MenuMusic", "assets/sounds/MenuMusic.wav");
+        this.load.audio("CodingMusic", "assets/sounds/CodingMusic.wav");
+        this.load.audio("LevelMusic", "assets/sounds/LevelMusic.wav");
+        this.load.audio("pew", "assets/sounds/pew.wav");
+        this.load.audio("jump", "assets/sounds/jump.wav");
     }
 
     create() {
@@ -242,9 +253,21 @@ export default class PreloadScene extends Phaser.Scene {
         this.game.registry.set("speedUnlocked", false);
         this.game.registry.set("drumUnlocked", false);
 
-        //Global variables indecating whether a level is unlocked or not
+        // Global variables indecating whether a level is unlocked or not
         this.game.registry.set("levelTwoUnlocked", false);
         this.game.registry.set("levelThreeUnlocked", false);
+
+        // Global variables for sounds
+        this.menu_music = this.sound.add("MenuMusic");
+        this.level_music = this.sound.add("LevelMusic");
+        this.coding_music = this.sound.add("CodingMusic");
+        this.pew_sound = this.sound.add("pew");
+        this.jump_sound = this.sound.add("jump");
+        this.game.registry.set("menuMusic", this.menu_music);
+        this.game.registry.set("codingMusic", this.coding_music);
+        this.game.registry.set("levelMusic", this.level_music);
+        this.game.registry.set("pewSound", this.pew_sound);
+        this.game.registry.set("jumpSound", this.jump_sound);
 
         // Start First Scene
         this.scene.stop("LoadoutSceneTextboxInserts");

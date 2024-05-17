@@ -15,7 +15,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
     aTT: string | undefined;
     aTB: string | undefined;
 
-    beta: boolean = true;
+    beta: boolean = false;
     errFeed: Phaser.GameObjects.Text | null = null;
 
     ponchoUnlocked: boolean = false;
@@ -66,6 +66,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                 "#ffffff",
                 "#ff0000",
                 () => {
+                    this.game.registry.get("codingMusic").stop();
                     this.scene.start("levelScreen"); ///Sibyl
                 }
             );
@@ -338,6 +339,7 @@ export default class LoadoutSceneTextboxInserts extends Phaser.Scene {
                     this.attrTwoTopDef =
                         false;
                 this.aOT = this.aTT = this.aOB = this.aTB = undefined;
+                this.game.registry.get("codingMusic").stop();
                 this.scene.start("levelScreen");
             }
         });

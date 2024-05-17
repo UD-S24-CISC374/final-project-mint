@@ -10,6 +10,7 @@ export default class TitleScreen extends Phaser.Scene {
 
     create() {
         this.add.image(2048, 857, "title_screen");
+        this.game.registry.get("menuMusic").play();
 
         this.createClickableImage(2000, 1130, "start_game_button", () => {
             this.scene.start("instructions");
